@@ -331,11 +331,17 @@ This is the most common issue. Here's how to fix it:
 
    **Problem: "async_timeout" error**
    - **Cause**: You're using Home Assistant 2022.9 or newer
-   - **Fix**: Update the sensor to use `asyncio.timeout` instead (already fixed in latest version)
+   - **Fix**: ✅ Already fixed in latest version (uses `asyncio.timeout`)
    
    **Problem: "API returned status 403" or "Connection refused"**
-   - **Cause**: 4surfers.co.il API is blocking requests
-   - **Fix**: Check if website is accessible, wait a few minutes, try restarting HA
+   - **Cause**: Missing proper browser headers
+   - **Fix**: ✅ Already fixed in latest version (uses full browser-like headers)
+   - **If still failing**: Make sure you have the latest version from GitHub
+     ```bash
+     cd /config/custom_components
+     rm -rf ashkelon_surf
+     # Re-download latest version
+     ```
    
    **Problem: "No forecast data in API response"**
    - **Cause**: API changed format or is returning errors
