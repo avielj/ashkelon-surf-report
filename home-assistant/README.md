@@ -101,6 +101,14 @@ name: Ashkelon Surf Today
 icon: mdi:surfing
 ```
 
+**Preview:**
+```
+┌─────────────────────────────────┐
+│ 🏄 Ashkelon Surf Today          │
+│ 2.3 ft                          │
+└─────────────────────────────────┘
+```
+
 ### Detailed Card with Multiple Days
 
 ```yaml
@@ -129,6 +137,22 @@ cards:
         icon: mdi:waves
 ```
 
+**Preview:**
+```
+┌────────────────────────────────────┐
+│ 🌊 Ashkelon Surf Forecast         │
+├────────────────────────────────────┤
+│ 🌊 Today             2.3ft         │
+│    Fair                            │
+├────────────────────────────────────┤
+│ 🌊 Tomorrow          2.7ft         │
+│    Good                            │
+├────────────────────────────────────┤
+│ 🌊 Day After         1.9ft         │
+│    Fair                            │
+└────────────────────────────────────┘
+```
+
 ### Beautiful Card with Time Breakdown
 
 ```yaml
@@ -151,6 +175,16 @@ chips:
     content: "Evening: {{ state_attr('sensor.ashkelon_surf_today', 'evening_height_ft') }}ft"
 ```
 
+**Preview:**
+```
+┌────────────────────────────────────┐
+│ 🌊 2.3ft                           │
+│ Morning: 1.3ft                     │
+│ Noon: 2.0ft                        │
+│ Evening: 2.3ft                     │
+└────────────────────────────────────┘
+```
+
 ### Gauge Card (Visual)
 
 ```yaml
@@ -164,6 +198,22 @@ severity:
   green: 0
   yellow: 3
   red: 6
+```
+
+**Preview:**
+```
+┌────────────────────────────────────┐
+│    Wave Height Today               │
+│                                    │
+│         ╭─────────╮               │
+│        ╱   2.3ft   ╲              │
+│       │      │      │             │
+│       │      ●      │             │
+│       ╰──────┴──────╯             │
+│    0              10               │
+│   ■■■■■□□□□□                      │
+│  Green  Yellow  Red                │
+└────────────────────────────────────┘
 ```
 
 ### Grid Card with Hebrew
@@ -196,6 +246,16 @@ cards:
     attribute: surf_quality_hebrew
 ```
 
+**Preview:**
+```
+┌───────────┬───────────┬───────────┐
+│ 🌊 היום   │ 🏄 מחר    │ 💧 מחרתיים │
+│           │           │           │
+│  2.3 ft   │  2.7 ft   │  1.9 ft   │
+│  טוב      │  טוב      │  בסדר     │
+└───────────┴───────────┴───────────┘
+```
+
 ### 🌊 iOS Widget Style Card (Recommended!)
 
 This card replicates the iOS Scriptable widget design with 4 times per day and Hebrew descriptions:
@@ -205,139 +265,552 @@ type: vertical-stack
 cards:
   # Header
   - type: markdown
-    content: |
-      <ha-card style="background: linear-gradient(135deg, #4f9ded 0%, #2c5aa0 100%); color: white;">
-        <div style="text-align: center; padding: 15px;">
-          <h2 style="margin: 0; font-size: 24px;">🏖️ אשקלון</h2>
-          <p style="margin: 5px 0 0 0; font-size: 14px; opacity: 0.9;">Ashkelon Surf Forecast</p>
-        </div>
-      </ha-card>
+    content: >
+      # 🏖️ אשקלון
+
+      **Ashkelon Surf Forecast**
+    card_mod:
+      style: |
+        ha-card {
+          background: linear-gradient(135deg, #4f9ded 0%, #2c5aa0 100%);
+          color: white;
+          text-align: center;
+          padding: 5px;
+        }
   
-  # Today Header
+  # Today
   - type: markdown
-    content: |
-      <ha-card style="padding: 10px 15px; margin-top: 10px;">
-        <h3 style="margin: 0; text-align: center; color: #2c5aa0;">📅 היום (Today)</h3>
-      </ha-card>
+    content: "## 📅 היום (Today)"
+    card_mod:
+      style: |
+        ha-card {
+          text-align: center;
+          color: #2c5aa0;
+          padding: 5px;
+        }
   
-  # Today Times - Side by Side
   - type: horizontal-stack
     cards:
       - type: markdown
         content: |
-          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
-            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 06:00</div>
-            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_today', 'morning_height_ft') }}ft</div>
-            <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_today', 'morning_hebrew') }}</div>
-          </div>
+          **⏰ 06:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_today', 'morning_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_today', 'morning_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_today', 'morning_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 10px;
+            }
       - type: markdown
         content: |
-          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
-            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 09:00</div>
-            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_today', 'morning_height_ft') }}ft</div>
-            <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_today', 'morning_hebrew') }}</div>
-          </div>
+          **⏰ 09:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_today', 'morning_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_today', 'morning_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_today', 'morning_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 10px;
+            }
       - type: markdown
         content: |
-          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
-            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 12:00</div>
-            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_today', 'noon_height_ft') }}ft</div>
-            <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_today', 'noon_hebrew') }}</div>
-          </div>
+          **⏰ 12:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_today', 'noon_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_today', 'noon_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_today', 'noon_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 10px;
+            }
       - type: markdown
         content: |
-          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
-            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 18:00</div>
-            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_today', 'evening_height_ft') }}ft</div>
-            <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_today', 'evening_hebrew') }}</div>
-          </div>
+          **⏰ 18:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_today', 'evening_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_today', 'evening_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_today', 'evening_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 10px;
+            }
   
-  # Tomorrow Header
+  # Tomorrow
   - type: markdown
-    content: |
-      <ha-card style="padding: 10px 15px; margin-top: 10px;">
-        <h3 style="margin: 0; text-align: center; color: #2c5aa0;">📅 מחר (Tomorrow)</h3>
-      </ha-card>
+    content: "## 📅 מחר (Tomorrow)"
+    card_mod:
+      style: |
+        ha-card {
+          text-align: center;
+          color: #2c5aa0;
+          padding: 5px;
+        }
   
-  # Tomorrow Times - Side by Side
   - type: horizontal-stack
     cards:
       - type: markdown
         content: |
-          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
-            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 06:00</div>
-            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_height_ft') }}ft</div>
-            <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_hebrew') }}</div>
-          </div>
+          **⏰ 06:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_tomorrow', 'morning_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 10px;
+            }
       - type: markdown
         content: |
-          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
-            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 09:00</div>
-            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_height_ft') }}ft</div>
-            <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_hebrew') }}</div>
-          </div>
+          **⏰ 09:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_tomorrow', 'morning_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 10px;
+            }
       - type: markdown
         content: |
-          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
-            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 12:00</div>
-            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'noon_height_ft') }}ft</div>
-            <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'noon_hebrew') }}</div>
-          </div>
+          **⏰ 12:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_tomorrow', 'noon_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_tomorrow', 'noon_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_tomorrow', 'noon_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 10px;
+            }
       - type: markdown
         content: |
-          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
-            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 18:00</div>
-            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'evening_height_ft') }}ft</div>
-            <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'evening_hebrew') }}</div>
-          </div>
+          **⏰ 18:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_tomorrow', 'evening_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_tomorrow', 'evening_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_tomorrow', 'evening_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 10px;
+            }
   
-  # Day After Header
+  # Day After
   - type: markdown
-    content: |
-      <ha-card style="padding: 10px 15px; margin-top: 10px;">
-        <h3 style="margin: 0; text-align: center; color: #2c5aa0;">📅 מחרתיים (Day After)</h3>
-      </ha-card>
+    content: "## 📅 מחרתיים (Day After)"
+    card_mod:
+      style: |
+        ha-card {
+          text-align: center;
+          color: #2c5aa0;
+          padding: 5px;
+        }
   
-  # Day After Times - Side by Side
   - type: horizontal-stack
     cards:
       - type: markdown
         content: |
-          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
-            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 06:00</div>
-            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_day_after', 'morning_height_ft') }}ft</div>
-            <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_day_after', 'morning_hebrew') }}</div>
-          </div>
+          **⏰ 06:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_day_after', 'morning_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_day_after', 'morning_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_day_after', 'morning_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 10px;
+            }
       - type: markdown
         content: |
-          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
-            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 09:00</div>
-            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_day_after', 'morning_height_ft') }}ft</div>
-            <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_day_after', 'morning_hebrew') }}</div>
-          </div>
+          **⏰ 09:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_day_after', 'morning_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_day_after', 'morning_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_day_after', 'morning_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 10px;
+            }
       - type: markdown
         content: |
-          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
-            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 12:00</div>
-            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_day_after', 'noon_height_ft') }}ft</div>
-            <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_day_after', 'noon_hebrew') }}</div>
-          </div>
+          **⏰ 12:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_day_after', 'noon_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_day_after', 'noon_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_day_after', 'noon_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 10px;
+            }
       - type: markdown
         content: |
-          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
-            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 18:00</div>
-            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_day_after', 'evening_height_ft') }}ft</div>
-            <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_day_after', 'evening_hebrew') }}</div>
-          </div>
+          **⏰ 18:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_day_after', 'evening_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_day_after', 'evening_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_day_after', 'evening_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 10px;
+            }
   
   # Footer
   - type: markdown
     content: |
-      <ha-card style="text-align: center; padding: 10px; margin-top: 10px;">
-        <div style="font-size: 12px; color: #666;">
-          ⏰ Last updated: {{ as_timestamp(states.sensor.ashkelon_surf_today.last_updated) | timestamp_custom('%H:%M') }}
-        </div>
-      </ha-card>
+      ⏰ Last updated: {{ as_timestamp(states.sensor.ashkelon_surf_today.last_updated) | timestamp_custom('%H:%M') }}
+    card_mod:
+      style: |
+        ha-card {
+          text-align: center;
+          padding: 10px;
+          font-size: 12px;
+          color: #666;
+        }
+```
+
+**Preview with card-mod:**
+```
+╔═══════════════════════════════════════╗
+║  [Ocean Gradient Background 🌊]       ║
+║      🏖️ אשקלון                        ║
+║   Ashkelon Surf Forecast              ║
+╚═══════════════════════════════════════╝
+
+         📅 היום (Today)
+
+┌────────┬────────┬────────┬────────┐
+│ 06:00  │ 09:00  │ 12:00  │ 18:00  │
+│        │        │        │        │
+│ 1.3ft  │ 1.3ft  │ 2.0ft  │ 2.3ft  │
+│ קרסול  │ קרסול  │ ברך    │ ברך    │
+└────────┴────────┴────────┴────────┘
+
+         📅 מחר (Tomorrow)
+
+┌────────┬────────┬────────┬────────┐
+│ 06:00  │ 09:00  │ 12:00  │ 18:00  │
+│        │        │        │        │
+│ 1.9ft  │ 1.9ft  │ 2.7ft  │ 2.9ft  │
+│ ברך    │ ברך    │ ברך    │ כתף    │
+└────────┴────────┴────────┴────────┘
+
+        📅 מחרתיים (Day After)
+
+┌────────┬────────┬────────┬────────┐
+│ 06:00  │ 09:00  │ 12:00  │ 18:00  │
+│        │        │        │        │
+│ 2.3ft  │ 2.3ft  │ 1.9ft  │ 2.6ft  │
+│קרסול עד│קרסול עד│קרסול עד│קרסול עד│
+│  ברך   │  ברך   │  ברך   │  ברך   │
+└────────┴────────┴────────┴────────┘
+
+    ⏰ Last updated: 19:00
+```
+
+**Note:** This requires the `card-mod` integration. Install it via HACS if you don't have it.
+
+**Alternative without card-mod (Simple Version):**
+
+```yaml
+type: vertical-stack
+cards:
+  # Header
+  - type: markdown
+    content: |
+      # 🏖️ אשקלון
+      **Ashkelon Surf Forecast**
+  
+  # Today
+  - type: markdown
+    content: "### 📅 היום (Today)"
+  
+  - type: horizontal-stack
+    cards:
+      - type: button
+        entity: sensor.ashkelon_surf_today
+        name: "06:00"
+        icon: mdi:waves
+        show_state: false
+        tap_action:
+          action: none
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+            }
+        hold_action:
+          action: more-info
+      - type: button  
+        entity: sensor.ashkelon_surf_today
+        name: "09:00"
+        icon: mdi:waves
+        show_state: false
+        tap_action:
+          action: none
+      - type: button
+        entity: sensor.ashkelon_surf_today
+        name: "12:00"
+        icon: mdi:surfing
+        show_state: false
+        tap_action:
+          action: none
+      - type: button
+        entity: sensor.ashkelon_surf_today
+        name: "18:00"
+        icon: mdi:surfing
+        show_state: false
+        tap_action:
+          action: none
+  
+  - type: horizontal-stack
+    cards:
+      - type: markdown
+        content: |
+          **⏰ 06:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_today', 'morning_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_today', 'morning_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_today', 'morning_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+      - type: markdown
+        content: |
+          **⏰ 09:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_today', 'morning_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_today', 'morning_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_today', 'morning_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+      - type: markdown
+        content: |
+          **⏰ 12:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_today', 'noon_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_today', 'noon_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_today', 'noon_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+      - type: markdown
+        content: |
+          **⏰ 18:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_today', 'evening_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_today', 'evening_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_today', 'evening_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+  
+  # Tomorrow
+  - type: markdown
+    content: "### 📅 מחר (Tomorrow)"
+  
+  - type: horizontal-stack
+    cards:
+      - type: markdown
+        content: |
+          **⏰ 06:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_tomorrow', 'morning_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+      - type: markdown
+        content: |
+          **⏰ 09:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_tomorrow', 'morning_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+      - type: markdown
+        content: |
+          **⏰ 12:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_tomorrow', 'noon_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_tomorrow', 'noon_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_tomorrow', 'noon_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+      - type: markdown
+        content: |
+          **⏰ 18:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_tomorrow', 'evening_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_tomorrow', 'evening_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_tomorrow', 'evening_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+  
+  # Day After
+  - type: markdown
+    content: "### 📅 מחרתיים (Day After)"
+  
+  - type: horizontal-stack
+    cards:
+      - type: markdown
+        content: |
+          **⏰ 06:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_day_after', 'morning_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_day_after', 'morning_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_day_after', 'morning_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+      - type: markdown
+        content: |
+          **⏰ 09:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_day_after', 'morning_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_day_after', 'morning_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_day_after', 'morning_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+      - type: markdown
+        content: |
+          **⏰ 12:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_day_after', 'noon_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_day_after', 'noon_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_day_after', 'noon_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+      - type: markdown
+        content: |
+          **⏰ 18:00**
+          
+          ## 🌊 {{ state_attr('sensor.ashkelon_surf_day_after', 'evening_height_ft') }}ft
+          
+          **{{ state_attr('sensor.ashkelon_surf_day_after', 'evening_hebrew') }}**
+          
+          {% set h = state_attr('sensor.ashkelon_surf_day_after', 'evening_height_ft') | float %}
+          {% if h >= 3.0 %}⭐⭐⭐⭐⭐{% elif h >= 2.6 %}⭐⭐⭐⭐{% elif h >= 2.0 %}⭐⭐⭐{% elif h >= 1.3 %}⭐⭐{% else %}⭐{% endif %}
+  
+  # Footer
+  - type: markdown
+    content: |
+      *⏰ Last updated: {{ as_timestamp(states.sensor.ashkelon_surf_today.last_updated) | timestamp_custom('%H:%M') }}*
+```
+
+**Preview (Simple version without card-mod):**
+```
+╔═══════════════════════════════════════╗
+║ 🏖️ אשקלון                             ║
+║ Ashkelon Surf Forecast                ║
+╚═══════════════════════════════════════╝
+
+           📅 היום (Today)
+
+┌─────────┬─────────┬─────────┬─────────┐
+│ ⏰ 06:00│ ⏰ 09:00│ ⏰ 12:00│ ⏰ 18:00│
+│         │         │         │         │
+│  1.3ft  │  1.3ft  │  2.0ft  │  2.3ft  │
+│ קרסול   │ קרסול   │  ברך    │  ברך    │
+└─────────┴─────────┴─────────┴─────────┘
+
+           📅 מחר (Tomorrow)
+
+┌─────────┬─────────┬─────────┬─────────┐
+│ ⏰ 06:00│ ⏰ 09:00│ ⏰ 12:00│ ⏰ 18:00│
+│         │         │         │         │
+│  1.9ft  │  1.9ft  │  2.7ft  │  2.9ft  │
+│  ברך    │  ברך    │  ברך    │  כתף    │
+└─────────┴─────────┴─────────┴─────────┘
+
+          📅 מחרתיים (Day After)
+
+┌─────────┬─────────┬─────────┬─────────┐
+│ ⏰ 06:00│ ⏰ 09:00│ ⏰ 12:00│ ⏰ 18:00│
+│         │         │         │         │
+│  2.3ft  │  2.3ft  │  1.9ft  │  2.6ft  │
+│קרסול עד │קרסול עד │קרסול עד │קרסול עד │
+│  ברך    │  ברך    │  ברך    │  ברך    │
+└─────────┴─────────┴─────────┴─────────┘
+
+     ⏰ Last updated: 19:00
 ```
 
 **Features:**
