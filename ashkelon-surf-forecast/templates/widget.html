@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌊 Ashkelon Surf Widget - Home Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', 'Segoe UI', sans-serif;
+            background: transparent;
+            color: #fff;
+            direction: rtl;
+        }
+
+        /* Compact Widget Card for HA */
+        .surf-widget-card {
+            position: relative;
+            background: linear-gradient(135deg, #4f9ded 0%, #2c5aa0 100%);
+            background-size: cover;
+            border-radius: 12px;
+            padding: 15px;
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(3, 218, 198, 0.3);
+        }
+
+        .widget-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+            border-radius: 12px;
+        }
+
+        /* Widget Header */
+        .widget-header {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .location-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .surf-icon {
+            font-size: 2rem;
+            color: #03DAC6;
+        }
+
+        .location-text h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .date-text {
+            font-size: 0.9rem;
+            color: #e6fbc9;
+        }
+
+        /* Current Session */
+        .current-session {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        /* Widget Chips */
+        .widget-chip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            height: 36px;
+            padding: 0 12px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chip-icon {
+            font-size: 1rem;
+        }
+
+        .rating-chip .chip-icon { color: #ffd700; }
+        .wave-chip .chip-icon { color: #ffffff; }
+
+        /* Widget Footer */
+        .widget-footer {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            color: #e6fbc9;
+        }
+
+        /* No Data State */
+        .no-data {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .no-data-icon {
+            font-size: 2.5rem;
+            color: rgba(3, 218, 198, 0.6);
+            margin-bottom: 15px;
+        }
+
+        .no-data h3 {
+            font-size: 1.1rem;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .no-data p {
+            color: #e6fbc9;
+            font-size: 0.8rem;
+        }
+
+        /* HA Badge */
+        .ha-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(3, 218, 198, 0.2);
+            color: #03DAC6;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid rgba(3, 218, 198, 0.3);
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+    <div class="surf-widget-card">
+        <div class="widget-overlay"></div>
+        <div class="ha-badge">HA</div>
+
+        {% if widget.current_session %}
+            <!-- Success State -->
+            <!-- Header -->
+            <div class="widget-header">
+                <div class="location-info">
+                    <i class="mdi mdi-surfing surf-icon"></i>
+                    <div class="location-text">
+                        <h2>אשקלון</h2>
+                    </div>
+                </div>
+                <div class="date-text">{{ widget.current_session.hebrew_day }}</div>
+            </div>
+
+            <!-- Current Session -->
+            <div class="current-session">
+                <div class="widget-chip rating-chip">
+                    <i class="mdi mdi-star chip-icon"></i>
+                    <span>{{ widget.current_session.quality_hebrew }}</span>
+                </div>
+                <div class="widget-chip wave-chip">
+                    <i class="mdi mdi-sine-wave chip-icon"></i>
+                    <span>{{ widget.current_session.height_text }}</span>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="widget-footer">
+                <span>📊 4surfers</span>
+                <span>⏰ {{ widget.last_update }}</span>
+            </div>
+        
+        {% else %}
+            <!-- No Data State -->
+            <div class="no-data">
+                <i class="mdi mdi-wave no-data-icon"></i>
+                <h3>אין נתונים</h3>
+                <p>No forecast available</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <style>
+        /* Widget-specific styles */
+        .current-session-highlight {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .session-main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .session-time-large {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        }
+        
+        .wave-height-large {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #4f9ded;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        
+        .quality-large {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #e6fbc9;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .quick-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .emoji-large {
+            font-size: 1.5rem;
+        }
+        
+        .widget-source {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #e6fbc9;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            margin-top: auto;
+        }
+        
+        /* iOS Widget size optimizations */
+        @media (max-width: 400px) {
+            .session-main {
+                gap: 8px;
+                margin-bottom: 15px;
+            }
+            
+            .wave-height-large {
+                font-size: 2rem;
+            }
+            
+            .quick-stats {
+                gap: 15px;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1,15 +1,20 @@
-# Ashkelon Surf Forecast - Home Assistant Addon
+# 🌊 Ashkelon Surf Forecast - Home Assistant Addon
 
-🌊 Beautiful Home Assistant addon displaying surf forecast for Ashkelon beach from 4surfers.co.il
+Beautiful Aguacatec-style surf forecast addon for Home Assistant, providing Ashkelon wave conditions with Hebrew support.
 
-## Features
+![Version 2.0.0](https://img.shields.io/badge/version-2.0.0-blue)
+![Home Assistant](https://img.shields.io/badge/Home%20Assistant-Compatible-green)
+![Hebrew Support](https://img.shields.io/badge/Hebrew-RTL%20Support-orange)
 
-- 📱 **Beautiful Web Interface** - Responsive design with Hebrew and English support
-- 🌊 **Real-time Surf Data** - Fetches live data from 4surfers.co.il API
-- ⏰ **Automatic Updates** - Configurable update intervals (5 minutes to 24 hours)
-- 🏄‍♂️ **Hebrew Support** - Full RTL layout with Hebrew surf terminology
-- 📊 **7-Day Forecast** - Shows morning, noon, and evening surf sessions
-- 🎨 **Surf-themed Design** - Ocean-inspired colors and animations
+## ✨ Features
+
+- �‍♂️ **Real-time surf forecasts** from 4surfers.co.il
+- 🎨 **Aguacatec-inspired design** with ocean gradients and wave patterns
+- 🇮� **Hebrew interface** with proper RTL layout and Hebrew surf terms
+- 📊 **Multiple forecast sessions** (morning, noon, evening) per day
+- � **Home Assistant integration** with sensors and panel
+- 📱 **Widget view** optimized for mobile and iOS Shortcuts
+- 🌊 **Wave quality indicators** with Hebrew surf terminology
 
 ## Installation
 

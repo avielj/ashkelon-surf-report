@@ -4,12 +4,11 @@ This repository provides multiple standalone surf forecasting solutions for Ashk
 
 ## 🏄‍♂️ Available Solutions
 
-### 1. **Home Assistant Addon** (Optional)
-Located in `homeassistant-addon/ashkelon-surf-forecast/`
-- Complete Home Assistant integration
-- Aguacatec-style surf cards
-- Ocean-themed design with Material Design Icons
-- Hebrew RTL support
+### For Home Assistant Users
+→ Use the **Home Assistant Addon** (`ashkelon-surf-forecast/`)
+- Integrates with existing HA setup
+- Matches Aguacatec dashboard style
+- Full HA entity and automation support
 
 ### 2. **Standalone iOS Widget** ⭐ **RECOMMENDED**
 Complete Scriptable widget requiring only iOS and internet connection
@@ -86,18 +85,24 @@ export TELEGRAM_BOT_TOKEN="your_bot_token_here"
 python wave_forecast.py
 ```
 
-## 📁 Project Structure
+## 📁 Repository Structure
 
 ```
-├── wave_forecast.py              # Main application 
-├── requirements.txt              # Python dependencies
-├── README.md                     # This documentation
-├── .gitignore                    # Git ignore patterns
-├── .github/
-│   ├── copilot-instructions.md   # AI assistant context
-│   └── workflows/
-│       └── daily-surf-report.yml # Automated daily execution
-└── ENHANCEMENT_SUMMARY.md        # Development history
+├── ashkelon-surf-forecast/        # Home Assistant addon
+│   ├── config.yaml               # HA addon configuration
+│   ├── Dockerfile                # Container definition
+│   ├── web_server.py             # Flask web server
+│   └── templates/                # Aguacatec-style templates
+├── standalone-widget/             # Independent web service
+│   ├── app.py                    # Main Flask application
+│   ├── api/index.py              # Vercel serverless function
+│   ├── templates/                # Aguacatec-style HTML templates
+│   └── requirements.txt          # Python dependencies
+├── IOS_STANDALONE_WIDGET.md      # Complete iOS widget solution
+├── IOS_WIDGET_VERCEL.md          # Vercel-integrated iOS widget
+├── STANDALONE_DEPLOYMENT_GUIDE.md # Deployment instructions
+├── repository.yaml               # HA addon repository config
+└── README.md                     # This file
 ```
 
 ## ⚙️ Configuration
