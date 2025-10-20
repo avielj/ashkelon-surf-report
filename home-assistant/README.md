@@ -15,38 +15,37 @@ Simple Home Assistant custom sensor that shows surf conditions for Ashkelon beac
 
 ### Method 1: Manual Installation (Easiest)
 
-1. **Create custom component directory:**
+1. **Copy the entire folder to Home Assistant:**
+   ```bash
+   # From the project directory
+   cp -r home-assistant /config/custom_components/ashkelon_surf
+   ```
+
+   **Or manually create the files:**
    ```bash
    mkdir -p /config/custom_components/ashkelon_surf
+   cp home-assistant/__init__.py /config/custom_components/ashkelon_surf/
+   cp home-assistant/sensor.py /config/custom_components/ashkelon_surf/
+   cp home-assistant/manifest.json /config/custom_components/ashkelon_surf/
    ```
 
-2. **Copy the sensor file:**
-   ```bash
-   cp ashkelon_surf_sensor.py /config/custom_components/ashkelon_surf/sensor.py
+2. **Verify the file structure:**
+   ```
+   /config/custom_components/ashkelon_surf/
+   ├── __init__.py
+   ├── sensor.py
+   └── manifest.json
    ```
 
-3. **Create manifest file:**
-   ```bash
-   cat > /config/custom_components/ashkelon_surf/manifest.json << 'EOF'
-   {
-     "domain": "ashkelon_surf",
-     "name": "Ashkelon Surf Forecast",
-     "documentation": "https://github.com/avielj/ashkelon-surf-report",
-     "requirements": [],
-     "codeowners": [],
-     "version": "1.0.0",
-     "iot_class": "cloud_polling"
-   }
-   EOF
-   ```
-
-4. **Add to configuration.yaml:**
+3. **Add to configuration.yaml:**
    ```yaml
    sensor:
      - platform: ashkelon_surf
    ```
 
-5. **Restart Home Assistant**
+4. **Restart Home Assistant completely** (not just reload, full restart!)
+
+5. **Check logs** at Settings → System → Logs for any errors
 
 ### Method 2: HACS (If you use it)
 
@@ -319,24 +318,97 @@ def unit_of_measurement(self):
 
 ## 🐛 Troubleshooting
 
-### Sensors not appearing
+### Sensors Showing "Unavailable"
 
-1. Check Home Assistant logs: Settings → System → Logs
-2. Make sure files are in `/config/custom_components/ashkelon_surf/`
-3. Verify `configuration.yaml` has the sensor platform entry
-4. Restart Home Assistant
+This is the most common issue. Here's how to fix it:
 
-### "Unavailable" State
+1. **Check the logs immediately:**
+   - Go to Settings → System → Logs
+   - Look for errors mentioning "ashkelon_surf" or "4surfers"
+   - Common errors and fixes:
 
-- Check your internet connection
-- API might be temporarily down
-- Check logs for error messages
+2. **Common Issues:**
 
-### Wrong Data
+   **Problem: "async_timeout" error**
+   - **Cause**: You're using Home Assistant 2022.9 or newer
+   - **Fix**: Update the sensor to use `asyncio.timeout` instead (already fixed in latest version)
+   
+   **Problem: "API returned status 403" or "Connection refused"**
+   - **Cause**: 4surfers.co.il API is blocking requests
+   - **Fix**: Check if website is accessible, wait a few minutes, try restarting HA
+   
+   **Problem: "No forecast data in API response"**
+   - **Cause**: API changed format or is returning errors
+   - **Fix**: Check logs for full error, API might be temporarily down
+   
+   **Problem: Sensors exist but state is "unknown" or "unavailable"**
+   - **Cause**: First update hasn't completed yet, or API is failing
+   - **Fix**: 
+     1. Wait 5-10 minutes for first update
+     2. Check Developer Tools → States to see sensor attributes
+     3. Manually trigger update: Developer Tools → Services → `homeassistant.update_entity` with entity_id: `sensor.ashkelon_surf_today`
 
-- Wait 30 minutes for next update
-- Restart Home Assistant to force immediate update
-- Check if 4surfers.co.il website is accessible
+3. **Force a sensor update:**
+   ```yaml
+   service: homeassistant.update_entity
+   target:
+     entity_id: sensor.ashkelon_surf_today
+   ```
+
+4. **Test the API manually:**
+   ```bash
+   curl -X POST https://4surfers.co.il/webapi/BeachArea/GetBeachAreaForecast \
+     -H "Content-Type: application/json" \
+     -d '{"beachAreaId":"80"}'
+   ```
+   Should return JSON with forecast data.
+
+5. **Enable debug logging:**
+   Add to `configuration.yaml`:
+   ```yaml
+   logger:
+     default: info
+     logs:
+       custom_components.ashkelon_surf: debug
+   ```
+   Then restart and check logs for detailed debug info.
+
+### Sensors Not Appearing at All
+
+1. **Verify file structure:**
+   ```bash
+   ls -la /config/custom_components/ashkelon_surf/
+   ```
+   Should show: `__init__.py`, `sensor.py`, `manifest.json`
+
+2. **Check configuration.yaml:**
+   ```yaml
+   sensor:
+     - platform: ashkelon_surf
+   ```
+   Make sure it's properly indented (2 spaces)
+
+3. **Do a FULL restart** (not just reload):
+   - Settings → System → Restart Home Assistant
+   - Or: `ha core restart` from CLI
+
+4. **Check if integration loads:**
+   - Settings → Devices & Services
+   - Look for any error messages about custom components
+
+### Wrong Data or Old Data
+
+- **Wait 30 minutes** for next automatic update
+- **Force update** using Developer Tools → Services → `homeassistant.update_entity`
+- **Check API directly** with curl command above
+- **Verify update interval:** Default is 30 min, you can change in sensor.py
+
+### ⚠️ Important Notes
+
+- **First update takes ~30 seconds** after HA restart
+- **Sensors won't update** if API is unreachable
+- **Check your HA version**: Requires Home Assistant 2022.9+
+- **Internet required**: Sensors fetch data from 4surfers.co.il
 
 ## 📚 Related Files
 
