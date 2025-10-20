@@ -3221,10 +3221,14 @@ def main():
     
     # Telegram configuration - use environment variables for security
     import os
-    TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', "YOUR_BOT_TOKEN_HERE")
-    TELEGRAM_CHAT_ID = -1002522870307  # Channel ID from channel_post
+    TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+    TELEGRAM_CHAT_ID = int(os.getenv('TELEGRAM_CHAT_ID', '-1002522870307'))  # Channel ID from channel_post
     
     # Initialize the forecast system with Telegram support
+    if not TELEGRAM_BOT_TOKEN:
+        print("⚠️  Warning: TELEGRAM_BOT_TOKEN environment variable not set")
+        print("   Telegram notifications will be disabled")
+    
     wave_forecast = FourSurfersWaveForecast(telegram_bot_token=TELEGRAM_BOT_TOKEN)
     
     # Get Ashkelon forecast using direct URL
