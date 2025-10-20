@@ -213,121 +213,127 @@ cards:
         </div>
       </ha-card>
   
-  # Today
+  # Today Header
   - type: markdown
     content: |
-      <ha-card style="padding: 15px;">
-        <h3 style="margin: 0 0 15px 0; text-align: center; color: #2c5aa0;">📅 היום (Today)</h3>
+      <ha-card style="padding: 10px 15px; margin-top: 10px;">
+        <h3 style="margin: 0; text-align: center; color: #2c5aa0;">📅 היום (Today)</h3>
       </ha-card>
+  
+  # Today Times - Side by Side
   - type: horizontal-stack
     cards:
       - type: markdown
         content: |
-          <ha-card style="text-align: center; padding: 10px; background: #f5f5f5;">
-            <div style="font-size: 12px; color: #666;">⏰ 06:00</div>
+          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
+            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 06:00</div>
             <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_today', 'morning_height_ft') }}ft</div>
             <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_today', 'morning_hebrew') }}</div>
-          </ha-card>
+          </div>
       - type: markdown
         content: |
-          <ha-card style="text-align: center; padding: 10px; background: #f5f5f5;">
-            <div style="font-size: 12px; color: #666;">⏰ 09:00</div>
+          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
+            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 09:00</div>
             <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_today', 'morning_height_ft') }}ft</div>
             <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_today', 'morning_hebrew') }}</div>
-          </ha-card>
+          </div>
       - type: markdown
         content: |
-          <ha-card style="text-align: center; padding: 10px; background: #f5f5f5;">
-            <div style="font-size: 12px; color: #666;">⏰ 12:00</div>
+          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
+            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 12:00</div>
             <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_today', 'noon_height_ft') }}ft</div>
             <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_today', 'noon_hebrew') }}</div>
-          </ha-card>
+          </div>
       - type: markdown
         content: |
-          <ha-card style="text-align: center; padding: 10px; background: #f5f5f5;">
-            <div style="font-size: 12px; color: #666;">⏰ 18:00</div>
+          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
+            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 18:00</div>
             <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_today', 'evening_height_ft') }}ft</div>
             <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_today', 'evening_hebrew') }}</div>
-          </ha-card>
+          </div>
   
-  # Tomorrow
+  # Tomorrow Header
   - type: markdown
     content: |
-      <ha-card style="padding: 15px;">
-        <h3 style="margin: 0 0 15px 0; text-align: center; color: #2c5aa0;">📅 מחר (Tomorrow)</h3>
+      <ha-card style="padding: 10px 15px; margin-top: 10px;">
+        <h3 style="margin: 0; text-align: center; color: #2c5aa0;">📅 מחר (Tomorrow)</h3>
       </ha-card>
+  
+  # Tomorrow Times - Side by Side
   - type: horizontal-stack
     cards:
       - type: markdown
         content: |
-          <ha-card style="text-align: center; padding: 10px; background: #f5f5f5;">
-            <div style="font-size: 12px; color: #666;">⏰ 06:00</div>
+          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
+            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 06:00</div>
             <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_height_ft') }}ft</div>
             <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_hebrew') }}</div>
-          </ha-card>
+          </div>
       - type: markdown
         content: |
-          <ha-card style="text-align: center; padding: 10px; background: #f5f5f5;">
-            <div style="font-size: 12px; color: #666;">⏰ 09:00</div>
+          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
+            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 09:00</div>
             <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_height_ft') }}ft</div>
             <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_hebrew') }}</div>
-          </ha-card>
+          </div>
       - type: markdown
         content: |
-          <ha-card style="text-align: center; padding: 10px; background: #f5f5f5;">
-            <div style="font-size: 12px; color: #666;">⏰ 12:00</div>
+          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
+            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 12:00</div>
             <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'noon_height_ft') }}ft</div>
             <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'noon_hebrew') }}</div>
-          </ha-card>
+          </div>
       - type: markdown
         content: |
-          <ha-card style="text-align: center; padding: 10px; background: #f5f5f5;">
-            <div style="font-size: 12px; color: #666;">⏰ 18:00</div>
+          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
+            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 18:00</div>
             <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'evening_height_ft') }}ft</div>
             <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'evening_hebrew') }}</div>
-          </ha-card>
+          </div>
   
-  # Day After Tomorrow
+  # Day After Header
   - type: markdown
     content: |
-      <ha-card style="padding: 15px;">
-        <h3 style="margin: 0 0 15px 0; text-align: center; color: #2c5aa0;">📅 מחרתיים (Day After)</h3>
+      <ha-card style="padding: 10px 15px; margin-top: 10px;">
+        <h3 style="margin: 0; text-align: center; color: #2c5aa0;">📅 מחרתיים (Day After)</h3>
       </ha-card>
+  
+  # Day After Times - Side by Side
   - type: horizontal-stack
     cards:
       - type: markdown
         content: |
-          <ha-card style="text-align: center; padding: 10px; background: #f5f5f5;">
-            <div style="font-size: 12px; color: #666;">⏰ 06:00</div>
+          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
+            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 06:00</div>
             <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_day_after', 'morning_height_ft') }}ft</div>
             <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_day_after', 'morning_hebrew') }}</div>
-          </ha-card>
+          </div>
       - type: markdown
         content: |
-          <ha-card style="text-align: center; padding: 10px; background: #f5f5f5;">
-            <div style="font-size: 12px; color: #666;">⏰ 09:00</div>
+          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
+            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 09:00</div>
             <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_day_after', 'morning_height_ft') }}ft</div>
             <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_day_after', 'morning_hebrew') }}</div>
-          </ha-card>
+          </div>
       - type: markdown
         content: |
-          <ha-card style="text-align: center; padding: 10px; background: #f5f5f5;">
-            <div style="font-size: 12px; color: #666;">⏰ 12:00</div>
+          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
+            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 12:00</div>
             <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_day_after', 'noon_height_ft') }}ft</div>
             <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_day_after', 'noon_hebrew') }}</div>
-          </ha-card>
+          </div>
       - type: markdown
         content: |
-          <ha-card style="text-align: center; padding: 10px; background: #f5f5f5;">
-            <div style="font-size: 12px; color: #666;">⏰ 18:00</div>
+          <div style="text-align: center; padding: 10px; background: #f5f5f5; border-radius: 8px;">
+            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">⏰ 18:00</div>
             <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 8px 0;">{{ state_attr('sensor.ashkelon_surf_day_after', 'evening_height_ft') }}ft</div>
             <div style="font-size: 13px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_day_after', 'evening_hebrew') }}</div>
-          </ha-card>
+          </div>
   
   # Footer
   - type: markdown
     content: |
-      <ha-card style="text-align: center; padding: 10px;">
+      <ha-card style="text-align: center; padding: 10px; margin-top: 10px;">
         <div style="font-size: 12px; color: #666;">
           ⏰ Last updated: {{ as_timestamp(states.sensor.ashkelon_surf_today.last_updated) | timestamp_custom('%H:%M') }}
         </div>
