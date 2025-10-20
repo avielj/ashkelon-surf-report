@@ -8,7 +8,7 @@ import logging
 import re
 
 # Initialize Flask app
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../templates')
 app.secret_key = os.urandom(24)
 
 # Set up logging
@@ -286,8 +286,8 @@ def health():
     })
 
 # For Vercel serverless deployment
-def handler(request):
-    return app(request.environ, lambda status, headers: None)
+# Export the app for Vercel
+application = app
 
 if __name__ == '__main__':
     # Local development
