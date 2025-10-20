@@ -1,37 +1,52 @@
-import os
+from http.server import BaseHTTPRequestHandler
 import json
-import asyncio
 from datetime import datetime, timedelta
-from flask import Flask, render_template, jsonify
-from playwright.async_api import async_playwright
-import logging
-import re
 
-# Initialize Flask app
-app = Flask(__name__, template_folder='../templates')
-app.secret_key = os.urandom(24)
-
-# Set up logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-class StandaloneSurfForecast:
-    """Simplified surf forecast for Vercel serverless deployment"""
-    
-    def __init__(self):
-        self.api_base_url = "https://api.4surfers.co.il"
+class handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        path = self.path.split('?')[0]
         
-        # Hebrew surf quality mapping
-        self.quality_to_height = {
-            'פלטה': 0.1, 'שטוח': 0.15, 'קרסול': 0.3, 'קרסול עד ברך': 0.5,
-            'ברך': 0.8, 'מעל ברך': 1.1, 'כתף': 1.4, 'מעל כתף': 1.7,
-            'מותן': 2.1, 'ראש': 2.5, 'מעל ראש': 3.0
-        }
-        
-        self.height_to_quality = {v: k for k, v in self.quality_to_height.items()}
+        try:
+            if path == '/':
+                self.send_html_response(self.get_main_page())
+            elif path == '/widget':
+                self.send_html_response(self.get_widget_page())
+            elif path == '/api/widget':
+                self.send_json_response(self.get_widget_data())
+            elif path == '/health':
+                self.send_json_response({'status': 'healthy', 'timestamp': datetime.now().isoformat()})
+            else:
+                self.send_404()
+        except Exception as e:
+            self.send_error_response(str(e))
     
-    def _wave_height_to_quality(self, height: float) -> str:
-        """Convert wave height to Hebrew surf quality"""
+    def send_html_response(self, html_content):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html; charset=utf-8')
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.end_headers()
+        self.wfile.write(html_content.encode('utf-8'))
+    
+    def send_json_response(self, data):
+        self.send_response(200)
+        self.send_header('Content-type', 'application/json; charset=utf-8')
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.end_headers()
+        self.wfile.write(json.dumps(data, ensure_ascii=False).encode('utf-8'))
+    
+    def send_404(self):
+        self.send_response(404)
+        self.send_header('Content-type', 'text/html; charset=utf-8')
+        self.end_headers()
+        self.wfile.write(b'<h1>404 - Page not found</h1><p>Available routes: /, /widget, /api/widget, /health</p>')
+    
+    def send_error_response(self, error_msg):
+        self.send_response(500)
+        self.send_header('Content-type', 'application/json; charset=utf-8')
+        self.end_headers()
+        self.wfile.write(json.dumps({'error': error_msg}, ensure_ascii=False).encode('utf-8'))
+    
+    def wave_height_to_quality(self, height):
         if height <= 0.1: return 'פלטה'
         elif height <= 0.2: return 'שטוח'
         elif height <= 0.4: return 'קרסול'
@@ -44,251 +59,370 @@ class StandaloneSurfForecast:
         elif height <= 2.8: return 'ראש'
         else: return 'מעל ראש'
     
-    def _get_hebrew_day(self, weekday: int) -> str:
-        """Get Hebrew day name"""
+    def get_hebrew_day(self, weekday):
         days = ['ב\'', 'ג\'', 'ד\'', 'ה\'', 'ו\'', 'שבת', 'א\'']
         return days[weekday]
     
-    async def get_forecast_data(self) -> dict:
-        """Get surf forecast data - simplified for Vercel"""
-        try:
-            # For Vercel, we'll use a simplified mock data approach
-            # In production, you'd want to implement the full scraping logic
-            return self._generate_mock_data()
-            
-        except Exception as e:
-            logger.error(f"Forecast error: {e}")
-            return self._generate_mock_data()
-    
-    def _generate_mock_data(self) -> dict:
-        """Generate realistic mock data for demo/fallback"""
+    def get_forecast_data(self):
         today = datetime.now()
-        
         forecast_data = {
             'beach': 'Ashkelon',
             'beach_hebrew': 'אשקלון',
-            'source': '4surfers.co.il',
-            'timestamp': today.isoformat(),
-            'standalone': True,
-            'offline_mode': False,
-            'daily_forecasts': {}
+            'last_update': today.strftime('%H:%M'),
+            'days': []
         }
         
-        # Generate 3 days of forecast
         for day in range(3):
             date = today + timedelta(days=day)
-            date_key = date.strftime('%Y-%m-%d')
-            hebrew_day = self._get_hebrew_day(date.weekday())
+            hebrew_day = self.get_hebrew_day(date.weekday())
+            base_height = 0.4 + (day * 0.2)
             
-            # Simulate varying wave conditions
-            base_height = 0.4 + (day * 0.2)  # Gradually increasing waves
-            
-            forecast_data['daily_forecasts'][date_key] = {
-                'hebrew_date': date.strftime('%d/%m'),
+            day_info = {
+                'date': date.strftime('%Y-%m-%d'),
                 'hebrew_day': hebrew_day,
                 'english_day': date.strftime('%A'),
-                'times': {
-                    '06:00': {
-                        'wave_height': base_height,
-                        'surf_quality': f"{self._wave_height_to_quality(base_height)} (morning)",
-                        'hebrew_time': 'בוקר'
-                    },
-                    '12:00': {
-                        'wave_height': base_height * 1.2,
-                        'surf_quality': f"{self._wave_height_to_quality(base_height * 1.2)} (noon)",
-                        'hebrew_time': 'צהרים'
-                    },
-                    '18:00': {
-                        'wave_height': base_height * 0.9,
-                        'surf_quality': f"{self._wave_height_to_quality(base_height * 0.9)} (evening)",
-                        'hebrew_time': 'ערב'
-                    }
-                }
+                'formatted_date': date.strftime('%d/%m'),
+                'sessions': []
             }
+            
+            for time_key, time_multiplier, hebrew_time in [
+                ('06:00', 1.0, 'בוקר'),
+                ('12:00', 1.2, 'צהרים'),
+                ('18:00', 0.9, 'ערב')
+            ]:
+                height = base_height * time_multiplier
+                session = {
+                    'time': time_key,
+                    'hebrew_time': hebrew_time,
+                    'height': height,
+                    'height_text': f"{height:.1f}מ'",
+                    'quality_hebrew': self.wave_height_to_quality(height),
+                    'emoji': "🌊🌊" if height >= 1.0 else "🌊" if height >= 0.5 else "〰️",
+                    'is_good': height >= 0.4
+                }
+                day_info['sessions'].append(session)
+            
+            forecast_data['days'].append(day_info)
         
         return forecast_data
-
-# Global instance for Vercel
-surf_forecast = StandaloneSurfForecast()
-
-def format_wave_height_hebrew(height):
-    """Convert wave height to Hebrew surf quality term"""
-    return surf_forecast._wave_height_to_quality(height)
-
-def get_wave_emoji(height):
-    """Get wave emoji for height"""
-    if height >= 1.0: return "🌊🌊"
-    elif height >= 0.5: return "🌊"
-    elif height >= 0.2: return "〰️"
-    else: return "🏖️"
-
-@app.route('/')
-def index():
-    """Main surf forecast page"""
-    try:
-        # Get forecast data synchronously for Vercel
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        forecast_cache = loop.run_until_complete(surf_forecast.get_forecast_data())
-        loop.close()
-        
-        # Prepare forecast display data
-        forecast_display = {
-            'beach_name': forecast_cache.get('beach', 'Ashkelon'),
-            'last_update': datetime.now().strftime('%H:%M'),
-            'days': [],
-            'offline_mode': forecast_cache.get('offline_mode', False)
-        }
-        
-        if forecast_cache.get('daily_forecasts'):
-            sorted_dates = sorted(forecast_cache['daily_forecasts'].items())
-            
-            for date_key, day_data in sorted_dates[:3]:  # Show 3 days max
-                day_info = {
-                    'date': date_key,
-                    'hebrew_day': day_data.get('hebrew_day', ''),
-                    'english_day': day_data.get('english_day', ''),
-                    'formatted_date': day_data.get('hebrew_date', ''),
-                    'sessions': []
-                }
-                
-                times_data = day_data.get('times', {})
-                for time_key in ['06:00', '12:00', '18:00']:
-                    if time_key in times_data:
-                        time_info = times_data[time_key]
-                        height = time_info.get('wave_height', 0)
-                        
-                        session = {
-                            'time': time_key,
-                            'hebrew_time': time_info.get('hebrew_time', time_key),
-                            'height': height,
-                            'height_text': f"{height:.1f}מ'",
-                            'quality_hebrew': format_wave_height_hebrew(height),
-                            'emoji': get_wave_emoji(height),
-                            'is_good': height >= 0.4
-                        }
-                        day_info['sessions'].append(session)
-                
-                forecast_display['days'].append(day_info)
-        
-        return render_template('standalone_index.html', forecast=forecast_display)
-        
-    except Exception as e:
-        logger.error(f"Index route error: {e}")
-        return render_template('standalone_index.html', forecast={'days': [], 'offline_mode': True})
-
-@app.route('/widget')
-def widget():
-    """Compact widget view"""
-    try:
-        # Get forecast data
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        forecast_cache = loop.run_until_complete(surf_forecast.get_forecast_data())
-        loop.close()
-        
-        # Prepare widget data
-        forecast_display = {
-            'days': [],
-            'last_update': datetime.now().strftime('%H:%M'),
-            'offline_mode': forecast_cache.get('offline_mode', False)
-        }
-        
-        if forecast_cache.get('daily_forecasts'):
-            today = datetime.now().strftime('%Y-%m-%d')
-            today_forecast = forecast_cache['daily_forecasts'].get(today)
-            
-            if today_forecast:
-                day_info = {
-                    'hebrew_day': today_forecast.get('hebrew_day', ''),
-                    'formatted_date': today_forecast.get('hebrew_date', ''),
-                    'sessions': []
-                }
-                
-                times_data = today_forecast.get('times', {})
-                for time_key in ['06:00', '12:00', '18:00']:
-                    if time_key in times_data:
-                        time_info = times_data[time_key]
-                        height = time_info.get('wave_height', 0)
-                        
-                        session = {
-                            'time': time_key,
-                            'hebrew_time': time_info.get('hebrew_time', time_key),
-                            'height': height,
-                            'height_text': f"{height:.1f}מ'",
-                            'quality_hebrew': format_wave_height_hebrew(height),
-                        }
-                        day_info['sessions'].append(session)
-                
-                forecast_display['days'] = [day_info]
-        
-        return render_template('widget.html', forecast=forecast_display)
-        
-    except Exception as e:
-        logger.error(f"Widget route error: {e}")
-        return render_template('widget.html', forecast={'days': []}, error=str(e))
-
-@app.route('/api/widget')
-def api_widget():
-    """JSON API for widgets"""
-    try:
-        # Get forecast data
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        forecast_cache = loop.run_until_complete(surf_forecast.get_forecast_data())
-        loop.close()
-        
-        today = datetime.now().strftime('%Y-%m-%d')
-        today_forecast = forecast_cache['daily_forecasts'].get(today, {})
+    
+    def get_widget_data(self):
+        forecast = self.get_forecast_data()
+        today_data = forecast['days'][0] if forecast['days'] else {}
         
         widget_data = {
             'success': True,
             'beach': 'אשקלון',
             'beach_english': 'Ashkelon',
-            'date': today_forecast.get('hebrew_date', ''),
-            'day': today_forecast.get('hebrew_day', ''),
+            'date': today_data.get('formatted_date', ''),
+            'day': today_data.get('hebrew_day', ''),
             'last_update': datetime.now().strftime('%H:%M'),
-            'sessions': [],
-            'offline_mode': forecast_cache.get('offline_mode', False)
+            'sessions': []
         }
         
-        times_data = today_forecast.get('times', {})
-        for time_key in ['06:00', '12:00', '18:00']:
-            if time_key in times_data:
-                time_info = times_data[time_key]
-                height = time_info.get('wave_height', 0)
-                
-                widget_data['sessions'].append({
-                    'time': time_key,
-                    'hebrew_time': time_info.get('hebrew_time', time_key),
-                    'height': height,
-                    'height_text': f"{height:.1f}מ'",
-                    'quality_hebrew': format_wave_height_hebrew(height),
-                    'period': int(height * 3 + 8),
-                    'rating_stars': '⭐' * min(5, max(1, int(height * 3))),
-                    'is_good': height >= 0.4
-                })
+        for session in today_data.get('sessions', []):
+            widget_data['sessions'].append({
+                'time': session['time'],
+                'hebrew_time': session['hebrew_time'],
+                'height': session['height'],
+                'height_text': session['height_text'],
+                'quality_hebrew': session['quality_hebrew'],
+                'period': int(session['height'] * 3 + 8),
+                'rating_stars': '⭐' * min(5, max(1, int(session['height'] * 3))),
+                'is_good': session['is_good']
+            })
         
-        return jsonify(widget_data)
+        return widget_data
+    
+    def get_main_page(self):
+        forecast = self.get_forecast_data()
         
-    except Exception as e:
-        logger.error(f"API error: {e}")
-        return jsonify({'success': False, 'error': str(e)})
-
-@app.route('/health')
-def health():
-    """Health check endpoint"""
-    return jsonify({
-        'status': 'healthy',
-        'service': 'Ashkelon Surf Forecast',
-        'standalone': True,
-        'timestamp': datetime.now().isoformat()
-    })
-
-# For Vercel serverless deployment
-# Export the app for Vercel
-application = app
-
-if __name__ == '__main__':
-    # Local development
-    app.run(host='0.0.0.0', port=8080, debug=True)
+        html = '''<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌊 תחזית גלים אשקלון</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: #1a1a1a;
+            min-height: 100vh;
+            color: #fff;
+            direction: rtl;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .app-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .app-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .surf-forecast-card {
+            background: linear-gradient(135deg, #4f9ded 0%, #2c5aa0 100%);
+            border-radius: 16px;
+            padding: 20px;
+            min-height: 280px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        .location-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .surf-icon {
+            font-size: 2.5rem;
+            color: #ffffff;
+        }
+        .location-text h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .location-subtitle {
+            color: #e6fbc9;
+        }
+        .date-info {
+            text-align: left;
+            direction: ltr;
+        }
+        .hebrew-day {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        .date {
+            font-size: 0.9rem;
+            color: #e6fbc9;
+        }
+        .forecast-grid-sessions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .session-column {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+        .forecast-chip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 500;
+            min-width: 80px;
+            height: 32px;
+            padding: 4px 8px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #e6fbc9;
+            margin-top: auto;
+        }
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .surf-forecast-card { padding: 15px; min-height: 240px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1 class="app-title">🌊 תחזית גלים אשקלון</h1>
+            <p>Ashkelon Surf Forecast - Live on Vercel</p>
+        </header>'''
+        
+        for day in forecast['days']:
+            html += f'''
+        <div class="surf-forecast-card">
+            <div class="card-header">
+                <div class="location-info">
+                    <i class="mdi mdi-surfing surf-icon"></i>
+                    <div class="location-text">
+                        <h2>אשקלון</h2>
+                        <p class="location-subtitle">Ashkelon</p>
+                    </div>
+                </div>
+                <div class="date-info">
+                    <span class="hebrew-day">{day["hebrew_day"]}</span>
+                    <span class="date">{day["formatted_date"]}</span>
+                </div>
+            </div>
+            
+            <div class="forecast-grid-sessions">'''
+            
+            for session in day['sessions']:
+                html += f'''
+                <div class="session-column">
+                    <div class="forecast-chip">
+                        <i class="mdi mdi-clock-outline"></i>
+                        <span>{session["time"]}</span>
+                    </div>
+                    <div class="forecast-chip">
+                        <i class="mdi mdi-star"></i>
+                        <span>{session["quality_hebrew"]}</span>
+                    </div>
+                    <div class="forecast-chip">
+                        <i class="mdi mdi-sine-wave"></i>
+                        <span>{session["height_text"]}</span>
+                    </div>
+                    <div class="forecast-chip">
+                        <i class="mdi mdi-timer-sand"></i>
+                        <span>{int(session["height"] * 3 + 8)}s</span>
+                    </div>
+                </div>'''
+            
+            html += '''
+            </div>
+            
+            <div class="info-bar">
+                <span>📊 מקור: Vercel Demo</span>
+                <span>⏰ ''' + forecast['last_update'] + '''</span>
+            </div>
+        </div>'''
+        
+        html += '''
+        <footer style="text-align: center; padding: 20px; color: rgba(255, 255, 255, 0.6);">
+            <p>🚀 Working on Vercel!</p>
+            <p><a href="/widget" style="color: #4f9ded;">Widget View</a> • <a href="/api/widget" style="color: #4f9ded;">JSON API</a></p>
+        </footer>
+    </div>
+</body>
+</html>'''
+        
+        return html
+    
+    def get_widget_page(self):
+        forecast = self.get_forecast_data()
+        today = forecast['days'][0] if forecast['days'] else {}
+        
+        html = '''<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌊 אשקלון - Widget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Heebo', sans-serif;
+            background: linear-gradient(135deg, #4f9ded 0%, #2c5aa0 100%);
+            min-height: 100vh;
+            color: #fff;
+            direction: rtl;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .widget-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 100%;
+        }
+        .widget-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .beach-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .widget-sessions {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+        }
+        .session-item {
+            text-align: center;
+            flex: 1;
+        }
+        .session-time {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+        .session-height {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        .session-quality {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        .widget-footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="widget-card">
+        <div class="widget-header">
+            <div class="beach-name">🌊 אשקלון</div>
+            <div style="font-size: 0.9rem; opacity: 0.8;">''' + today.get('hebrew_day', '') + ' • ' + today.get('formatted_date', '') + '''</div>
+        </div>
+        <div class="widget-sessions">'''
+        
+        for session in today.get('sessions', []):
+            html += f'''
+            <div class="session-item">
+                <div class="session-time">{session["hebrew_time"]}</div>
+                <div class="session-height">{session["height_text"]}</div>
+                <div class="session-quality">{session["quality_hebrew"]}</div>
+            </div>'''
+        
+        html += '''
+        </div>
+        <div class="widget-footer">
+            <div style="font-size: 0.8rem; opacity: 0.7;">
+                <a href="/" style="color: white;">← Full Forecast</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>'''
+        
+        return html
