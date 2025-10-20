@@ -4,31 +4,10 @@ __pycache__/
 *$py.class
 *.so
 .Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# Virtual environments
-.env
-.venv
-env/
 venv/
 ENV/
-env.bak/
-venv.bak/
+env/
+*.egg-info/
 
 # IDE
 .vscode/
@@ -38,36 +17,22 @@ venv.bak/
 
 # OS
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
-
-# Project specific - generated files
-*.json
-*.pdf
-*.png
-api_*.json
-ashkelon_forecast_*.json
-extended_api_response_*.json
-wave_height_chart_*.png
-ashkelon_forecast_report_*.pdf
-
-# Test files
-test_*.py
-manual_telegram_test.py
 
 # Logs
 *.log
 
-# Environment variables
-.env
-.env.local
-.env.production
-.env.staging
-
 # Temporary files
 *.tmp
-*.temp
+debug_*.png
+api_response_*.json
+extended_api_response_*.json
+forecast_*.png
+ashkelon_*.png
+*.html
+
+# Node modules (if any)
+node_modules/
+
+# Vercel (obsolete - using Scriptable now)
+.vercel/

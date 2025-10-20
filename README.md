@@ -1,51 +1,216 @@
-# Ashkelon Surf Forecast - Home Assistant Add-on Repository
+# 🌊 Ashkelon Surf Forecast
 
-[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Favielj%2Fashkelon-surf-report)
+Complete surf forecast solution for Ashkelon beach (Israel) using data from 4surfers.co.il API.
 
-Home Assistant add-on repository providing surf forecasting for Ashkelon beach with Hebrew support.
+## 🚀 Three Ways to Use
 
-## Add-ons
+### 1. 📱 iOS Scriptable Widget (Recommended)
+Native iOS widget that shows real-time surf conditions on your home screen.
 
-This repository contains the following add-ons:
+**File**: `COMPLETE_SCRIPTABLE_WIDGET.js`
 
-### 🌊 [Ashkelon Surf Forecast](addons/ashkelon-surf-forecast/)
+**Features**:
+- ✅ No server needed - runs directly on your iPhone
+- ✅ 3 days forecast (Today, Tomorrow, Day 3)
+- ✅ 4 time slots per day (06:00, 09:00, 12:00, 18:00)
+- ✅ Wave heights in feet
+- ✅ Hebrew wave descriptions (קרסול, ברך, כתף)
+- ✅ Star ratings (⭐) based on conditions
+- ✅ Auto-refresh every 30 minutes
+- ✅ Beautiful ocean gradient design
 
-![Supports aarch64 Architecture][aarch64-shield]
-![Supports amd64 Architecture][amd64-shield] 
-![Supports armhf Architecture][armhf-shield]
-![Supports armv7 Architecture][armv7-shield]
-![Supports i386 Architecture][i386-shield]
+**Installation**: Copy the script to Scriptable app, add widget to home screen.
 
-Beautiful surf forecast display with Aguacatec-style interface, Hebrew support, and Home Assistant integration.
+---
 
-## Installation
+### 2. 🎤 Siri Voice Commands
+Ask Siri about surf conditions in Hebrew!
 
-1. Click the badge above or add this repository URL to your Home Assistant instance:
-   ```
-   https://github.com/avielj/ashkelon-surf-report
-   ```
+**File**: `SIRI_SHORTCUT.js`  
+**Guide**: `SIRI_SETUP_GUIDE.md`
 
-2. Go to **Settings** → **Add-ons** → **Add-on Store**
-3. Find "Ashkelon Surf Forecast" and click **Install**
-4. Configure and start the add-on
+**Example Commands**:
+- "היי סירי, מה התחזית למחר?" (Hey Siri, what's the forecast tomorrow?)
+- "היי סירי, מה גובה הגלים היום?" (Hey Siri, what's the wave height today?)
 
-## Features
+**Siri Response** (in Hebrew):
+```
+מחר באשקלון, 
+בבוקר הגלים קרסול, גובה 1.3 רגל. 
+בצהריים הגלים ברך, גובה 2.0 רגל. 
+בערב הגלים ברך, גובה 2.3 רגל. 
+ממוצע גובה הגלים 1.9 רגל.
+תנאים בסדר לגלישה.
+```
 
-- 🌊 Real-time surf data from 4surfers.co.il
-- 🎨 Beautiful Aguacatec-style interface 
-- 🇮🇱 Hebrew language support with RTL layout
-- 📊 Multi-session forecasts (morning, noon, evening)
-- 🏠 Full Home Assistant integration
-- 📱 Mobile-optimized widget views
+---
 
-## Support
+### 3. 🏠 Home Assistant Integration
+Custom sensor for Home Assistant with automations and notifications.
 
-- 📖 [Documentation](addons/ashkelon-surf-forecast/README.md)
-- 🐛 [Issues](https://github.com/avielj/ashkelon-surf-report/issues)
-- 💬 [Discussions](https://github.com/avielj/ashkelon-surf-report/discussions)
+**Folder**: `home-assistant/`  
+**Guide**: `home-assistant/README.md`
 
-[aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
-[amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
-[armhf-shield]: https://img.shields.io/badge/armhf-yes-green.svg
-[armv7-shield]: https://img.shields.io/badge/armv7-yes-green.svg
-[i386-shield]: https://img.shields.io/badge/i386-yes-green.svg
+**Features**:
+- ✅ 3 sensors (Today, Tomorrow, Day After)
+- ✅ Wave heights in feet
+- ✅ Hebrew descriptions
+- ✅ Auto-refresh every 30 minutes
+- ✅ Lovelace card examples
+- ✅ Automation templates
+- ✅ Morning surf alerts
+
+**Quick Install**:
+```bash
+# Copy files to Home Assistant
+cp -r home-assistant /config/custom_components/ashkelon_surf
+
+# Add to configuration.yaml
+echo "sensor:\n  - platform: ashkelon_surf" >> /config/configuration.yaml
+
+# Restart Home Assistant
+```
+
+---
+
+## 📊 Data Source
+
+All integrations use the same official API:
+- **API**: `https://4surfers.co.il/webapi/BeachArea/GetBeachAreaForecast`
+- **Beach ID**: `80` (Ashkelon)
+- **Data**: Real-time wave heights, periods, and Hebrew descriptions
+- **Update Frequency**: Every 15-30 minutes
+
+## 🛠️ Features Across All Platforms
+
+| Feature | iOS Widget | Siri | Home Assistant |
+|---------|-----------|------|----------------|
+| Wave Heights (ft) | ✅ | ✅ | ✅ |
+| Hebrew Descriptions | ✅ | ✅ | ✅ |
+| 3-Day Forecast | ✅ | ✅ | ✅ |
+| Time-specific (6/9/12/18) | ✅ | ✅ | ✅ |
+| Star Ratings | ✅ | ❌ | ❌ |
+| Voice Commands | ❌ | ✅ | ❌ |
+| Automations | ❌ | ❌ | ✅ |
+| Notifications | ❌ | ✅ | ✅ |
+
+## 📁 Project Structure
+
+```
+├── COMPLETE_SCRIPTABLE_WIDGET.js    # iOS widget script
+├── SIRI_SHORTCUT.js                 # Siri integration script
+├── SIRI_SETUP_GUIDE.md             # Siri setup instructions
+├── SCRIPTABLE_INSTALL_GUIDE.md     # Widget installation guide
+├── home-assistant/                  # Home Assistant integration
+│   ├── README.md                    # HA installation guide
+│   ├── ashkelon_surf_sensor.py     # Custom sensor
+│   ├── manifest.json               # Integration manifest
+│   └── __init__.py                 # Init file
+└── README.md                        # This file
+```
+
+## 🚀 Quick Start
+
+### For iPhone Users:
+1. Open **Scriptable** app
+2. Create new script → paste `COMPLETE_SCRIPTABLE_WIDGET.js`
+3. Add widget to home screen
+4. Done! 🎉
+
+### For Siri:
+1. Install Scriptable script (`SIRI_SHORTCUT.js`)
+2. Create Shortcuts automation
+3. Add to Siri with Hebrew phrase
+4. Say: "היי סירי, מה התחזית למחר?"
+
+### For Home Assistant:
+1. Copy files to `/config/custom_components/ashkelon_surf/`
+2. Add to `configuration.yaml`
+3. Restart Home Assistant
+4. Add Lovelace cards
+
+## 🌊 Wave Height Reference
+
+| Hebrew | English | Height (ft) | Height (m) |
+|--------|---------|-------------|------------|
+| פלטה | Flat | 0-0.3 | 0-0.1 |
+| שטוח | Flat | 0.3-0.7 | 0.1-0.2 |
+| קרסול | Ankle | 0.7-1.3 | 0.2-0.4 |
+| קרסול עד ברך | Ankle to Knee | 1.3-2.0 | 0.4-0.6 |
+| ברך | Knee | 2.0-3.0 | 0.6-0.9 |
+| מעל ברך | Above Knee | 3.0-3.9 | 0.9-1.2 |
+| כתף | Shoulder | 3.9-4.9 | 1.2-1.5 |
+| מעל כתף | Above Shoulder | 4.9-5.9 | 1.5-1.8 |
+| מותן | Waist | 5.9-7.2 | 1.8-2.2 |
+| ראש | Head | 7.2-9.2 | 2.2-2.8 |
+| מעל ראש | Overhead | 9.2+ | 2.8+ |
+
+## 🔧 Customization
+
+### Change Beach:
+All files use `beachAreaId: "80"` for Ashkelon. Change to:
+- **60** - Tel Aviv
+- **50** - Netanya  
+- **30** - Haifa
+
+### Change Units:
+Edit the conversion factor `* 3.28084` to use meters instead of feet.
+
+### Change Times:
+Modify the time array in each script:
+```javascript
+const times = [
+  { hour: 6, label: "06:00" },
+  { hour: 9, label: "09:00" },
+  { hour: 12, label: "12:00" },
+  { hour: 18, label: "18:00" }
+]
+```
+
+## 🐛 Troubleshooting
+
+### iOS Widget shows error:
+- Check internet connection
+- Verify Scriptable has network permissions
+- API might be temporarily down
+
+### Siri doesn't respond:
+- Make sure Hebrew is enabled in Siri settings
+- Re-record the phrase
+- Check Scriptable script is saved correctly
+
+### Home Assistant sensors unavailable:
+- Check Home Assistant logs
+- Verify files are in correct directory
+- Restart Home Assistant
+
+## 🎯 Why This Project?
+
+Created to provide Israeli surfers with easy access to Ashkelon surf conditions across multiple platforms:
+- **iPhone users** → Widget on home screen
+- **Smart home users** → Home Assistant automations
+- **Voice users** → Siri commands
+- **All platforms** → Same reliable data from 4surfers.co.il
+
+## 🏄‍♂️ Contributing
+
+PRs welcome! Ideas:
+- [ ] Apple Watch complication
+- [ ] Android widget
+- [ ] More Israeli beaches
+- [ ] Wind conditions
+- [ ] Tide information
+- [ ] Best time to surf predictor
+
+## 📄 License
+
+MIT License - Feel free to use and modify!
+
+## 🙏 Credits
+
+- Data from [4surfers.co.il](https://4surfers.co.il)
+- Built with love for the Israeli surf community 🇮🇱🌊
+
+---
+
+**Made with 🌊 for surfers in Ashkelon**

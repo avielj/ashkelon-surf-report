@@ -1,0 +1,9 @@
+{
+  "domain": "ashkelon_surf",
+  "name": "Ashkelon Surf Forecast",
+  "documentation": "https://github.com/avielj/ashkelon-surf-report",
+  "requirements": [],
+  "codeowners": [],
+  "version": "1.0.0",
+  "iot_class": "cloud_polling"
+}
