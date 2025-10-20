@@ -1,8 +1,8 @@
-name: "Ashkelon Surf Forecast"
-version: "2.0.0"
-slug: "ashkelon_surf_forecast"
-description: "Ashkelon surf forecast with Aguacatec-style interface, Hebrew support, and Home Assistant integration"
-url: "https://github.com/avielj/ashkelon-surf-report"
+name: Ashkelon Surf Forecast
+version: "2.0.1"
+slug: ashkelon_surf_forecast
+description: Beautiful surf forecast for Ashkelon beach with Hebrew support and Aguacatec-style interface
+url: https://github.com/avielj/ashkelon-surf-report
 arch:
   - armhf
   - armv7
@@ -15,10 +15,10 @@ init: false
 ports:
   "8099/tcp": 8099
 ports_description:
-  "8099/tcp": "Surf forecast web interface with Aguacatec-style cards"
-webui: "http://[HOST]:[PORT:8099]"
-panel_icon: "mdi:surfing"
-panel_title: "Ashkelon Surf"
+  "8099/tcp": Web interface
+webui: http://[HOST]:[PORT:8099]
+panel_icon: mdi:waves
+panel_title: Ashkelon Surf
 panel_admin: false
 options:
   update_interval: 3600

@@ -1,0 +1,25 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ocean gradient background -->
+  <defs>
+    <linearGradient id="oceanGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#4682B4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#191970;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" fill="url(#oceanGradient)" />
+  
+  <!-- Waves -->
+  <path d="M0 350 Q128 320 256 350 T512 350 V512 H0 Z" fill="rgba(255,255,255,0.3)"/>
+  <path d="M0 380 Q128 350 256 380 T512 380 V512 H0 Z" fill="rgba(255,255,255,0.2)"/>
+  <path d="M0 410 Q128 380 256 410 T512 410 V512 H0 Z" fill="rgba(255,255,255,0.1)"/>
+  
+  <!-- Surfboard -->
+  <ellipse cx="256" cy="200" rx="15" ry="100" fill="#FFD700" transform="rotate(25 256 200)"/>
+  <ellipse cx="256" cy="200" rx="8" ry="95" fill="#FFA500" transform="rotate(25 256 200)"/>
+  
+  <!-- Text -->
+  <text x="256" y="320" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" fill="white">אשקלון</text>
+</svg>
