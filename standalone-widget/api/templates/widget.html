@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌊 Ashkelon Surf Widget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Heebo', 'Segoe UI', sans-serif;
+            background: transparent;
+            color: #fff;
+            direction: rtl;
+        }
+
+        /* Compact Widget Card */
+        .surf-widget-card {
+            position: relative;
+            background: linear-gradient(135deg, #4f9ded 0%, #2c5aa0 100%);
+            background-size: cover;
+            border-radius: 12px;
+            padding: 15px;
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .widget-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+            border-radius: 12px;
+        }
+
+        /* Widget Header */
+        .widget-header {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .location-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .surf-icon {
+            font-size: 2rem;
+            color: #ffffff;
+        }
+
+        .location-text h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .date-text {
+            font-size: 0.9rem;
+            color: #e6fbc9;
+        }
+
+        /* Current Session */
+        .current-session {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        /* Widget Chips */
+        .widget-chip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            height: 36px;
+            padding: 0 12px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chip-icon {
+            font-size: 1rem;
+        }
+
+        .rating-chip .chip-icon { color: #ffd700; }
+        .wave-chip .chip-icon { color: #ffffff; }
+
+        /* Next Sessions Preview */
+        .next-sessions {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .next-session {
+            flex: 1;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 8px;
+            padding: 6px 4px;
+            font-size: 0.75rem;
+        }
+
+        .session-time {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .session-info {
+            color: #e6fbc9;
+            font-size: 0.7rem;
+        }
+
+        /* Widget Footer */
+        .widget-footer {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            color: #e6fbc9;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .loading-icon {
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.7);
+            animation: spin 2s linear infinite;
+        }
+
+        .loading h3 {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-top: 15px;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error State */
+        .error {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .error-icon {
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+        }
+
+        .error h3 {
+            font-size: 1.1rem;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .error p {
+            color: #e6fbc9;
+            font-size: 0.8rem;
+        }
+
+        /* No Data State */
+        .no-data {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .no-data-icon {
+            font-size: 2.5rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 15px;
+        }
+
+        .no-data h3 {
+            font-size: 1.1rem;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .no-data p {
+            color: #e6fbc9;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="surf-widget-card">
+        <div class="widget-overlay"></div>
+
+        {% if loading %}
+            <!-- Loading State -->
+            <div class="loading">
+                <i class="mdi mdi-loading loading-icon"></i>
+                <h3>טוען נתונים...</h3>
+            </div>
+        
+        {% elif error %}
+            <!-- Error State -->
+            <div class="error">
+                <i class="mdi mdi-alert-circle error-icon"></i>
+                <h3>שגיאה בטעינת הנתונים</h3>
+                <p>{{ error }}</p>
+            </div>
+        
+        {% elif forecast and forecast.days and forecast.days|length > 0 %}
+            <!-- Success State -->
+            {% set today = forecast.days[0] %}
+            {% set current_session = today.sessions[0] if today.sessions else None %}
+            
+            <!-- Header -->
+            <div class="widget-header">
+                <div class="location-info">
+                    <i class="mdi mdi-surfing surf-icon"></i>
+                    <div class="location-text">
+                        <h2>אשקלון</h2>
+                    </div>
+                </div>
+                <div class="date-text">{{ today.hebrew_day }}</div>
+            </div>
+
+            {% if current_session %}
+                <!-- Current Session -->
+                <div class="current-session">
+                    <div class="widget-chip rating-chip">
+                        <i class="mdi mdi-star chip-icon"></i>
+                        <span>{{ current_session.quality_hebrew }}</span>
+                    </div>
+                    <div class="widget-chip wave-chip">
+                        <i class="mdi mdi-sine-wave chip-icon"></i>
+                        <span>{{ current_session.height_text }}</span>
+                    </div>
+                </div>
+
+                <!-- Next Sessions Preview -->
+                {% if today.sessions|length > 1 %}
+                <div class="next-sessions">
+                    {% for session in today.sessions[1:3] %}
+                    <div class="next-session">
+                        <span class="session-time">{{ session.time }}</span>
+                        <div class="session-info">{{ session.quality_hebrew }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% endif %}
+
+            <!-- Footer -->
+            <div class="widget-footer">
+                <span>📊 4surfers</span>
+                <span>⏰ {{ forecast.last_update }}</span>
+            </div>
+        
+        {% else %}
+            <!-- No Data State -->
+            <div class="no-data">
+                <i class="mdi mdi-wave no-data-icon"></i>
+                <h3>אין נתונים</h3>
+                <p>No forecast available</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Auto-refresh for widget -->
+    <script>
+        // Refresh every 15 minutes for widget
+        setTimeout(function() {
+            window.location.reload();
+        }, 15 * 60 * 1000);
+    </script>
+</body>
+</html>

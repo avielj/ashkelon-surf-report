@@ -1,0 +1,393 @@
+/* Ashkelon Surf Forecast - Aguacatec Style */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Heebo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1a1a1a;
+    min-height: 100vh;
+    color: #fff;
+    direction: rtl;
+    padding: 20px;
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Surf Forecast Card - Aguacatec Style */
+.surf-forecast-card {
+    position: relative;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), 
+                url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJ3YXZlIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxwYXRoIGQ9Ik0wLDUwIFE1MCwwIDEwMCw1MCIgc3Ryb2tlPSIjNGY5ZGVkIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIG9wYWNpdHk9IjAuMyIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3dhdmUpIi8+Cjwvc3ZnPg=='),
+                linear-gradient(135deg, #4f9ded 0%, #2c5aa0 100%);
+    background-size: 200px 200px, cover, cover;
+    background-position: center;
+    border-radius: 16px;
+    padding: 20px;
+    min-height: 280px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.surf-forecast-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(79, 157, 237, 0.3);
+}
+
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+    border-radius: 16px;
+}
+
+/* Card Header */
+.card-header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+}
+
+.location-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.surf-icon {
+    font-size: 2.5rem;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.location-text h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    margin: 0;
+}
+
+.location-subtitle {
+    font-size: 1rem;
+    color: #e6fbc9;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+.date-info {
+    text-align: left;
+    direction: ltr;
+}
+
+.hebrew-day {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.date {
+    font-size: 0.9rem;
+    color: #e6fbc9;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Forecast Sessions Grid */
+.forecast-grid-sessions {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.session-column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Forecast Chips - Aguacatec Style */
+.forecast-chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: transparent;
+    border: 0;
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    min-width: 80px;
+    height: 32px;
+    padding: 4px 8px;
+    border-radius: 16px;
+    transition: all 0.2s ease;
+}
+
+.forecast-chip:hover {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.chip-icon {
+    font-size: 1.1rem;
+}
+
+/* Chip Type Colors */
+.time-chip .chip-icon {
+    color: #ffffff;
+}
+
+.rating-chip .chip-icon {
+    color: #ffd700;
+}
+
+.wave-chip .chip-icon {
+    color: #4f9ded;
+}
+
+.period-chip .chip-icon {
+    color: #32cd32;
+}
+
+.chip-content {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Info Bar */
+.info-bar {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #e6fbc9;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    margin-top: auto;
+}
+
+/* No Data State */
+.no-data {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.surf-icon-large {
+    font-size: 4rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.no-data h3 {
+    font-size: 1.4rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.no-data p {
+    color: #e6fbc9;
+    margin-bottom: 5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Animations */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.surf-forecast-card {
+    animation: slideUp 0.6s ease-out;
+}
+
+.forecast-chip {
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Widget Support */
+.widget-mode {
+    padding: 10px;
+}
+
+.widget-mode .surf-forecast-card {
+    min-height: 200px;
+    padding: 15px;
+}
+
+.widget-mode .card-header {
+    margin-bottom: 15px;
+}
+
+.widget-mode .location-text h2 {
+    font-size: 1.3rem;
+}
+
+.widget-mode .forecast-grid-sessions {
+    gap: 8px;
+}
+
+.widget-mode .forecast-chip {
+    font-size: 0.75rem;
+    height: 28px;
+    min-width: 60px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        max-width: 100%;
+        gap: 15px;
+    }
+    
+    .surf-forecast-card {
+        padding: 15px;
+        min-height: 240px;
+    }
+    
+    .location-text h2 {
+        font-size: 1.5rem;
+    }
+    
+    .forecast-grid-sessions {
+        gap: 10px;
+    }
+    
+    .forecast-chip {
+        font-size: 0.8rem;
+        min-width: 70px;
+        height: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .surf-forecast-card {
+        padding: 12px;
+        min-height: 220px;
+    }
+    
+    .card-header {
+        margin-bottom: 20px;
+    }
+    
+    .location-info {
+        gap: 8px;
+    }
+    
+    .surf-icon {
+        font-size: 2rem;
+    }
+    
+    .location-text h2 {
+        font-size: 1.3rem;
+    }
+    
+    .forecast-chip {
+        font-size: 0.75rem;
+        min-width: 60px;
+        height: 28px;
+    }
+    
+    .info-bar {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+    }
+}
+
+/* iOS Widget Styles */
+@media (max-width: 400px) and (max-height: 400px) {
+    body {
+        padding: 5px;
+    }
+    
+    .container {
+        gap: 5px;
+    }
+    
+    .surf-forecast-card {
+        padding: 10px;
+        min-height: 160px;
+        border-radius: 12px;
+    }
+    
+    .card-header {
+        margin-bottom: 12px;
+    }
+    
+    .location-text h2 {
+        font-size: 1.1rem;
+    }
+    
+    .location-subtitle {
+        font-size: 0.8rem;
+    }
+    
+    .forecast-grid-sessions {
+        gap: 6px;
+        margin-bottom: 10px;
+    }
+    
+    .forecast-chip {
+        font-size: 0.7rem;
+        height: 24px;
+        min-width: 50px;
+        gap: 4px;
+    }
+    
+    .chip-icon {
+        font-size: 0.9rem;
+    }
+    
+    .info-bar {
+        font-size: 0.65rem;
+    }
+}

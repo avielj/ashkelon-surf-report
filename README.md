@@ -1,15 +1,29 @@
-# 🏄‍♂️ Ashkelon Daily Surf Report
+# � Ashkelon Surf Forecast - Complete Standalone Solutions
 
-Automated daily surf forecast for Ashkelon beach using 4surfers.co.il data, with smart Telegram notifications sent only when surfable conditions exist.
+This repository provides multiple standalone surf forecasting solutions for Ashkelon beach, completely independent of Home Assistant.
 
-## ✨ Features
+## 🏄‍♂️ Available Solutions
 
-- 🌊 **10-day detailed forecasts** from 4surfers.co.il Extended API
-- 🇮🇱 **Hebrew surf quality terms** - קרסול, ברך, כתף, מעל ראש and more
-- 📱 **Smart Telegram alerts** - only sends when waves >0.4m in next 72 hours
-- 🤖 **Automated daily runs** via GitHub Actions at 7:00 AM Israel time
-- 🎯 **Accurate wave mapping** - uses API's original Hebrew surf quality descriptions
-- ⚡ **No PDF generation** - streamlined for fast Telegram-only notifications
+### 1. **Home Assistant Addon** (Optional)
+Located in `homeassistant-addon/ashkelon-surf-forecast/`
+- Complete Home Assistant integration
+- Aguacatec-style surf cards
+- Ocean-themed design with Material Design Icons
+- Hebrew RTL support
+
+### 2. **Standalone iOS Widget** ⭐ **RECOMMENDED**
+Complete Scriptable widget requiring only iOS and internet connection
+- **File**: `IOS_STANDALONE_WIDGET.md`
+- **Dependencies**: Only iOS Scriptable app
+- **Features**: Direct 4surfers.co.il integration, offline cache, Hebrew support
+
+### 3. **Standalone Web Service** ⭐ **RECOMMENDED**
+Independent Flask application deployable anywhere
+- **Location**: `standalone-widget/`
+- **Dependencies**: Python, Playwright
+- **Features**: Web interface, widget view, JSON API
+
+## ✨ Key Features
 
 ## 🚀 GitHub Actions Setup (Automated Daily Reports)
 

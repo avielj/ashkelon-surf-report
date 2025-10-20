@@ -1,0 +1,374 @@
+# Home Assistant Configuration for Ashkelon Surf Forecast
+
+## 1. REST Sensor Configuration
+# Add to configuration.yaml
+
+sensor:
+  - platform: rest
+    name: "Ashkelon Surf Forecast"
+    resource: "http://192.168.1.100:8099/api/ha-sensor"
+    value_template: "{{ value_json.state }}"
+    json_attributes:
+      - max_wave_height
+      - max_wave_height_hebrew
+      - hebrew_day
+      - forecast_date
+      - last_update
+      - forecast_days
+      - morning_height
+      - noon_height
+      - evening_height
+      - source
+    scan_interval: 1800  # Update every 30 minutes
+    
+  - platform: rest
+    name: "Ashkelon Morning Waves"
+    resource: "http://192.168.1.100:8099/api/ha-sensor"
+    value_template: "{{ value_json.attributes.morning_height }}"
+    unit_of_measurement: "m"
+    scan_interval: 1800
+    
+  - platform: rest
+    name: "Ashkelon Noon Waves"
+    resource: "http://192.168.1.100:8099/api/ha-sensor"
+    value_template: "{{ value_json.attributes.noon_height }}"
+    unit_of_measurement: "m"
+    scan_interval: 1800
+    
+  - platform: rest
+    name: "Ashkelon Evening Waves"
+    resource: "http://192.168.1.100:8099/api/ha-sensor"
+    value_template: "{{ value_json.attributes.evening_height }}"
+    unit_of_measurement: "m"
+    scan_interval: 1800
+
+## 2. Lovelace Dashboard Card (Aguacatec Style)
+# Add to your dashboard YAML
+
+type: custom:stack-in-card
+card_mod:
+  style: |
+    ha-card {
+      background: linear-gradient(to left, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                  linear-gradient(135deg, #4f9ded 0%, #2c5aa0 100%);
+      background-size: cover;
+      --primary-text-color: white;
+      --secondary-text-color: #e6fbc9;
+      border-radius: 16px;
+      min-height: 200px;
+    }
+cards:
+  - type: custom:mushroom-template-card
+    primary: אשקלון
+    secondary: Ashkelon Surf
+    icon: mdi:surfing
+    icon_color: white
+    entity: sensor.ashkelon_surf_forecast
+    layout: vertical
+    card_mod:
+      style: |
+        ha-card {
+          margin-left: -200px;
+          text-shadow: 1px 1px #0005;
+        }
+    tap_action:
+      action: url
+      url_path: http://192.168.1.100:8099
+      
+  # Morning Session
+  - type: custom:mushroom-chips-card
+    card_mod:
+      style: |
+        ha-card {
+          margin-top: -80px;
+          margin-left: 80px;
+          --primary-text-color: white;
+        }
+    chips:
+      - type: template
+        tap_action:
+          action: none
+        icon: mdi:clock
+        icon_color: white
+        content: "בוקר 06:00"
+        card_mod:
+          style: |
+            ha-card {
+              background: transparent!important;
+              box-shadow: none!important;
+              border: 0px;
+              height: 28px;
+              text-shadow: 1px 1px #0005;
+            }
+            
+  - type: custom:mushroom-chips-card
+    card_mod:
+      style: |
+        ha-card {
+          margin-top: -80px;
+          margin-left: 170px;
+          --primary-text-color: white;
+        }
+    chips:
+      - type: template
+        tap_action:
+          action: none
+        icon: mdi:star
+        icon_color: yellow
+        content: "{{ state_attr('sensor.ashkelon_surf_forecast','max_wave_height_hebrew') }}"
+        card_mod:
+          style: |
+            ha-card {
+              background: transparent!important;
+              box-shadow: none!important;
+              border: 0px;
+              height: 28px;
+              text-shadow: 1px 1px #0005;
+            }
+            
+  - type: custom:mushroom-chips-card
+    card_mod:
+      style: |
+        ha-card {
+          margin-top: -80px;
+          margin-left: 260px;
+          --primary-text-color: white;
+        }
+    chips:
+      - type: template
+        tap_action:
+          action: none
+        icon: mdi:sine-wave
+        icon_color: blue
+        content: "{{ states('sensor.ashkelon_morning_waves') }}מ'"
+        card_mod:
+          style: |
+            ha-card {
+              background: transparent!important;
+              box-shadow: none!important;
+              border: 0px;
+              height: 28px;
+              text-shadow: 1px 1px #0005;
+            }
+            
+  # Noon Session
+  - type: custom:mushroom-chips-card
+    card_mod:
+      style: |
+        ha-card {
+          margin-top: -50px;
+          margin-left: 80px;
+          --primary-text-color: white;
+        }
+    chips:
+      - type: template
+        tap_action:
+          action: none
+        icon: mdi:clock
+        icon_color: white
+        content: "צהרים 12:00"
+        card_mod:
+          style: |
+            ha-card {
+              background: transparent!important;
+              box-shadow: none!important;
+              border: 0px;
+              height: 28px;
+              text-shadow: 1px 1px #0005;
+            }
+            
+  - type: custom:mushroom-chips-card
+    card_mod:
+      style: |
+        ha-card {
+          margin-top: -50px;
+          margin-left: 170px;
+          --primary-text-color: white;
+        }
+    chips:
+      - type: template
+        tap_action:
+          action: none
+        icon: mdi:star
+        icon_color: yellow
+        content: "{{ state_attr('sensor.ashkelon_surf_forecast','max_wave_height_hebrew') }}"
+        card_mod:
+          style: |
+            ha-card {
+              background: transparent!important;
+              box-shadow: none!important;
+              border: 0px;
+              height: 28px;
+              text-shadow: 1px 1px #0005;
+            }
+            
+  - type: custom:mushroom-chips-card
+    card_mod:
+      style: |
+        ha-card {
+          margin-top: -50px;
+          margin-left: 260px;
+          --primary-text-color: white;
+        }
+    chips:
+      - type: template
+        tap_action:
+          action: none
+        icon: mdi:sine-wave
+        icon_color: blue
+        content: "{{ states('sensor.ashkelon_noon_waves') }}מ'"
+        card_mod:
+          style: |
+            ha-card {
+              background: transparent!important;
+              box-shadow: none!important;
+              border: 0px;
+              height: 28px;
+              text-shadow: 1px 1px #0005;
+            }
+            
+  # Evening Session
+  - type: custom:mushroom-chips-card
+    card_mod:
+      style: |
+        ha-card {
+          margin-top: -20px;
+          margin-left: 80px;
+          --primary-text-color: white;
+        }
+    chips:
+      - type: template
+        tap_action:
+          action: none
+        icon: mdi:clock
+        icon_color: white
+        content: "ערב 18:00"
+        card_mod:
+          style: |
+            ha-card {
+              background: transparent!important;
+              box-shadow: none!important;
+              border: 0px;
+              height: 28px;
+              text-shadow: 1px 1px #0005;
+            }
+            
+  - type: custom:mushroom-chips-card
+    card_mod:
+      style: |
+        ha-card {
+          margin-top: -20px;
+          margin-left: 170px;
+          --primary-text-color: white;
+        }
+    chips:
+      - type: template
+        tap_action:
+          action: none
+        icon: mdi:star
+        icon_color: yellow
+        content: "{{ state_attr('sensor.ashkelon_surf_forecast','max_wave_height_hebrew') }}"
+        card_mod:
+          style: |
+            ha-card {
+              background: transparent!important;
+              box-shadow: none!important;
+              border: 0px;
+              height: 28px;
+              text-shadow: 1px 1px #0005;
+            }
+            
+  - type: custom:mushroom-chips-card
+    card_mod:
+      style: |
+        ha-card {
+          margin-top: -20px;
+          margin-left: 260px;
+          --primary-text-color: white;
+        }
+    chips:
+      - type: template
+        tap_action:
+          action: none
+        icon: mdi:sine-wave
+        icon_color: blue
+        content: "{{ states('sensor.ashkelon_evening_waves') }}מ'"
+        card_mod:
+          style: |
+            ha-card {
+              background: transparent!important;
+              box-shadow: none!important;
+              border: 0px;
+              height: 28px;
+              text-shadow: 1px 1px #0005;
+            }
+
+## 3. Automation Examples
+
+# Good Waves Alert
+automation:
+  - alias: "Ashkelon Good Waves Alert"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.ashkelon_surf_forecast
+        attribute: max_wave_height
+        above: 0.7
+    condition:
+      - condition: time
+        after: "06:00:00"
+        before: "22:00:00"
+    action:
+      - service: notify.mobile_app_your_phone
+        data:
+          title: "🌊 גלים טובים באשקלון!"
+          message: >
+            גובה מקסימלי: {{ state_attr('sensor.ashkelon_surf_forecast', 'max_wave_height') }}מ'
+            ({{ state_attr('sensor.ashkelon_surf_forecast', 'max_wave_height_hebrew') }})
+          data:
+            url: "http://192.168.1.100:8099"
+            
+  # Daily Surf Report
+  - alias: "Daily Ashkelon Surf Report"
+    trigger:
+      - platform: time
+        at: "07:00:00"
+    action:
+      - service: notify.family
+        data:
+          title: "📊 תחזית יומית - אשקלון"
+          message: >
+            בוקר: {{ states('sensor.ashkelon_morning_waves') }}מ'
+            צהריים: {{ states('sensor.ashkelon_noon_waves') }}מ'
+            ערב: {{ states('sensor.ashkelon_evening_waves') }}מ'
+
+## 4. Template Sensors for Enhanced Data
+
+template:
+  - sensor:
+      - name: "Ashkelon Surf Status Hebrew"
+        state: >
+          {% set height = state_attr('sensor.ashkelon_surf_forecast', 'max_wave_height') %}
+          {% if height >= 1.0 %}
+            מעולה
+          {% elif height >= 0.7 %}
+            טוב
+          {% elif height >= 0.4 %}
+            בסדר  
+          {% else %}
+            שטוח
+          {% endif %}
+        icon: mdi:surfing
+        
+      - name: "Best Surf Time Today"
+        state: >
+          {% set morning = states('sensor.ashkelon_morning_waves') | float %}
+          {% set noon = states('sensor.ashkelon_noon_waves') | float %}
+          {% set evening = states('sensor.ashkelon_evening_waves') | float %}
+          {% if morning >= noon and morning >= evening %}
+            בוקר (06:00)
+          {% elif noon >= evening %}
+            צהרים (12:00)
+          {% else %}
+            ערב (18:00)
+          {% endif %}
+        icon: mdi:clock-outline

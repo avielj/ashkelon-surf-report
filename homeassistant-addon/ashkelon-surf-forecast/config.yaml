@@ -1,0 +1,29 @@
+name: Ashkelon Surf Forecast
+version: "1.0.0"
+slug: ashkelon_surf_forecast
+description: "Ashkelon surf forecast from 4surfers.co.il with Hebrew support"
+url: "https://github.com/avielj/ashkelon-surf-report"
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+startup: services
+boot: auto
+init: false
+ports:
+  "8099/tcp": 8099
+ports_description:
+  "8099/tcp": "Web interface for surf forecast"
+options:
+  update_interval: 3600
+  timezone: "Asia/Jerusalem"
+  show_hebrew: true
+  show_chart: true
+schema:
+  update_interval: int(300,86400)
+  timezone: str
+  show_hebrew: bool
+  show_chart: bool
+image: "ghcr.io/avielj/ashkelon-surf-forecast"
