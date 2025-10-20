@@ -1,0 +1,47 @@
+name: Daily Surf Report
+
+on:
+  schedule:
+    # Runs every day at 7:00 AM Israel time
+    # Israel is UTC+2 (winter) / UTC+3 (summer)
+    - cron: '0 5 * * *'  # 5:00 UTC = 7:00 AM Israel Standard Time (winter)
+  
+  # Allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  surf-forecast:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        # Install Playwright browsers
+        playwright install chromium
+    
+    - name: Run surf forecast
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      run: |
+        python wave_forecast.py
+      
+    - name: Upload artifacts (optional)
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: forecast-logs
+        path: |
+          *.json
+          *.log
+        retention-days: 7
