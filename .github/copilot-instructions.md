@@ -1,51 +1,91 @@
 <!-- Use this file to provide workspace-specific custom instructions to Copilot. For more details, visit https://code.visualstudio.com/docs/copilot/copilot-customization#_use-a-githubcopilotinstructionsmd-file -->
-# Ashkelon Wave Forecast Project
+# Ashkelon Surf Forecast Project
 
-This is a Python application that scrapes wave data from 4surfers.co.il specifically for Israeli beaches, with a focus on Ashkelon wave forecasting.
+Multi-platform surf forecast solution using 4surfers.co.il API for Israeli beaches, with a focus on Ashkelon.
 
-## Project Status: ✅ COMPLETED
+## Project Status: ✅ COMPLETED & DEPLOYED
 
-- ✅ Project structure created
-- ✅ Dependencies installed (Playwright, BeautifulSoup, pandas, etc.)
-- ✅ Virtual environment configured  
-- ✅ Wave forecast functionality implemented
-- ✅ 4surfers.co.il integration working
-- ✅ VS Code tasks configured
+- ✅ iOS Scriptable widget (COMPLETE_SCRIPTABLE_WIDGET.js)
+- ✅ Siri voice commands in Hebrew (SIRI_SHORTCUT.js)
+- ✅ Home Assistant custom sensor integration
+- ✅ All measurements in feet (not meters)
+- ✅ 4 time slots per day (6, 9, 12, 18)
+- ✅ 3-day forecasts across all platforms
+- ✅ Hebrew descriptions (קרסול, ברך, כתף)
+- ✅ API tested and verified working
+- ✅ Git repository cleaned up
 - ✅ Documentation complete
 
-## Quick Start
+## Three Deployment Options
 
-1. **Test the application**:
-   ```bash
-   source venv/bin/activate
-   python test_forecast.py
-   ```
+### 1. iOS Widget (Recommended)
+**File**: `COMPLETE_SCRIPTABLE_WIDGET.js`
+- Native iOS home screen widget
+- No server needed
+- Auto-refresh every 30 minutes
+- Beautiful ocean gradient design
+- Star ratings and Hebrew descriptions
 
-2. **Run interactively**:
-   ```bash
-   source venv/bin/activate
-   python wave_forecast.py
-   ```
+### 2. Siri Voice Commands
+**File**: `SIRI_SHORTCUT.js`
+- Ask Siri in Hebrew: "מה התחזית למחר?"
+- Responds with wave heights in feet
+- Works with Hebrew day names
+- Uses same API as widget
 
-3. **Use VS Code tasks**: Press `Cmd+Shift+P` → "Tasks: Run Task" → Choose "Test Forecast" or "Run Ashkelon Forecast"
+### 3. Home Assistant Integration
+**Folder**: `home-assistant/`
+- Custom sensor integration
+- 3 sensors (Today, Tomorrow, Day After)
+- Lovelace card examples
+- Morning surf alert automations
+- 30-minute refresh interval
+
+## API Details
+
+- **Endpoint**: `https://4surfers.co.il/webapi/BeachArea/GetBeachAreaForecast`
+- **Beach ID**: 80 (Ashkelon)
+- **Method**: POST with `{beachAreaId: "80"}`
+- **Returns**: 10 days of forecasts with WaveHeight, WavePeriod, surfRankMark, surfHeightDesc
 
 ## Key Features
 
-- ✅ Scrapes real wave data from 4surfers.co.il
-- ✅ Supports all Israeli beaches
-- ✅ Hebrew language support
-- ✅ Automated browser interaction with Playwright
-- ✅ JSON data export
-- ✅ Debug screenshots
-- ✅ Comprehensive error handling
+- ✅ Real-time data from 4surfers.co.il API
+- ✅ Wave heights in feet (converted from meters)
+- ✅ Hebrew descriptions from API
+- ✅ 4 time slots: 06:00, 09:00, 12:00, 18:00
+- ✅ 3-day forecasts (Today, Tomorrow, Day 3)
+- ✅ Star ratings (⭐) for surf quality
+- ✅ Wave periods in seconds
+- ✅ Cross-platform (iOS, Siri, Home Assistant)
 
 ## Files Overview
 
-- `wave_forecast.py` - Main application with 4surfers.co.il integration
-- `test_forecast.py` - Test script for verification
-- `requirements.txt` - Python dependencies
-- `venv/` - Virtual environment (configured and ready)
-- `.vscode/tasks.json` - VS Code tasks for easy running
+### Active Files
+- `COMPLETE_SCRIPTABLE_WIDGET.js` - iOS widget with full API integration
+- `SIRI_SHORTCUT.js` - Siri voice command script
+- `SCRIPTABLE_INSTALL_GUIDE.md` - Widget setup instructions
+- `SIRI_SETUP_GUIDE.md` - Siri integration guide
+- `home-assistant/` - HA custom sensor integration
+  - `ashkelon_surf_sensor.py` - Main sensor code
+  - `README.md` - HA installation guide
+  - `manifest.json` - Integration metadata
+  - `__init__.py` - Init file
+- `README.md` - Main documentation
+
+### Legacy Files (Optional)
+- `addons/ashkelon-surf-forecast/` - Home Assistant addon (complex installation)
+- `wave_forecast.py` - Original Python scraper
+- Deployment guides for Railway, Render, PythonAnywhere
+
+## Recent Changes (Latest Commit)
+
+✅ Added Home Assistant custom sensor integration
+✅ Cleaned up obsolete Vercel/API files
+✅ Updated README with 3 platforms comparison
+✅ All code uses feet (not meters)
+✅ Consistent time slots (6,9,12,18) everywhere
+✅ Pushed to GitHub (main branch)
 
 ## Current Status
-The project is fully functional and successfully retrieves wave forecast data from 4surfers.co.il for Ashkelon. The test script confirms the connection works and data is being extracted.
+All three platforms fully functional and deployed to GitHub. Users can choose iOS widget, Siri, or Home Assistant based on their needs. All use same 4surfers.co.il API with identical data structure.
