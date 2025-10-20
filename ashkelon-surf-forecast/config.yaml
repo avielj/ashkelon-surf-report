@@ -32,5 +32,4 @@ schema:
   show_hebrew: bool
   show_chart: bool
   debug_mode: bool
-image: "ghcr.io/avielj/ashkelon-surf-forecast"
 watchdog: "http://localhost:8099/health"

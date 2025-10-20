@@ -1,32 +1,27 @@
-FROM python:3.11-slim
+ARG BUILD_FROM
+FROM $BUILD_FROM
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
-    wget \
-    gnupg \
-    ca-certificates \
-    fonts-liberation \
-    fonts-dejavu-core \
-    jq \
+RUN apk add --no-cache \
+    python3 \
+    py3-pip \
+    chromium \
+    chromium-chromedriver \
     curl \
-    && rm -rf /var/lib/apt/lists/*
+    jq
 
 # Install Python packages
-RUN pip install --no-cache-dir \
-    playwright \
+RUN pip3 install --no-cache-dir \
     requests \
     beautifulsoup4 \
     lxml \
     flask \
-    pillow \
-    matplotlib \
-    arabic-reshaper \
-    python-bidi \
-    pandas \
-    jq
+    playwright \
+    pandas
 
-# Install Playwright browsers
-RUN playwright install --with-deps chromium
+# Set up Playwright to use system chromium
+ENV PLAYWRIGHT_BROWSERS_PATH=/usr/bin
+ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 
 # Create app directory
 WORKDIR /app
@@ -34,6 +29,7 @@ WORKDIR /app
 # Copy application files
 COPY wave_forecast.py .
 COPY web_server.py .
+COPY surf_forecast_simplified.py .
 COPY static/ ./static/
 COPY templates/ ./templates/
 COPY run.sh .

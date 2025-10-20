@@ -1,0 +1,6 @@
+requests==2.31.0
+beautifulsoup4==4.12.2
+lxml==4.9.3
+flask==3.0.0
+playwright==1.40.0
+pandas==2.1.4
