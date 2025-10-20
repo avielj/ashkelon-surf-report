@@ -446,21 +446,21 @@ class FourSurfersWaveForecast:
             return "פלטה (flat)"
         elif wave_height <= 0.2:
             return "שטוח (flat)"
-        elif wave_height <= 0.5:
+        elif wave_height <= 0.4:
             return "קרסול (ankle_high)"
-        elif wave_height <= 0.7:
+        elif wave_height <= 0.6:
             return "קרסול עד ברך (ankle_to_knee)"
-        elif wave_height <= 0.9:
+        elif wave_height <= 0.8:
             return "ברך (knee_high)"
-        elif wave_height <= 1.2:
+        elif wave_height <= 1.1:
             return "מעל ברך (above_knee)"
-        elif wave_height <= 1.5:
+        elif wave_height <= 1.4:
             return "כתף (shoulder_high)"
-        elif wave_height <= 1.8:
+        elif wave_height <= 1.7:
             return "מעל כתף (above_shoulder)"
-        elif wave_height <= 2.2:
+        elif wave_height <= 2.1:
             return "מותן (waist_high)"
-        elif wave_height <= 2.8:
+        elif wave_height <= 2.6:
             return "ראש (head_high)"
         else:
             return "מעל ראש (overhead)"
