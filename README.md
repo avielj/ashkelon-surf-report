@@ -31,6 +31,9 @@ In your GitHub repository:
 2. Add **New repository secret**: 
    - **Name**: `TELEGRAM_BOT_TOKEN`
    - **Value**: Your bot token from step 2
+3. Optionally add **TELEGRAM_CHAT_ID** if using a different channel:
+   - **Name**: `TELEGRAM_CHAT_ID` 
+   - **Value**: Your channel/chat ID (negative number for channels)
 
 ### 4. Enable GitHub Actions
 The workflow will automatically run daily at 7:00 AM Israel time and send Telegram notifications only when surfable waves (>0.4m) are detected in the next 72 hours.
@@ -103,6 +106,29 @@ The system recognizes all surf conditions in Hebrew:
 - ✅ **Sends Telegram**: When waves >0.4m detected in next 72 hours
 - 🔇 **Skips message**: When only small waves (≤0.4m) in next 72 hours
 - 📅 **Schedule**: Daily at 7:00 AM Israel time via GitHub Actions
+
+## 🔒 Security
+
+### Environment Variables
+The application uses environment variables for security:
+
+- `TELEGRAM_BOT_TOKEN`: Your Telegram bot token (required for notifications)
+- `TELEGRAM_CHAT_ID`: Your Telegram channel/chat ID (optional, defaults to configured channel)
+
+### For Local Development
+```bash
+# Set environment variables locally
+export TELEGRAM_BOT_TOKEN="your_bot_token_here"
+export TELEGRAM_CHAT_ID="-1001234567890"  # Optional
+```
+
+### For GitHub Actions  
+Add secrets in your repository settings:
+1. Go to **Settings** → **Secrets and variables** → **Actions**
+2. Add `TELEGRAM_BOT_TOKEN` as a repository secret
+3. Never commit tokens directly to code
+
+**⚠️ Important**: Never commit API tokens, bot tokens, or other credentials to your repository!
 
 ## Example Output
 
