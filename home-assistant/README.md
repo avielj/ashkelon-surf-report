@@ -196,6 +196,154 @@ cards:
     attribute: surf_quality_hebrew
 ```
 
+### 🌊 iOS Widget Style Card (Recommended!)
+
+This card replicates the iOS Scriptable widget design with 4 times per day and Hebrew descriptions:
+
+```yaml
+type: vertical-stack
+cards:
+  # Header
+  - type: markdown
+    content: |
+      <div style="text-align: center; background: linear-gradient(135deg, #4f9ded 0%, #2c5aa0 100%); color: white; padding: 15px; border-radius: 10px; font-family: -apple-system, system-ui;">
+        <h2 style="margin: 0; font-size: 24px;">🏖️ אשקלון</h2>
+        <p style="margin: 5px 0 0 0; font-size: 14px; opacity: 0.9;">Ashkelon Surf Forecast</p>
+      </div>
+  
+  # Today
+  - type: markdown
+    content: |
+      <div style="padding: 10px; background: rgba(79, 157, 237, 0.1); border-radius: 8px; margin-bottom: 5px;">
+        <h3 style="margin: 0 0 10px 0; text-align: center; font-size: 18px;">📅 היום (Today)</h3>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center;">
+          <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="font-size: 14px; color: #666;">⏰ 06:00</div>
+            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 5px 0;">{{ state_attr('sensor.ashkelon_surf_today', 'morning_height_ft') }}ft</div>
+            <div style="font-size: 14px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_today', 'morning_hebrew') }}</div>
+          </div>
+          <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="font-size: 14px; color: #666;">⏰ 09:00</div>
+            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 5px 0;">{{ state_attr('sensor.ashkelon_surf_today', 'morning_height_ft') }}ft</div>
+            <div style="font-size: 14px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_today', 'morning_hebrew') }}</div>
+          </div>
+          <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="font-size: 14px; color: #666;">⏰ 12:00</div>
+            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 5px 0;">{{ state_attr('sensor.ashkelon_surf_today', 'noon_height_ft') }}ft</div>
+            <div style="font-size: 14px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_today', 'noon_hebrew') }}</div>
+          </div>
+          <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="font-size: 14px; color: #666;">⏰ 18:00</div>
+            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 5px 0;">{{ state_attr('sensor.ashkelon_surf_today', 'evening_height_ft') }}ft</div>
+            <div style="font-size: 14px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_today', 'evening_hebrew') }}</div>
+          </div>
+        </div>
+      </div>
+  
+  # Tomorrow
+  - type: markdown
+    content: |
+      <div style="padding: 10px; background: rgba(79, 157, 237, 0.1); border-radius: 8px; margin-bottom: 5px;">
+        <h3 style="margin: 0 0 10px 0; text-align: center; font-size: 18px;">📅 מחר (Tomorrow)</h3>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center;">
+          <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="font-size: 14px; color: #666;">⏰ 06:00</div>
+            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 5px 0;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_height_ft') }}ft</div>
+            <div style="font-size: 14px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_hebrew') }}</div>
+          </div>
+          <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="font-size: 14px; color: #666;">⏰ 09:00</div>
+            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 5px 0;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_height_ft') }}ft</div>
+            <div style="font-size: 14px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'morning_hebrew') }}</div>
+          </div>
+          <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="font-size: 14px; color: #666;">⏰ 12:00</div>
+            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 5px 0;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'noon_height_ft') }}ft</div>
+            <div style="font-size: 14px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'noon_hebrew') }}</div>
+          </div>
+          <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="font-size: 14px; color: #666;">⏰ 18:00</div>
+            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 5px 0;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'evening_height_ft') }}ft</div>
+            <div style="font-size: 14px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_tomorrow', 'evening_hebrew') }}</div>
+          </div>
+        </div>
+      </div>
+  
+  # Day After Tomorrow
+  - type: markdown
+    content: |
+      <div style="padding: 10px; background: rgba(79, 157, 237, 0.1); border-radius: 8px;">
+        <h3 style="margin: 0 0 10px 0; text-align: center; font-size: 18px;">📅 מחרתיים (Day After)</h3>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center;">
+          <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="font-size: 14px; color: #666;">⏰ 06:00</div>
+            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 5px 0;">{{ state_attr('sensor.ashkelon_surf_day_after', 'morning_height_ft') }}ft</div>
+            <div style="font-size: 14px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_day_after', 'morning_hebrew') }}</div>
+          </div>
+          <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="font-size: 14px; color: #666;">⏰ 09:00</div>
+            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 5px 0;">{{ state_attr('sensor.ashkelon_surf_day_after', 'morning_height_ft') }}ft</div>
+            <div style="font-size: 14px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_day_after', 'morning_hebrew') }}</div>
+          </div>
+          <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="font-size: 14px; color: #666;">⏰ 12:00</div>
+            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 5px 0;">{{ state_attr('sensor.ashkelon_surf_day_after', 'noon_height_ft') }}ft</div>
+            <div style="font-size: 14px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_day_after', 'noon_hebrew') }}</div>
+          </div>
+          <div style="background: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="font-size: 14px; color: #666;">⏰ 18:00</div>
+            <div style="font-size: 20px; font-weight: bold; color: #2c5aa0; margin: 5px 0;">{{ state_attr('sensor.ashkelon_surf_day_after', 'evening_height_ft') }}ft</div>
+            <div style="font-size: 14px; color: #4f9ded; font-weight: bold;">{{ state_attr('sensor.ashkelon_surf_day_after', 'evening_hebrew') }}</div>
+          </div>
+        </div>
+      </div>
+  
+  # Footer
+  - type: markdown
+    content: |
+      <div style="text-align: center; padding: 10px; font-size: 12px; color: #666;">
+        ⏰ Last updated: {{ as_timestamp(states.sensor.ashkelon_surf_today.last_updated) | timestamp_custom('%H:%M') }}
+      </div>
+```
+
+**Features:**
+- 🌊 Ocean gradient header (same as iOS widget)
+- 📅 3 days: Today, Tomorrow, Day After
+- ⏰ 4 time slots: 06:00, 09:00, 12:00, 18:00
+- 🇮🇱 Hebrew wave descriptions (קרסול, ברך, כתף, etc.)
+- 📏 Wave heights in feet
+- 📱 Card-based responsive design
+- 🎨 Clean, modern styling
+
+**Preview:**
+```
+┌─────────────────────────────────────┐
+│     🏖️ אשקלון                       │
+│     Ashkelon Surf Forecast          │
+├─────────────────────────────────────┤
+│ 📅 היום (Today)                     │
+│ ┌──────┬──────┬──────┬──────┐      │
+│ │06:00 │09:00 │12:00 │18:00 │      │
+│ │1.3ft │1.3ft │2.0ft │2.3ft │      │
+│ │קרסול │קרסול │ברך   │ברך   │      │
+│ └──────┴──────┴──────┴──────┘      │
+│                                     │
+│ 📅 מחר (Tomorrow)                   │
+│ ┌──────┬──────┬──────┬──────┐      │
+│ │06:00 │09:00 │12:00 │18:00 │      │
+│ │1.5ft │1.5ft │2.2ft │2.5ft │      │
+│ │קרסול │קרסול │ברך   │ברך   │      │
+│ └──────┴──────┴──────┴──────┘      │
+│                                     │
+│ 📅 מחרתיים (Day After)              │
+│ ┌──────┬──────┬──────┬──────┐      │
+│ │06:00 │09:00 │12:00 │18:00 │      │
+│ │1.7ft │1.7ft │2.4ft │2.7ft │      │
+│ │ברך   │ברך   │ברך   │כתף   │      │
+│ └──────┴──────┴──────┴──────┘      │
+└─────────────────────────────────────┘
+```
+
 ## 🤖 Automation Examples
 
 ### Morning Surf Alert
