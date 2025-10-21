@@ -41,8 +41,8 @@ echo ""
 # Download latest files from GitHub
 echo "📥 Downloading latest version from GitHub..."
 
-FILES=("sensor.py" "__init__.py" "manifest.json")
-BASE_URL="https://raw.githubusercontent.com/$GITHUB_REPO/$GITHUB_BRANCH/home-assistant"
+FILES=("sensor.py" "__init__.py" "manifest.json" "README.md")
+BASE_URL="https://raw.githubusercontent.com/$GITHUB_REPO/$GITHUB_BRANCH/custom_components/ashkelon_surf"
 
 for file in "${FILES[@]}"; do
     echo "  ⬇️  Downloading $file..."

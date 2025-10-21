@@ -18,8 +18,8 @@ COMPONENT_NAME = "ashkelon_surf"
 HA_CONFIG_DIR = os.environ.get("HA_CONFIG_DIR", "/config")
 
 # Files to update
-FILES = ["sensor.py", "__init__.py", "manifest.json"]
-BASE_URL = f"https://raw.githubusercontent.com/{GITHUB_REPO}/{GITHUB_BRANCH}/home-assistant"
+FILES = ["sensor.py", "__init__.py", "manifest.json", "README.md"]
+BASE_URL = f"https://raw.githubusercontent.com/{GITHUB_REPO}/{GITHUB_BRANCH}/custom_components/ashkelon_surf"
 
 def print_colored(message, color=""):
     """Print colored message"""
