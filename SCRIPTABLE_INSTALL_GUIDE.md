@@ -118,6 +118,43 @@ Can be extended to show multiple days.
 - Check for any copy/paste errors
 - Try running in Scriptable app first
 
+## 🔄 Auto-Update Feature
+
+The widget now includes **automatic update checking**!
+
+### How It Works:
+- ✅ Checks for updates every 7 days
+- ✅ Only when you **open the script in Scriptable app** (not in widget)
+- ✅ Shows a notification if new version available
+- ✅ One-tap update with automatic backup
+- ✅ Safe rollback if something goes wrong
+
+### To Update Manually:
+1. Open **Scriptable** app
+2. Tap on your **"Ashkelon Surf"** script
+3. Tap **▶️ Run**
+4. If update available, you'll see a prompt:
+   - **Update Now** - Downloads and installs latest version
+   - **Later** - Reminds you next time
+   - **Skip This Version** - Don't ask again for this version
+
+### What Gets Updated:
+- Bug fixes
+- New features
+- API improvements
+- UI enhancements
+
+### Current Version:
+Check the top of your script for:
+```javascript
+const SCRIPT_VERSION = "1.1.0"  // Your current version
+```
+
+The widget automatically pulls from:
+https://github.com/avielj/ashkelon-surf-report
+
+**No manual copying needed anymore!** 🎉
+
 ## 🎯 Advantages Over Web Version
 
 1. **✅ No server needed** - Runs entirely on iPhone

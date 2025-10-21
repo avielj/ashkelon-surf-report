@@ -2,6 +2,14 @@
 // No server needed! Everything runs directly in Scriptable
 
 // =======================
+// VERSION & AUTO-UPDATE
+// =======================
+const SCRIPT_VERSION = "1.1.0"
+const SCRIPT_NAME = "Ashkelon Surf Widget"
+const GITHUB_RAW_URL = "https://raw.githubusercontent.com/avielj/ashkelon-surf-report/main/COMPLETE_SCRIPTABLE_WIDGET.js"
+const CHECK_UPDATE_DAYS = 7 // Check for updates every 7 days
+
+// =======================
 // CONFIGURATION
 // =======================
 const BEACH_NAME = "אשקלון"
@@ -414,9 +422,149 @@ function formatTime(date) {
 }
 
 // =======================
+// AUTO-UPDATE FUNCTIONS
+// =======================
+async function checkForUpdates() {
+  try {
+    const fm = FileManager.iCloud()
+    const updateCheckFile = fm.joinPath(fm.documentsDirectory(), "ashkelon_widget_update_check.json")
+    
+    // Check if we should check for updates
+    let shouldCheck = true
+    if (fm.fileExists(updateCheckFile)) {
+      const data = JSON.parse(fm.readString(updateCheckFile))
+      const daysSinceLastCheck = (Date.now() - data.lastCheck) / (1000 * 60 * 60 * 24)
+      shouldCheck = daysSinceLastCheck >= CHECK_UPDATE_DAYS
+    }
+    
+    if (!shouldCheck) {
+      console.log("⏭️ Skipping update check (checked recently)")
+      return false
+    }
+    
+    console.log("🔍 Checking for updates...")
+    
+    // Fetch latest version from GitHub
+    const req = new Request(GITHUB_RAW_URL)
+    const content = await req.loadString()
+    
+    // Extract version from downloaded content
+    const versionMatch = content.match(/const SCRIPT_VERSION = "([^"]+)"/)
+    const latestVersion = versionMatch ? versionMatch[1] : null
+    
+    // Save check time
+    fm.writeString(updateCheckFile, JSON.stringify({
+      lastCheck: Date.now(),
+      latestVersion: latestVersion,
+      currentVersion: SCRIPT_VERSION
+    }))
+    
+    if (!latestVersion) {
+      console.log("⚠️ Could not determine latest version")
+      return false
+    }
+    
+    console.log(`📦 Current: v${SCRIPT_VERSION}, Latest: v${latestVersion}`)
+    
+    if (latestVersion !== SCRIPT_VERSION) {
+      console.log("🎉 New version available!")
+      return {
+        available: true,
+        currentVersion: SCRIPT_VERSION,
+        latestVersion: latestVersion,
+        content: content
+      }
+    } else {
+      console.log("✅ Already on latest version")
+      return false
+    }
+    
+  } catch (error) {
+    console.error("❌ Error checking for updates:", error)
+    return false
+  }
+}
+
+async function performUpdate(updateContent) {
+  try {
+    console.log("📥 Installing update...")
+    
+    const fm = FileManager.iCloud()
+    const scriptPath = module.filename
+    
+    // Backup current version
+    const backupPath = scriptPath.replace('.js', '_backup.js')
+    if (fm.fileExists(scriptPath)) {
+      fm.copy(scriptPath, backupPath)
+      console.log("💾 Backup created")
+    }
+    
+    // Write new version
+    fm.writeString(scriptPath, updateContent)
+    console.log("✅ Update installed successfully!")
+    
+    // Show notification
+    const notification = new Notification()
+    notification.title = SCRIPT_NAME
+    notification.body = `Updated to latest version! Widget will refresh.`
+    notification.sound = "default"
+    await notification.schedule()
+    
+    return true
+    
+  } catch (error) {
+    console.error("❌ Error installing update:", error)
+    
+    const notification = new Notification()
+    notification.title = SCRIPT_NAME
+    notification.body = `Update failed: ${error.message}`
+    await notification.schedule()
+    
+    return false
+  }
+}
+
+async function showUpdatePrompt(updateInfo) {
+  const alert = new Alert()
+  alert.title = "🌊 Update Available"
+  alert.message = `A new version of ${SCRIPT_NAME} is available!\n\nCurrent: v${updateInfo.currentVersion}\nLatest: v${updateInfo.latestVersion}\n\nWould you like to update now?`
+  alert.addAction("Update Now")
+  alert.addAction("Later")
+  alert.addCancelAction("Skip This Version")
+  
+  const response = await alert.presentAlert()
+  
+  if (response === 0) {
+    // Update now
+    const success = await performUpdate(updateInfo.content)
+    if (success) {
+      // Reload script
+      const alert2 = new Alert()
+      alert2.title = "✅ Update Complete"
+      alert2.message = "The widget has been updated. Please rerun the script or wait for the next refresh."
+      alert2.addAction("OK")
+      await alert2.present()
+    }
+  } else if (response === 2) {
+    // Skip this version
+    const fm = FileManager.iCloud()
+    const skipFile = fm.joinPath(fm.documentsDirectory(), "ashkelon_widget_skip_version.txt")
+    fm.writeString(skipFile, updateInfo.latestVersion)
+  }
+}
+
+// =======================
 // RUN WIDGET
 // =======================
 const widget = await createWidget()
+
+// Check for updates when running in app (not in widget)
+if (!config.runsInWidget) {
+  const updateInfo = await checkForUpdates()
+  if (updateInfo && updateInfo.available) {
+    await showUpdatePrompt(updateInfo)
+  }
+}
 
 if (config.runsInWidget) {
   Script.setWidget(widget)

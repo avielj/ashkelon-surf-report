@@ -56,6 +56,79 @@ Simple Home Assistant custom sensor that shows surf conditions for Ashkelon beac
 4. Add to configuration.yaml
 5. Restart
 
+## 🔄 Auto-Update from GitHub
+
+Keep your integration up-to-date automatically!
+
+### Option 1: Using Python Script (Recommended)
+
+```bash
+# Download the update script
+cd /config
+curl -O https://raw.githubusercontent.com/avielj/ashkelon-surf-report/main/home-assistant/update_from_github.py
+
+# Run the update
+python3 update_from_github.py
+
+# Restart Home Assistant
+ha core restart
+```
+
+### Option 2: Using Bash Script
+
+```bash
+# Download the update script
+cd /config
+curl -O https://raw.githubusercontent.com/avielj/ashkelon-surf-report/main/home-assistant/update_from_github.sh
+
+# Make it executable
+chmod +x update_from_github.sh
+
+# Run the update
+bash update_from_github.sh
+
+# Restart Home Assistant
+ha core restart
+```
+
+### Option 3: One-Line Update
+
+```bash
+curl -sS https://raw.githubusercontent.com/avielj/ashkelon-surf-report/main/home-assistant/update_from_github.py | python3 && ha core restart
+```
+
+**Features of auto-update:**
+- ✅ Automatic backup before update
+- ✅ Downloads latest version from GitHub
+- ✅ Rollback on failure
+- ✅ Safe and tested
+
+### Set up Automatic Updates (Optional)
+
+Create an automation to update weekly:
+
+```yaml
+automation:
+  - alias: "Update Ashkelon Surf Sensor"
+    trigger:
+      - platform: time
+        at: "03:00:00"  # 3 AM
+    condition:
+      - condition: time
+        weekday:
+          - sun  # Every Sunday
+    action:
+      - service: shell_command.update_ashkelon_surf
+      - delay: "00:00:30"
+      - service: homeassistant.restart
+```
+
+Add to `configuration.yaml`:
+```yaml
+shell_command:
+  update_ashkelon_surf: "python3 /config/update_from_github.py"
+```
+
 ## 📊 Available Sensors
 
 After installation, you'll have 3 sensors:
