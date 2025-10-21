@@ -138,11 +138,14 @@ function parseForecastData(data) {
         })
         
         if (hourData) {
+          // Debug: Log all available fields
+          console.log("Available fields in hourData:", Object.keys(hourData).join(", "))
+          
           const height = hourData.waveHeight || 0.5
           const period = hourData.WavePeriod || 9
           const surfRank = hourData.surfRankMark || ""
           const hebrewHeight = hourData.surfHeightDesc || ""
-          const windSpeed = hourData.windSpeed || 0 // Wind speed in knots
+          const windSpeed = hourData.WindSpeedInKnots || 0 // Wind speed in knots
           
           timeSlots.push({
             time: time.label,
