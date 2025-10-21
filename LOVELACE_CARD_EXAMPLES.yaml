@@ -1,0 +1,734 @@
+# ═══════════════════════════════════════════════════════════════
+# 🌊 Ashkelon Surf Forecast - Lovelace Card Examples
+# ═══════════════════════════════════════════════════════════════
+# Compatible with: custom_components/ashkelon_surf v2.0+
+# Updated: 2025-10-21
+# All cards tested and working
+# ═══════════════════════════════════════════════════════════════
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 📱 CARD 1: iOS WIDGET STYLE (with card-mod)
+# Beautiful gradient header matching the Scriptable widget
+# Shows all 4 time slots (06:00, 09:00, 12:00, 18:00) for 3 days
+# Requires: card-mod addon from HACS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+type: vertical-stack
+cards:
+  # Header with ocean gradient
+  - type: markdown
+    content: |
+      # 🏖️ אשקלון
+      **Ashkelon Surf Forecast**
+    card_mod:
+      style: |
+        ha-card {
+          background: linear-gradient(135deg, #4f9ded 0%, #2c5aa0 100%);
+          color: white;
+          text-align: center;
+          padding: 12px;
+          margin-bottom: 8px;
+        }
+  
+  # TODAY
+  - type: markdown
+    content: "## 📅 היום (Today)"
+    card_mod:
+      style: |
+        ha-card {
+          text-align: center;
+          color: #2c5aa0;
+          padding: 8px;
+          background: #e3f2fd;
+          font-weight: bold;
+        }
+  
+  - type: horizontal-stack
+    cards:
+      - type: markdown
+        content: |
+          {% set sessions = state_attr('sensor.ashkelon_surf_today', 'sessions') %}
+          {% if sessions and sessions|length > 0 %}
+          {% set s = sessions[0] %}
+          **⏰ {{ s.time }}**
+          
+          ## 🌊 {{ s.height_ft }}ft
+          
+          **{{ s.hebrew_height or 'N/A' }}**
+          
+          {{ s.stars }}
+          
+          ⏱️ {{ s.period_s }}s · ⏱️ {{ s.period_s }}s · 💨 {{ s.wind_kts }}kts
+          {% else %}
+          **⏰ 06:00**
+          
+          Loading...
+          {% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 12px;
+              border-radius: 8px;
+              margin: 4px;
+            }
+      
+      - type: markdown
+        content: |
+          {% set sessions = state_attr('sensor.ashkelon_surf_today', 'sessions') %}
+          {% if sessions and sessions|length > 1 %}
+          {% set s = sessions[1] %}
+          **⏰ {{ s.time }}**
+          
+          ## 🌊 {{ s.height_ft }}ft
+          
+          **{{ s.hebrew_height or 'N/A' }}**
+          
+          {{ s.stars }}
+          
+          ⏱️ {{ s.period_s }}s · ⏱️ {{ s.period_s }}s · 💨 {{ s.wind_kts }}kts
+          {% else %}
+          **⏰ 09:00**
+          
+          Loading...
+          {% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 12px;
+              border-radius: 8px;
+              margin: 4px;
+            }
+      
+      - type: markdown
+        content: |
+          {% set sessions = state_attr('sensor.ashkelon_surf_today', 'sessions') %}
+          {% if sessions and sessions|length > 2 %}
+          {% set s = sessions[2] %}
+          **⏰ {{ s.time }}**
+          
+          ## 🌊 {{ s.height_ft }}ft
+          
+          **{{ s.hebrew_height or 'N/A' }}**
+          
+          {{ s.stars }}
+          
+          ⏱️ {{ s.period_s }}s · 💨 {{ s.wind_kts }}kts
+          {% else %}
+          **⏰ 12:00**
+          
+          Loading...
+          {% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 12px;
+              border-radius: 8px;
+              margin: 4px;
+            }
+      
+      - type: markdown
+        content: |
+          {% set sessions = state_attr('sensor.ashkelon_surf_today', 'sessions') %}
+          {% if sessions and sessions|length > 3 %}
+          {% set s = sessions[3] %}
+          **⏰ {{ s.time }}**
+          
+          ## 🌊 {{ s.height_ft }}ft
+          
+          **{{ s.hebrew_height or 'N/A' }}**
+          
+          {{ s.stars }}
+          
+          ⏱️ {{ s.period_s }}s · 💨 {{ s.wind_kts }}kts
+          {% else %}
+          **⏰ 18:00**
+          
+          Loading...
+          {% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 12px;
+              border-radius: 8px;
+              margin: 4px;
+            }
+  
+  # TOMORROW
+  - type: markdown
+    content: "## 📅 מחר (Tomorrow)"
+    card_mod:
+      style: |
+        ha-card {
+          text-align: center;
+          color: #2c5aa0;
+          padding: 8px;
+          background: #e3f2fd;
+          font-weight: bold;
+          margin-top: 12px;
+        }
+  
+  - type: horizontal-stack
+    cards:
+      - type: markdown
+        content: |
+          {% set sessions = state_attr('sensor.ashkelon_surf_tomorrow', 'sessions') %}
+          {% if sessions and sessions|length > 0 %}
+          {% set s = sessions[0] %}
+          **⏰ {{ s.time }}**
+          
+          ## 🌊 {{ s.height_ft }}ft
+          
+          **{{ s.hebrew_height or 'N/A' }}**
+          
+          {{ s.stars }}
+          
+          ⏱️ {{ s.period_s }}s · 💨 {{ s.wind_kts }}kts
+          {% else %}
+          Loading...
+          {% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 12px;
+              border-radius: 8px;
+              margin: 4px;
+            }
+      
+      - type: markdown
+        content: |
+          {% set sessions = state_attr('sensor.ashkelon_surf_tomorrow', 'sessions') %}
+          {% if sessions and sessions|length > 1 %}
+          {% set s = sessions[1] %}
+          **⏰ {{ s.time }}**
+          
+          ## 🌊 {{ s.height_ft }}ft
+          
+          **{{ s.hebrew_height or 'N/A' }}**
+          
+          {{ s.stars }}
+          
+          ⏱️ {{ s.period_s }}s · 💨 {{ s.wind_kts }}kts
+          {% else %}
+          Loading...
+          {% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 12px;
+              border-radius: 8px;
+              margin: 4px;
+            }
+      
+      - type: markdown
+        content: |
+          {% set sessions = state_attr('sensor.ashkelon_surf_tomorrow', 'sessions') %}
+          {% if sessions and sessions|length > 2 %}
+          {% set s = sessions[2] %}
+          **⏰ {{ s.time }}**
+          
+          ## 🌊 {{ s.height_ft }}ft
+          
+          **{{ s.hebrew_height or 'N/A' }}**
+          
+          {{ s.stars }}
+          
+          ⏱️ {{ s.period_s }}s · 💨 {{ s.wind_kts }}kts
+          {% else %}
+          Loading...
+          {% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 12px;
+              border-radius: 8px;
+              margin: 4px;
+            }
+      
+      - type: markdown
+        content: |
+          {% set sessions = state_attr('sensor.ashkelon_surf_tomorrow', 'sessions') %}
+          {% if sessions and sessions|length > 3 %}
+          {% set s = sessions[3] %}
+          **⏰ {{ s.time }}**
+          
+          ## 🌊 {{ s.height_ft }}ft
+          
+          **{{ s.hebrew_height or 'N/A' }}**
+          
+          {{ s.stars }}
+          
+          ⏱️ {{ s.period_s }}s · 💨 {{ s.wind_kts }}kts
+          {% else %}
+          Loading...
+          {% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 12px;
+              border-radius: 8px;
+              margin: 4px;
+            }
+  
+  # DAY AFTER
+  - type: markdown
+    content: "## 📅 מחרתיים (Day After)"
+    card_mod:
+      style: |
+        ha-card {
+          text-align: center;
+          color: #2c5aa0;
+          padding: 8px;
+          background: #e3f2fd;
+          font-weight: bold;
+          margin-top: 12px;
+        }
+  
+  - type: horizontal-stack
+    cards:
+      - type: markdown
+        content: |
+          {% set sessions = state_attr('sensor.ashkelon_surf_day_after', 'sessions') %}
+          {% if sessions and sessions|length > 0 %}
+          {% set s = sessions[0] %}
+          **⏰ {{ s.time }}**
+          
+          ## 🌊 {{ s.height_ft }}ft
+          
+          **{{ s.hebrew_height or 'N/A' }}**
+          
+          {{ s.stars }}
+          
+          ⏱️ {{ s.period_s }}s · 💨 {{ s.wind_kts }}kts
+          {% else %}
+          Loading...
+          {% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 12px;
+              border-radius: 8px;
+              margin: 4px;
+            }
+      
+      - type: markdown
+        content: |
+          {% set sessions = state_attr('sensor.ashkelon_surf_day_after', 'sessions') %}
+          {% if sessions and sessions|length > 1 %}
+          {% set s = sessions[1] %}
+          **⏰ {{ s.time }}**
+          
+          ## 🌊 {{ s.height_ft }}ft
+          
+          **{{ s.hebrew_height or 'N/A' }}**
+          
+          {{ s.stars }}
+          
+          ⏱️ {{ s.period_s }}s · 💨 {{ s.wind_kts }}kts
+          {% else %}
+          Loading...
+          {% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 12px;
+              border-radius: 8px;
+              margin: 4px;
+            }
+      
+      - type: markdown
+        content: |
+          {% set sessions = state_attr('sensor.ashkelon_surf_day_after', 'sessions') %}
+          {% if sessions and sessions|length > 2 %}
+          {% set s = sessions[2] %}
+          **⏰ {{ s.time }}**
+          
+          ## 🌊 {{ s.height_ft }}ft
+          
+          **{{ s.hebrew_height or 'N/A' }}**
+          
+          {{ s.stars }}
+          
+          ⏱️ {{ s.period_s }}s · 💨 {{ s.wind_kts }}kts
+          {% else %}
+          Loading...
+          {% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 12px;
+              border-radius: 8px;
+              margin: 4px;
+            }
+      
+      - type: markdown
+        content: |
+          {% set sessions = state_attr('sensor.ashkelon_surf_day_after', 'sessions') %}
+          {% if sessions and sessions|length > 3 %}
+          {% set s = sessions[3] %}
+          **⏰ {{ s.time }}**
+          
+          ## 🌊 {{ s.height_ft }}ft
+          
+          **{{ s.hebrew_height or 'N/A' }}**
+          
+          {{ s.stars }}
+          
+          ⏱️ {{ s.period_s }}s · 💨 {{ s.wind_kts }}kts
+          {% else %}
+          Loading...
+          {% endif %}
+        card_mod:
+          style: |
+            ha-card {
+              text-align: center;
+              background: #f5f5f5;
+              padding: 12px;
+              border-radius: 8px;
+              margin: 4px;
+            }
+  
+  # Footer
+  - type: markdown
+    content: |
+      ⏰ Last updated: {{ state_attr('sensor.ashkelon_surf_today', 'last_refreshed')[:16] if state_attr('sensor.ashkelon_surf_today', 'last_refreshed') else 'Loading...' }}
+    card_mod:
+      style: |
+        ha-card {
+          text-align: center;
+          padding: 10px;
+          font-size: 11px;
+          color: #888;
+          background: #fafafa;
+        }
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 📊 CARD 2: TABLE VIEW (NO card-mod required)
+# Clean table layout with all session data
+# Works without any custom frontend addons
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+---
+type: vertical-stack
+cards:
+  - type: markdown
+    content: |
+      # 🏖️ אשקלון - Ashkelon Surf Forecast
+  
+  # Today with table
+  - type: entities
+    title: "📅 היום (Today)"
+    entities:
+      - entity: sensor.ashkelon_surf_today
+        name: "Average Height"
+        icon: mdi:waves
+  
+  - type: markdown
+    content: |
+      {% set sessions = state_attr('sensor.ashkelon_surf_today', 'sessions') %}
+      {% if sessions %}
+      | ⏰ Time | 🌊 Height | 📏 Quality | ⭐ Rating | ⏱️ Period | 💨 Wind |
+      |---------|-----------|------------|-----------|-----------|---------|
+      {% for s in sessions -%}
+      | **{{ s.time }}** | {{ s.height_ft }}ft | {{ s.hebrew_height }} | {{ s.stars }} | {{ s.period_s }}s | {{ s.wind_kts }}kts |
+      {% endfor %}
+      {% else %}
+      🔄 Loading forecast data...
+      {% endif %}
+  
+  # Tomorrow with table
+  - type: entities
+    title: "📅 מחר (Tomorrow)"
+    entities:
+      - entity: sensor.ashkelon_surf_tomorrow
+        name: "Average Height"
+        icon: mdi:surfing
+  
+  - type: markdown
+    content: |
+      {% set sessions = state_attr('sensor.ashkelon_surf_tomorrow', 'sessions') %}
+      {% if sessions %}
+      | ⏰ Time | 🌊 Height | 📏 Quality | ⭐ Rating | ⏱️ Period | 💨 Wind |
+      |---------|-----------|------------|-----------|-----------|---------|
+      {% for s in sessions -%}
+      | **{{ s.time }}** | {{ s.height_ft }}ft | {{ s.hebrew_height }} | {{ s.stars }} | {{ s.period_s }}s | {{ s.wind_kts }}kts |
+      {% endfor %}
+      {% else %}
+      🔄 Loading forecast data...
+      {% endif %}
+  
+  # Day After with table
+  - type: entities
+    title: "📅 מחרתיים (Day After)"
+    entities:
+      - entity: sensor.ashkelon_surf_day_after
+        name: "Average Height"
+        icon: mdi:water
+  
+  - type: markdown
+    content: |
+      {% set sessions = state_attr('sensor.ashkelon_surf_day_after', 'sessions') %}
+      {% if sessions %}
+      | ⏰ Time | 🌊 Height | 📏 Quality | ⭐ Rating | ⏱️ Period | 💨 Wind |
+      |---------|-----------|------------|-----------|-----------|---------|
+      {% for s in sessions -%}
+      | **{{ s.time }}** | {{ s.height_ft }}ft | {{ s.hebrew_height }} | {{ s.stars }} | {{ s.period_s }}s | {{ s.wind_kts }}kts |
+      {% endfor %}
+      {% else %}
+      🔄 Loading forecast data...
+      {% endif %}
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 🎴 CARD 3: COMPACT GRID (requires Mushroom cards)
+# Minimalist 3-column summary
+# Install Mushroom from HACS first
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+---
+type: vertical-stack
+cards:
+  - type: markdown
+    content: "# 🌊 Surf Forecast"
+  
+  - type: grid
+    columns: 3
+    square: false
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.ashkelon_surf_today
+        name: היום
+        icon: mdi:waves
+        primary_info: state
+        secondary_info: attribute
+        attribute: stars
+        icon_color: blue
+      
+      - type: custom:mushroom-entity-card
+        entity: sensor.ashkelon_surf_tomorrow
+        name: מחר
+        icon: mdi:surfing
+        primary_info: state
+        secondary_info: attribute
+        attribute: stars
+        icon_color: cyan
+      
+      - type: custom:mushroom-entity-card
+        entity: sensor.ashkelon_surf_day_after
+        name: מחרתיים
+        icon: mdi:water
+        primary_info: state
+        secondary_info: attribute
+        attribute: stars
+        icon_color: teal
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 📈 CARD 4: GAUGE METERS
+# Visual representation with colored gauges
+# No addons required
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+---
+type: vertical-stack
+cards:
+  - type: markdown
+    content: "# 🏖️ Ashkelon Surf Forecast"
+  
+  - type: horizontal-stack
+    cards:
+      - type: gauge
+        entity: sensor.ashkelon_surf_today
+        name: "היום (Today)"
+        unit: ft
+        min: 0
+        max: 10
+        severity:
+          green: 0
+          yellow: 3
+          red: 6
+        needle: true
+      
+      - type: gauge
+        entity: sensor.ashkelon_surf_tomorrow
+        name: "מחר (Tomorrow)"
+        unit: ft
+        min: 0
+        max: 10
+        severity:
+          green: 0
+          yellow: 3
+          red: 6
+        needle: true
+      
+      - type: gauge
+        entity: sensor.ashkelon_surf_day_after
+        name: "מחרתיים (Day After)"
+        unit: ft
+        min: 0
+        max: 10
+        severity:
+          green: 0
+          yellow: 3
+          red: 6
+        needle: true
+  
+  # Best session highlight
+  - type: markdown
+    content: |
+      ## 🏆 Best Session
+      {% set best = state_attr('sensor.ashkelon_surf_today', 'best_session') %}
+      {% if best %}
+      **Today at {{ best.time }}**: {{ best.height_ft }}ft ({{ best.hebrew_height }}) {{ best.stars }}
+      {% else %}
+      Loading...
+      {% endif %}
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 🎯 CARD 5: SIMPLE ENTITIES CARD
+# Basic list view, great for mobile
+# No addons required
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+---
+type: entities
+title: 🏖️ Ashkelon Surf
+show_header_toggle: false
+entities:
+  - entity: sensor.ashkelon_surf_today
+    name: "📅 היום (Today)"
+    icon: mdi:waves
+  
+  - entity: sensor.ashkelon_surf_tomorrow
+    name: "📅 מחר (Tomorrow)"
+    icon: mdi:surfing
+  
+  - entity: sensor.ashkelon_surf_day_after
+    name: "📅 מחרתיים (Day After)"
+    icon: mdi:water
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 🔔 CARD 6: ALERT BANNER (with conditional + card-mod)
+# Shows alert when surf is good (>2.6ft average)
+# Requires: card-mod
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+---
+type: vertical-stack
+cards:
+  # Alert banner (only shows when conditions are good)
+  - type: conditional
+    conditions:
+      - condition: numeric_state
+        entity: sensor.ashkelon_surf_today
+        above: 2.6
+    card:
+      type: markdown
+      content: |
+        # 🎉 GOOD SURF TODAY!
+        ## Waves are {{ states('sensor.ashkelon_surf_today') }}ft
+        {% set best = state_attr('sensor.ashkelon_surf_today', 'best_session') %}
+        Best time: **{{ best.time }}** ({{ best.height_ft }}ft)
+      card_mod:
+        style: |
+          ha-card {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            animation: pulse 2s infinite;
+          }
+          @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+          }
+  
+  # Always show current conditions
+  - type: entities
+    title: "Current Conditions"
+    entities:
+      - entity: sensor.ashkelon_surf_today
+      - entity: sensor.ashkelon_surf_tomorrow
+      - entity: sensor.ashkelon_surf_day_after
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 📱 CARD 7: MOBILE OPTIMIZED (compact, scrollable)
+# Perfect for phone dashboards
+# Shows only morning & evening sessions
+# No addons required
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+---
+type: vertical-stack
+cards:
+  - type: markdown
+    content: |
+      # 🌊 Ashkelon Surf
+  
+  # Today - Morning & Evening only
+  - type: markdown
+    content: |
+      ## היום (Today)
+      {% set sessions = state_attr('sensor.ashkelon_surf_today', 'sessions') %}
+      {% if sessions %}
+      **Morning (06:00)**: {{ sessions[0].height_ft }}ft {{ sessions[0].hebrew_height }} {{ sessions[0].stars }} | ⏱️{{ sessions[0].period_s }}s 💨{{ sessions[0].wind_kts }}kts
+      
+      **Evening (18:00)**: {{ sessions[3].height_ft }}ft {{ sessions[3].hebrew_height }} {{ sessions[3].stars }} | ⏱️{{ sessions[3].period_s }}s 💨{{ sessions[3].wind_kts }}kts
+      {% endif %}
+  
+  # Tomorrow - Morning & Evening only
+  - type: markdown
+    content: |
+      ## מחר (Tomorrow)
+      {% set sessions = state_attr('sensor.ashkelon_surf_tomorrow', 'sessions') %}
+      {% if sessions %}
+      **Morning (06:00)**: {{ sessions[0].height_ft }}ft {{ sessions[0].hebrew_height }} {{ sessions[0].stars }} | ⏱️{{ sessions[0].period_s }}s 💨{{ sessions[0].wind_kts }}kts
+      
+      **Evening (18:00)**: {{ sessions[3].height_ft }}ft {{ sessions[3].hebrew_height }} {{ sessions[3].stars }} | ⏱️{{ sessions[3].period_s }}s 💨{{ sessions[3].wind_kts }}kts
+      {% endif %}
+
+# ═══════════════════════════════════════════════════════════════
+# 💡 TIPS & TRICKS
+# ═══════════════════════════════════════════════════════════════
+#
+# Session attributes available:
+# - time: "06:00", "09:00", "12:00", "18:00"
+# - height_m: meters (float)
+# - height_ft: feet (float, rounded to 1 decimal)
+# - period_s: wave period in seconds
+# - stars: "⭐⭐⭐☆☆" format
+# - surf_rank: API's quality rank
+# - hebrew_height: "קרסול", "ברך", "כתף", etc.
+# - wind_kts: wind speed in knots
+#
+# Day attributes available:
+# - sessions: array of 4 session objects
+# - missing_times: array of time slots with no data
+# - average_height_ft / average_height_m
+# - stars: overall star rating for the day
+# - best_session: session object with highest waves
+# - last_refreshed: ISO timestamp
+# - beach / beach_hebrew
+# - forecast_date: "2025-10-21"
+# - day_label: "Today", "Fri 22/10", etc.
+# - hebrew_day: "א'", "ב'", etc.
+#
+# Access examples:
+# {{ state_attr('sensor.ashkelon_surf_today', 'sessions')[0].height_ft }}
+# {{ state_attr('sensor.ashkelon_surf_today', 'best_session').time }}
+# {{ state_attr('sensor.ashkelon_surf_today', 'average_height_ft') }}
+#
+# ═══════════════════════════════════════════════════════════════
