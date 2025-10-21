@@ -87,13 +87,12 @@ async function fetchSurfForecast() {
       console.log("✅ API Success: Got forecast data")
       return parseForecastData(response)
     } else {
-      console.log("API returned no forecast data, using mock")
-      return getMockData()
+      throw new Error("API returned no forecast data")
     }
     
   } catch (error) {
-    console.log("API error, using mock data: " + error.message)
-    return getMockData()
+    console.log("API error: " + error.message)
+    throw error
   }
 }
 
@@ -128,24 +127,24 @@ function parseForecastData(data) {
       
       // Extract data for specific hours
       for (const time of times) {
-        // Find the forecast hour that matches this time
+        // Find the forecast hour that matches this time - use same logic as Home Assistant
         const hourData = forecastHours.find(h => {
-          if (h.forecastLocalHour) {
-            const hourMatch = h.forecastLocalHour.match(/T(\d{2}):/)
-            return hourMatch && parseInt(hourMatch[1]) === time.hour
-          }
-          return false
+          const timeStr = h.forecastLocalHour || ""
+          return timeStr.includes(time.label)
         })
         
         if (hourData) {
-          // Debug: Log all available fields
-          console.log("Available fields in hourData:", Object.keys(hourData).join(", "))
+          // Use SurfHeightFrom and SurfHeightTo (average them for actual breaking wave height)
+          const surfFrom = hourData.SurfHeightFrom || 0
+          const surfTo = hourData.SurfHeightTo || 0
+          const height = (surfFrom + surfTo) / 2
           
-          const height = hourData.waveHeight || 0.5
-          const period = hourData.WavePeriod || 9
+          const period = hourData.WavePeriod || hourData.wavePeriod || 9
           const surfRank = hourData.surfRankMark || ""
-          const hebrewHeight = hourData.surfHeightDesc || ""
-          const windSpeed = hourData.WindSpeedInKnots || 0 // Wind speed in knots
+          const hebrewHeight = hourData.surfHeightDesc || ""  // Use API's Hebrew description (ברך, קרסול, etc.)
+          const windSpeed = hourData.WindSpeedInKnots || hourData.windSpeedInKnots || 5
+          
+          console.log(`${dayLabel} ${time.label}: ${height.toFixed(2)}m (${(height * 3.28084).toFixed(1)}ft) - ${hebrewHeight}`)
           
           timeSlots.push({
             time: time.label,
@@ -158,45 +157,9 @@ function parseForecastData(data) {
             windSpeed: windSpeed
           })
         } else {
-          // No data for this hour, use estimate
-        const avgHeight = forecastHours.length > 0
-            ? forecastHours.reduce((sum, h) => sum + (h.waveHeight || 0), 0) / forecastHours.length
-            : 0.5
-          
-          timeSlots.push({
-            time: time.label,
-            day: dayLabel,
-            stars: heightToStars(avgHeight),
-            height: avgHeight,
-            period: 9,
-            surfRank: "",
-            hebrewHeight: waveHeightToQuality(avgHeight),
-            windSpeed: 5 // Default wind
-          })
+          console.log(`${dayLabel} ${time.label}: No data found in API response`)
+          console.log(`  Available hours in forecastHours: ${forecastHours.map(h => h.forecastLocalHour).join(', ')}`)
         }
-      }
-    }
-  }
-  
-  // If no data or parsing failed, generate mock data
-  if (timeSlots.length === 0) {
-    console.log("No data parsed, generating mock data")
-    for (let dayIndex = 0; dayIndex < 3; dayIndex++) {
-      const mockDate = new Date(today)
-      mockDate.setDate(today.getDate() + dayIndex)
-      const dayName = getDayName(mockDate)
-      const dateStr = formatDate(mockDate)
-      const dayLabel = dayIndex === 0 ? "Today" : `${dayName} ${dateStr}`
-      
-      for (const time of times) {
-        const height = 0.5 + Math.random() * 2.5
-        timeSlots.push({
-          time: time.label,
-          day: dayLabel,
-          stars: heightToStars(height),
-          height: height,
-          period: 8 + Math.floor(Math.random() * 4)
-        })
       }
     }
   }
@@ -206,47 +169,6 @@ function parseForecastData(data) {
     timeSlots: timeSlots,
     lastUpdate: formatTime(today),
     isLive: data && data.dailyForecastList
-  }
-}
-
-function getMockData() {
-  const today = new Date()
-  const timeSlots = []
-  const times = [
-    { hour: 6, label: "06:00" },
-    { hour: 9, label: "09:00" },
-    { hour: 12, label: "12:00" },
-    { hour: 18, label: "18:00" }
-  ]
-  
-  // Generate 3 days × 4 times = 12 time slots
-  for (let dayIndex = 0; dayIndex < 3; dayIndex++) {
-    const mockDate = new Date(today)
-    mockDate.setDate(today.getDate() + dayIndex)
-    const dayName = getDayName(mockDate)
-    const dateStr = formatDate(mockDate)
-    const dayLabel = dayIndex === 0 ? "Today" : `${dayName} ${dateStr}`
-    
-    for (const time of times) {
-      const height = 1.2 + Math.random() * 1.8 // 1.2ft - 3.0ft (converted from meters in API)
-      timeSlots.push({
-        time: time.label,
-        day: dayLabel,
-        stars: heightToStars(height),
-        height: height,
-        period: 9 + Math.floor(Math.random() * 3), // 9-11 seconds
-        surfRank: "b05",
-        hebrewHeight: waveHeightToQuality(height),
-        windSpeed: 5 + Math.floor(Math.random() * 10) // 5-14 knots
-      })
-    }
-  }
-  
-  return {
-    beach: BEACH_NAME_EN,
-    timeSlots: timeSlots,
-    lastUpdate: formatTime(today),
-    isLive: false
   }
 }
 
@@ -340,7 +262,7 @@ function addSessions(widget, forecast) {
       // Hebrew height description
       if (slot.hebrewHeight) {
         const hebrewText = card.addText(slot.hebrewHeight)
-        hebrewText.font = Font.systemFont(8)
+        hebrewText.font = Font.systemFont(10)
         hebrewText.textColor = new Color("#e6fbc9")
         hebrewText.centerAlignText()
         hebrewText.lineLimit = 1
@@ -352,9 +274,9 @@ function addSessions(widget, forecast) {
       periodRow.layoutHorizontally()
       periodRow.spacing = 2
       const periodIcon = periodRow.addText("⏱️")
-      periodIcon.font = Font.systemFont(7)
+      periodIcon.font = Font.systemFont(8)
       const periodText = periodRow.addText(`${slot.period}s`)
-      periodText.font = Font.systemFont(8)
+      periodText.font = Font.systemFont(10)
       periodText.textColor = new Color("#ffffff", 0.7)
       
       // Wind speed in knots
@@ -363,9 +285,9 @@ function addSessions(widget, forecast) {
         windRow.layoutHorizontally()
         windRow.spacing = 2
         const windIcon = windRow.addText("💨")
-        windIcon.font = Font.systemFont(7)
+        windIcon.font = Font.systemFont(8)
         const windText = windRow.addText(`${Math.round(slot.windSpeed)}kts`)
-        windText.font = Font.systemFont(8)
+        windText.font = Font.systemFont(10)
         windText.textColor = new Color("#ffffff", 0.7)
       }
     }
