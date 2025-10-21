@@ -57,7 +57,7 @@ cards:
           
           {{ s.stars }}
           
-          ⏱️ {{ s.period_s }}s · ⏱️ {{ s.period_s }}s · 💨 {{ s.wind_kts }}kts
+          ⏱️ {{ s.period_s }}s · 💨 {{ s.wind_kts }}kts
           {% else %}
           **⏰ 06:00**
           
@@ -86,7 +86,7 @@ cards:
           
           {{ s.stars }}
           
-          ⏱️ {{ s.period_s }}s · ⏱️ {{ s.period_s }}s · 💨 {{ s.wind_kts }}kts
+          ⏱️ {{ s.period_s }}s · 💨 {{ s.wind_kts }}kts
           {% else %}
           **⏰ 09:00**
           
