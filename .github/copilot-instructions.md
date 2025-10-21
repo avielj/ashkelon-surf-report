@@ -46,11 +46,13 @@ Multi-platform surf forecast solution using 4surfers.co.il API for Israeli beach
 - **Endpoint**: `https://4surfers.co.il/webapi/BeachArea/GetBeachAreaForecast`
 - **Beach ID**: 80 (Ashkelon)
 - **Method**: POST with `{beachAreaId: "80"}`
-- **Returns**: 10 days of forecasts with WaveHeight, WavePeriod, surfRankMark, surfHeightDesc
+- **Returns**: 10 days of forecasts with waveHeight (actual breaking waves), swellHeight (ocean swell), WavePeriod, surfRankMark, surfHeightDesc
+- **Important**: Use `waveHeight` field (actual wave height at beach), NOT `swellHeight` (ocean swell energy)
 
 ## Key Features
 
 - ✅ Real-time data from 4surfers.co.il API
+- ✅ Uses `waveHeight` (actual breaking waves), not `swellHeight` (ocean swell)
 - ✅ Wave heights in feet (converted from meters)
 - ✅ Hebrew descriptions from API
 - ✅ 4 time slots: 06:00, 09:00, 12:00, 18:00

@@ -6,7 +6,8 @@ Simple Home Assistant custom sensor that shows surf conditions for Ashkelon beac
 
 - **3 Sensors**: Today, Tomorrow, Day After Tomorrow
 - **Real-time Data**: From 4surfers.co.il API
-- **Wave Heights**: Displayed in feet (ft)
+- **Wave Heights**: Uses actual `waveHeight` (breaking waves), not `swellHeight` (ocean swell)
+- **Measurements in Feet**: Displayed in feet (ft), converted from meters
 - **Hebrew Support**: Wave descriptions in Hebrew
 - **Auto-refresh**: Updates every 30 minutes
 - **Time-specific Data**: Morning (06:00), Noon (12:00), Evening (18:00)

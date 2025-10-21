@@ -130,7 +130,7 @@ function parseForecastData(data) {
         })
         
         if (hourData) {
-          const height = hourData.WaveHeight || 0.5
+          const height = hourData.waveHeight || 0.5
           const period = hourData.WavePeriod || 9
           const surfRank = hourData.surfRankMark || ""
           const hebrewHeight = hourData.surfHeightDesc || ""
@@ -146,8 +146,8 @@ function parseForecastData(data) {
           })
         } else {
           // No data for this hour, use estimate
-          const avgHeight = forecastHours.length > 0 
-            ? forecastHours.reduce((sum, h) => sum + (h.WaveHeight || 0), 0) / forecastHours.length
+        const avgHeight = forecastHours.length > 0
+            ? forecastHours.reduce((sum, h) => sum + (h.waveHeight || 0), 0) / forecastHours.length
             : 0.5
           
           timeSlots.push({

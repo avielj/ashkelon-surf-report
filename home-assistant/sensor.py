@@ -170,17 +170,17 @@ class AshkelonSurfSensor(Entity):
             evening_hebrew = "N/A"
             
             if times["06:00"]:
-                morning_height = times["06:00"].get("WaveHeight", 0)
+                morning_height = times["06:00"].get("waveHeight", 0)
                 heights_meters.append(morning_height)
                 morning_hebrew = times["06:00"].get("surfHeightDesc", "N/A")
             
             if times["12:00"]:
-                noon_height = times["12:00"].get("WaveHeight", 0)
+                noon_height = times["12:00"].get("waveHeight", 0)
                 heights_meters.append(noon_height)
                 noon_hebrew = times["12:00"].get("surfHeightDesc", "N/A")
             
             if times["18:00"]:
-                evening_height = times["18:00"].get("WaveHeight", 0)
+                evening_height = times["18:00"].get("waveHeight", 0)
                 heights_meters.append(evening_height)
                 evening_hebrew = times["18:00"].get("surfHeightDesc", "N/A")
             

@@ -53,9 +53,9 @@ function createHebrewResponse(dayData, dayOffset) {
   
   // Calculate average height
   const heights = []
-  if (morning) heights.push(morning.WaveHeight)
-  if (noon) heights.push(noon.WaveHeight)
-  if (evening) heights.push(evening.WaveHeight)
+  if (morning) heights.push(morning.waveHeight)
+  if (noon) heights.push(noon.waveHeight)
+  if (evening) heights.push(evening.waveHeight)
   
   const avgHeightMeters = heights.length > 0 
     ? heights.reduce((a, b) => a + b, 0) / heights.length
@@ -84,17 +84,17 @@ function createHebrewResponse(dayData, dayOffset) {
   
   // Add morning info if available
   if (morning) {
-    response += `בבוקר הגלים ${morning.surfHeightDesc}, גובה ${metersToFeet(morning.WaveHeight)} רגל. `
+    response += `בבוקר הגלים ${morning.surfHeightDesc}, גובה ${metersToFeet(morning.waveHeight)} רגל. `
   }
   
   // Add noon info if available
   if (noon) {
-    response += `בצהריים ${noon.surfHeightDesc}, גובה ${metersToFeet(noon.WaveHeight)} רגל. `
+    response += `בצהריים ${noon.surfHeightDesc}, גובה ${metersToFeet(noon.waveHeight)} רגל. `
   }
   
   // Add evening info if available
   if (evening) {
-    response += `בערב ${evening.surfHeightDesc}, גובה ${metersToFeet(evening.WaveHeight)} רגל. `
+    response += `בערב ${evening.surfHeightDesc}, גובה ${metersToFeet(evening.waveHeight)} רגל. `
   }
   
   // Add summary
