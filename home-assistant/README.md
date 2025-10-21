@@ -151,6 +151,9 @@ Each sensor has these attributes:
 morning_height_ft: 1.3        # Morning wave height
 noon_height_ft: 2.0           # Noon wave height  
 evening_height_ft: 2.3        # Evening wave height
+morning_wind_kts: 6           # Morning wind speed in knots
+noon_wind_kts: 8              # Noon wind speed in knots
+evening_wind_kts: 10          # Evening wind speed in knots
 morning_hebrew: "קרסול"       # Hebrew description
 noon_hebrew: "ברך"            # Hebrew description
 evening_hebrew: "ברך"         # Hebrew description
@@ -162,6 +165,7 @@ surf_quality_hebrew: "בסדר"  # Hebrew quality
 forecast_date: "2025-10-20"   # Date
 beach: "Ashkelon"             # Beach name
 beach_hebrew: "אשקלון"        # Hebrew beach name
+wind_unit: "kts"              # Wind unit (knots)
 ```
 
 ## 🎨 Lovelace Card Examples

@@ -84,17 +84,20 @@ function createHebrewResponse(dayData, dayOffset) {
   
   // Add morning info if available
   if (morning) {
-    response += `בבוקר הגלים ${morning.surfHeightDesc}, גובה ${metersToFeet(morning.waveHeight)} רגל. `
+    const wind = morning.windSpeed ? `, רוח ${Math.round(morning.windSpeed)} קשרים` : ""
+    response += `בבוקר הגלים ${morning.surfHeightDesc}, גובה ${metersToFeet(morning.waveHeight)} רגל${wind}. `
   }
   
   // Add noon info if available
   if (noon) {
-    response += `בצהריים ${noon.surfHeightDesc}, גובה ${metersToFeet(noon.waveHeight)} רגל. `
+    const wind = noon.windSpeed ? `, רוח ${Math.round(noon.windSpeed)} קשרים` : ""
+    response += `בצהריים ${noon.surfHeightDesc}, גובה ${metersToFeet(noon.waveHeight)} רגל${wind}. `
   }
   
   // Add evening info if available
   if (evening) {
-    response += `בערב ${evening.surfHeightDesc}, גובה ${metersToFeet(evening.waveHeight)} רגל. `
+    const wind = evening.windSpeed ? `, רוח ${Math.round(evening.windSpeed)} קשרים` : ""
+    response += `בערב ${evening.surfHeightDesc}, גובה ${metersToFeet(evening.waveHeight)} רגל${wind}. `
   }
   
   // Add summary

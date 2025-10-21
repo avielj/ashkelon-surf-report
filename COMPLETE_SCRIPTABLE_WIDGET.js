@@ -4,7 +4,7 @@
 // =======================
 // VERSION & AUTO-UPDATE
 // =======================
-const SCRIPT_VERSION = "1.1.0"
+const SCRIPT_VERSION = "1.2.0"
 const SCRIPT_NAME = "Ashkelon Surf Widget"
 const GITHUB_RAW_URL = "https://raw.githubusercontent.com/avielj/ashkelon-surf-report/main/COMPLETE_SCRIPTABLE_WIDGET.js"
 const CHECK_UPDATE_DAYS = 7 // Check for updates every 7 days
@@ -142,6 +142,7 @@ function parseForecastData(data) {
           const period = hourData.WavePeriod || 9
           const surfRank = hourData.surfRankMark || ""
           const hebrewHeight = hourData.surfHeightDesc || ""
+          const windSpeed = hourData.windSpeed || 0 // Wind speed in knots
           
           timeSlots.push({
             time: time.label,
@@ -150,7 +151,8 @@ function parseForecastData(data) {
             height: height,
             period: period,
             surfRank: surfRank,
-            hebrewHeight: hebrewHeight
+            hebrewHeight: hebrewHeight,
+            windSpeed: windSpeed
           })
         } else {
           // No data for this hour, use estimate
@@ -165,7 +167,8 @@ function parseForecastData(data) {
             height: avgHeight,
             period: 9,
             surfRank: "",
-            hebrewHeight: waveHeightToQuality(avgHeight)
+            hebrewHeight: waveHeightToQuality(avgHeight),
+            windSpeed: 5 // Default wind
           })
         }
       }
@@ -230,7 +233,8 @@ function getMockData() {
         height: height,
         period: 9 + Math.floor(Math.random() * 3), // 9-11 seconds
         surfRank: "b05",
-        hebrewHeight: waveHeightToQuality(height)
+        hebrewHeight: waveHeightToQuality(height),
+        windSpeed: 5 + Math.floor(Math.random() * 10) // 5-14 knots
       })
     }
   }
@@ -349,6 +353,18 @@ function addSessions(widget, forecast) {
       const periodText = periodRow.addText(`${slot.period}s`)
       periodText.font = Font.systemFont(8)
       periodText.textColor = new Color("#ffffff", 0.7)
+      
+      // Wind speed in knots
+      if (slot.windSpeed !== undefined) {
+        const windRow = card.addStack()
+        windRow.layoutHorizontally()
+        windRow.spacing = 2
+        const windIcon = windRow.addText("💨")
+        windIcon.font = Font.systemFont(7)
+        const windText = windRow.addText(`${Math.round(slot.windSpeed)}kts`)
+        windText.font = Font.systemFont(8)
+        windText.textColor = new Color("#ffffff", 0.7)
+      }
     }
     
     // Spacing between days

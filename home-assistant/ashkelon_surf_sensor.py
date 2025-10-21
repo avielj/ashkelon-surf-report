@@ -165,22 +165,29 @@ class AshkelonSurfSensor(Entity):
             noon_height = None
             evening_height = None
             
+            morning_wind = None
+            noon_wind = None
+            evening_wind = None
+            
             morning_hebrew = "N/A"
             noon_hebrew = "N/A"
             evening_hebrew = "N/A"
             
             if times["06:00"]:
                 morning_height = times["06:00"].get("waveHeight", 0)
+                morning_wind = times["06:00"].get("windSpeed", 0)
                 heights_meters.append(morning_height)
                 morning_hebrew = times["06:00"].get("surfHeightDesc", "N/A")
             
             if times["12:00"]:
                 noon_height = times["12:00"].get("waveHeight", 0)
+                noon_wind = times["12:00"].get("windSpeed", 0)
                 heights_meters.append(noon_height)
                 noon_hebrew = times["12:00"].get("surfHeightDesc", "N/A")
             
             if times["18:00"]:
                 evening_height = times["18:00"].get("waveHeight", 0)
+                evening_wind = times["18:00"].get("windSpeed", 0)
                 heights_meters.append(evening_height)
                 evening_hebrew = times["18:00"].get("surfHeightDesc", "N/A")
             
@@ -199,6 +206,9 @@ class AshkelonSurfSensor(Entity):
                 "morning_height_ft": meters_to_feet(morning_height),
                 "noon_height_ft": meters_to_feet(noon_height),
                 "evening_height_ft": meters_to_feet(evening_height),
+                "morning_wind_kts": morning_wind,
+                "noon_wind_kts": noon_wind,
+                "evening_wind_kts": evening_wind,
                 "morning_hebrew": morning_hebrew,
                 "noon_hebrew": noon_hebrew,
                 "evening_hebrew": evening_hebrew,
@@ -208,7 +218,8 @@ class AshkelonSurfSensor(Entity):
                 "forecast_date": day_data.get("forecastLocalTime", "")[:10],
                 "beach": "Ashkelon",
                 "beach_hebrew": "אשקלון",
-                "unit": "ft"
+                "unit": "ft",
+                "wind_unit": "kts"
             }
             
             # Add surf quality assessment
