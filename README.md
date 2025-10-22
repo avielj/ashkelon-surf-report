@@ -73,6 +73,50 @@ echo "sensor:\n  - platform: ashkelon_surf" >> /config/configuration.yaml
 
 ---
 
+### 4. 🤖 Automated Daily Telegram Notifications
+Get daily surf reports delivered to your Telegram at 7 AM (GMT+2).
+
+**File**: `daily_surf_report.py`  
+**Workflow**: `.github/workflows/daily-surf-report.yml`
+
+**Features**:
+- ✅ Runs automatically every day at 7:00 AM (Israel time)
+- ✅ Checks next 72 hours for surfable waves
+- ✅ Sends Hebrew message to Telegram channel/chat
+- ✅ Smart messages:
+  - If **no waves** (< 1ft): "אין גלים בימים הקרובים 🏖️"
+  - If **waves present**: Full 3-day forecast with times, heights, descriptions
+
+**Example Message** (when there are waves):
+```
+🏄‍♂️ תחזית גלים - אשקלון 🌊
+
+📅 רביעי 22/10
+  🕐 06:00: ⭐⭐ 2.3ft (ברך) ⏱️ 7s 💨 12kts
+  🕐 09:00: ⭐⭐ 2.5ft (ברך) ⏱️ 8s 💨 10kts
+  🕐 12:00: ⭐⭐⭐ 3.1ft (כתף) ⏱️ 9s 💨 8kts
+  🕐 18:00: ⭐⭐ 2.8ft (ברך) ⏱️ 8s 💨 9kts
+
+📅 חמישי 23/10
+  🕐 06:00: ⭐⭐ 2.1ft (ברך) ⏱️ 7s 💨 11kts
+  ...
+
+📊 מקור: 4surfers.co.il
+```
+
+**Setup** (GitHub Actions):
+1. Fork this repository
+2. Add GitHub Secrets:
+   - `TELEGRAM_BOT_TOKEN` - Your Telegram bot token (from @BotFather)
+   - `TELEGRAM_CHAT_ID` - Your chat/channel ID (use @userinfobot)
+3. Enable GitHub Actions in repository settings
+4. Done! Daily reports at 7 AM Israel time
+
+**Manual Trigger**:
+Go to Actions → Daily Surf Report → Run workflow
+
+---
+
 ## 📊 Data Source
 
 All integrations use the same official API:
@@ -83,16 +127,20 @@ All integrations use the same official API:
 
 ## 🛠️ Features Across All Platforms
 
-| Feature | iOS Widget | Siri | Home Assistant |
-|---------|-----------|------|----------------|
-| Wave Heights (ft) | ✅ | ✅ | ✅ |
-| Hebrew Descriptions | ✅ | ✅ | ✅ |
-| 3-Day Forecast | ✅ | ✅ | ✅ |
-| Time-specific (6/9/12/18) | ✅ | ✅ | ✅ |
-| Star Ratings | ✅ | ❌ | ❌ |
-| Voice Commands | ❌ | ✅ | ❌ |
-| Automations | ❌ | ❌ | ✅ |
-| Notifications | ❌ | ✅ | ✅ |
+| Feature | iOS Widget | Siri | Home Assistant | Telegram Daily |
+|---------|-----------|------|----------------|----------------|
+| Wave Heights (ft) | ✅ | ✅ | ✅ | ✅ |
+| Hebrew Descriptions | ✅ | ✅ | ✅ | ✅ |
+| 3-Day Forecast | ✅ | ✅ | ✅ | ✅ |
+| Time-specific (6/9/12/18) | ✅ | ✅ | ✅ | ✅ |
+| Star Ratings | ✅ | ❌ | ❌ | ✅ |
+| Wave Period (seconds) | ✅ | ❌ | ✅ | ✅ |
+| Wind Speed | ✅ | ❌ | ✅ | ✅ |
+| Voice Commands | ❌ | ✅ | ❌ | ❌ |
+| Automations | ❌ | ❌ | ✅ | ✅ |
+| Notifications | ❌ | ✅ | ✅ | ✅ |
+| No Server Needed | ✅ | ✅ | ❌ | ❌ |
+| Runs Automatically | ✅ | ❌ | ✅ | ✅ |
 
 ## 📁 Project Structure
 
@@ -101,6 +149,11 @@ All integrations use the same official API:
 ├── SIRI_SHORTCUT.js                 # Siri integration script
 ├── SIRI_SETUP_GUIDE.md             # Siri setup instructions
 ├── SCRIPTABLE_INSTALL_GUIDE.md     # Widget installation guide
+├── daily_surf_report.py            # Automated daily Telegram reports
+├── test_daily_report.py            # Test script for daily automation
+├── requirements.txt                # Python dependencies
+├── .github/workflows/
+│   └── daily-surf-report.yml       # GitHub Actions workflow
 ├── home-assistant/                  # Home Assistant integration
 │   ├── README.md                    # HA installation guide
 │   ├── ashkelon_surf_sensor.py     # Custom sensor
@@ -128,6 +181,22 @@ All integrations use the same official API:
 2. Add to `configuration.yaml`
 3. Restart Home Assistant
 4. Add Lovelace cards
+
+### For Telegram Automation:
+1. Fork this repository on GitHub
+2. Get Telegram bot token:
+   - Message @BotFather on Telegram
+   - Create new bot with `/newbot`
+   - Copy the token
+3. Get your chat/channel ID:
+   - For personal: Message @userinfobot, send `/start`
+   - For channel: Add bot as admin, forward message to @userinfobot
+4. Add GitHub Secrets:
+   - Go to Settings → Secrets and variables → Actions
+   - Add `TELEGRAM_BOT_TOKEN` with your bot token
+   - Add `TELEGRAM_CHAT_ID` with your chat ID
+5. Enable GitHub Actions (Settings → Actions → General)
+6. Done! Daily reports at 7 AM Israel time 🤖
 
 ## 🌊 Wave Height Reference
 

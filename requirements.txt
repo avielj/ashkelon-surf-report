@@ -1,1 +1,2 @@
-# No external dependencies needed for simple HTTP handler
+# Daily surf report dependencies
+requests>=2.31.0
