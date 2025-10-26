@@ -38,7 +38,35 @@ def main():
     # Test 3: Check for surfable waves
     print("\n3️⃣ Testing wave detection...")
     has_waves = has_surfable_waves(forecast_days)
-    print(f"   Surfable waves (>1ft): {'✅ Yes' if has_waves else '❌ No'}")
+    print(f"   Surfable waves (>2ft + 6.5s period): {'✅ Yes' if has_waves else '❌ No'}")
+    
+    # Show detailed session data
+    print("\n   📊 Detailed session data:")
+    for day in forecast_days:
+        print(f"   📅 {day['hebrew_day']} {day['date_display']}:")
+        for session in day['sessions']:
+            meets_criteria = session['height_ft'] >= 2.0 and session['period_s'] >= 6.5
+            status = "✅" if meets_criteria else "❌"
+            print(f"      {status} {session['time']}: {session['height_ft']}ft, {session['period_s']}s period, {session['stars']}")
+    
+    # Show detailed wave analysis
+    print("   📊 Session breakdown:")
+    for day in forecast_days:
+        print(f"      {day['hebrew_day']} {day['date_display']}:")
+        for session in day['sessions']:
+            height_ft = session['height_ft']
+            period_s = session['period_s']
+            meets_criteria = height_ft >= 2.0 and period_s >= 6.5
+            status = "✅" if meets_criteria else "❌"
+            print(f"         {session['time']}: {height_ft:.1f}ft, {period_s}s period {status}")
+    
+    # Show current conditions for context
+    print("   Current conditions:")
+    for day in forecast_days[:1]:  # Just first day
+        for session in day['sessions'][:2]:  # Just first 2 sessions
+            height = session['height_ft']
+            period = session['period_s']
+            print(f"     {session['time']}: {height}ft, {period}s period")
     
     # Test 4: Format message
     print("\n4️⃣ Testing message formatting...")

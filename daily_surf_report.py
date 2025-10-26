@@ -146,20 +146,24 @@ def parse_forecast_data(api_data: Dict) -> List[Dict]:
     return forecast_days
 
 
-def has_surfable_waves(forecast_days: List[Dict], min_height_ft: float = 1.0) -> bool:
+def has_surfable_waves(forecast_days: List[Dict], min_height_ft: float = 2.0, min_period_s: float = 6.5) -> bool:
     """
     Check if there are surfable waves in the forecast
     
     Args:
         forecast_days: List of parsed forecast days
-        min_height_ft: Minimum wave height in feet to be considered surfable
+        min_height_ft: Minimum wave height in feet to be considered surfable (default: 2.0ft)
+        min_period_s: Minimum wave period in seconds for quality waves (default: 6.5s)
     
     Returns:
-        True if any session has waves >= min_height_ft
+        True if any session has waves >= min_height_ft AND period >= min_period_s
     """
     for day in forecast_days:
         for session in day['sessions']:
-            if session['height_ft'] >= min_height_ft:
+            height_ok = session['height_ft'] >= min_height_ft
+            period_ok = session['period_s'] >= min_period_s
+            
+            if height_ok and period_ok:
                 return True
     return False
 
@@ -184,19 +188,40 @@ def format_telegram_message(forecast_days: List[Dict]) -> str:
     lines.append("")
     
     for day in forecast_days:
+        # Only show days that have quality sessions
+        quality_sessions = []
+        
+        for session in day['sessions']:
+            height_ok = session['height_ft'] >= 2.0
+            period_ok = session['period_s'] >= 6.5
+            
+            if height_ok and period_ok:
+                quality_sessions.append(session)
+        
+        # Skip days with no quality sessions
+        if not quality_sessions:
+            continue
+            
         # Day header
         day_header = f"📅 <b>{day['hebrew_day']} {day['date_display']}</b>"
         lines.append(day_header)
         
-        # Sessions for this day
-        for session in day['sessions']:
-            stars = session['stars'] if session['stars'] else "〰️"
+        # Show only quality sessions for this day
+        for session in quality_sessions:
+            stars = session['stars'] if session['stars'] else "⭐"
             height_ft = session['height_ft']
             hebrew_desc = session['hebrew_desc']
             period = session['period_s']
             wind = session['wind_kts']
             
-            # Format: "🕕 06:00: ⭐⭐ 2.3ft (ברך) ⏱️ 7s 💨 12kts"
+            # Add quality indicator for really good waves
+            quality_emoji = ""
+            if height_ft >= 3.0 and period >= 8.0:
+                quality_emoji = " 🔥"  # Epic conditions
+            elif height_ft >= 2.5 and period >= 7.0:
+                quality_emoji = " 💪"  # Great conditions
+            
+            # Format: "� 06:00: ⭐⭐ 2.3ft (ברך) ⏱️ 7s 💨 12kts 💪"
             line = f"  🕐 {session['time']}: {stars} {height_ft}ft"
             
             if hebrew_desc:
@@ -208,6 +233,7 @@ def format_telegram_message(forecast_days: List[Dict]) -> str:
             if wind > 0:
                 line += f" 💨 {wind}kts"
             
+            line += quality_emoji
             lines.append(line)
         
         lines.append("")  # Blank line between days
