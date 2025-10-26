@@ -286,10 +286,14 @@ def main():
     
     # Get environment variables
     bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
-    chat_id = os.getenv('TELEGRAM_CHAT_ID', '-1002522870307')
+    chat_id = os.getenv('TELEGRAM_CHAT_ID')
     
     if not bot_token:
         print("❌ TELEGRAM_BOT_TOKEN environment variable not set")
+        sys.exit(1)
+    
+    if not chat_id:
+        print("❌ TELEGRAM_CHAT_ID environment variable not set")
         sys.exit(1)
     
     # Fetch forecast

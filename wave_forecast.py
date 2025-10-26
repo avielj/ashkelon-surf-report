@@ -3222,7 +3222,7 @@ def main():
     # Telegram configuration - use environment variables for security
     import os
     TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
-    TELEGRAM_CHAT_ID = int(os.getenv('TELEGRAM_CHAT_ID', '-1002522870307'))  # Channel ID from channel_post
+    TELEGRAM_CHAT_ID = int(os.getenv('TELEGRAM_CHAT_ID', '0'))  # Channel ID from environment variable
     
     # Initialize the forecast system with Telegram support
     if not TELEGRAM_BOT_TOKEN:
