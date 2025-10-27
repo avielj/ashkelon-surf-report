@@ -38,16 +38,30 @@ def main():
     # Test 3: Check for surfable waves
     print("\n3️⃣ Testing wave detection...")
     has_waves = has_surfable_waves(forecast_days)
-    print(f"   Surfable waves (>2ft + 6.5s period): {'✅ Yes' if has_waves else '❌ No'}")
+    print(f"   Surfable waves: {'✅ Yes' if has_waves else '❌ No'}")
+    print(f"   Criteria: (≥2ft + ≥6.5s) OR (≥1.8ft + ≥8s)")
     
     # Show detailed session data
     print("\n   📊 Detailed session data:")
     for day in forecast_days:
         print(f"   📅 {day['hebrew_day']} {day['date_display']}:")
         for session in day['sessions']:
-            meets_criteria = session['height_ft'] >= 2.0 and session['period_s'] >= 6.5
+            height_ft = session['height_ft']
+            period_s = session['period_s']
+            
+            # Check both conditions
+            standard_ok = height_ft >= 2.0 and period_s >= 6.5
+            quality_swell = height_ft >= 1.8 and period_s >= 8.0
+            meets_criteria = standard_ok or quality_swell
+            
             status = "✅" if meets_criteria else "❌"
-            print(f"      {status} {session['time']}: {session['height_ft']}ft, {session['period_s']}s period, {session['stars']}")
+            reason = ""
+            if quality_swell and not standard_ok:
+                reason = " (quality swell)"
+            elif standard_ok:
+                reason = " (standard)"
+            
+            print(f"      {status} {session['time']}: {height_ft}ft, {period_s}s{reason} {session['stars']}")
     
     # Show detailed wave analysis
     print("   📊 Session breakdown:")

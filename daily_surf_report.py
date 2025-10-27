@@ -108,27 +108,27 @@ def parse_forecast_data(api_data: Dict) -> List[Dict]:
                 hour_dt = datetime.fromisoformat(hour_time.replace('T', ' ').replace('+03:00', ''))
                 
                 if hour_dt.hour in target_hours:
-                    # Get wave height - use average of from/to if available, fallback to waveHeight
-                    surf_from = hour_forecast.get('surfHeightFrom', 0)
-                    surf_to = hour_forecast.get('surfHeightTo', 0)
+                    # Get wave height - use average of from/to if available, fallback to WaveHeight
+                    surf_from = hour_forecast.get('SurfHeightFrom', 0)
+                    surf_to = hour_forecast.get('SurfHeightTo', 0)
                     
                     if surf_from > 0 and surf_to > 0:
                         wave_height_m = (surf_from + surf_to) / 2
                     else:
-                        wave_height_m = hour_forecast.get('waveHeight', 0)
+                        wave_height_m = hour_forecast.get('WaveHeight', 0)
                     
                     wave_height_ft = wave_height_m * 3.28084
                     hebrew_desc = hour_forecast.get('surfHeightDesc', '')
-                    period_s = hour_forecast.get('wavePeriod', 0)
-                    wind_kts = hour_forecast.get('windSpeed', 0)
+                    period_s = hour_forecast.get('WavePeriod', 0)
+                    wind_kts = hour_forecast.get('WindSpeedInKnots', 0)
                     stars = get_star_rating(wave_height_m)
                     
                     sessions.append({
                         'time': f"{hour_dt.hour:02d}:00",
                         'height_m': round(wave_height_m, 2),
-                        'height_ft': round(wave_height_ft, 2),
+                        'height_ft': round(wave_height_ft, 1),  # Round to 1 decimal for consistency
                         'hebrew_desc': hebrew_desc,
-                        'period_s': period_s,
+                        'period_s': round(period_s, 1),  # Round period to 1 decimal
                         'wind_kts': wind_kts,
                         'stars': stars
                     })
@@ -157,13 +157,20 @@ def has_surfable_waves(forecast_days: List[Dict], min_height_ft: float = 2.0, mi
     
     Returns:
         True if any session has waves >= min_height_ft AND period >= min_period_s
+        OR if waves >= 1.8ft AND period >= 8s (quality long-period swell)
     """
     for day in forecast_days:
         for session in day['sessions']:
-            height_ok = session['height_ft'] >= min_height_ft
-            period_ok = session['period_s'] >= min_period_s
+            height_ft = session['height_ft']
+            period_s = session['period_s']
             
-            if height_ok and period_ok:
+            # Standard condition: 2ft+ with 6.5s+ period
+            standard_ok = height_ft >= min_height_ft and period_s >= min_period_s
+            
+            # Alternative condition: 1.8ft+ with 8s+ period (quality long-period swell)
+            quality_swell = height_ft >= 1.8 and period_s >= 8.0
+            
+            if standard_ok or quality_swell:
                 return True
     return False
 
@@ -192,10 +199,16 @@ def format_telegram_message(forecast_days: List[Dict]) -> str:
         quality_sessions = []
         
         for session in day['sessions']:
-            height_ok = session['height_ft'] >= 2.0
-            period_ok = session['period_s'] >= 6.5
+            height_ft = session['height_ft']
+            period_s = session['period_s']
             
-            if height_ok and period_ok:
+            # Standard condition: 2ft+ with 6.5s+ period
+            standard_ok = height_ft >= 2.0 and period_s >= 6.5
+            
+            # Alternative condition: 1.8ft+ with 8s+ period (quality long-period swell)
+            quality_swell = height_ft >= 1.8 and period_s >= 8.0
+            
+            if standard_ok or quality_swell:
                 quality_sessions.append(session)
         
         # Skip days with no quality sessions
