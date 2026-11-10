@@ -47,7 +47,11 @@ def _font(size, bold=False):
     kind = "bold" if bold else "regular"
     for path in _FONT_PATHS[kind]:
         if os.path.exists(path):
-            f = ImageFont.truetype(path, size)
+            # BASIC layout is essential: Pillow's default (raqm) applies its
+            # own bidi pass and re-orders the string that hb() already put
+            # in visual order — undoing the RTL fix. BASIC draws the glyphs
+            # exactly in the order given (Hebrew needs no joining).
+            f = ImageFont.truetype(path, size, layout_engine=ImageFont.Layout.BASIC)
             _font_cache[key] = f
             return f
     f = ImageFont.load_default()
