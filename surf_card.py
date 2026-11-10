@@ -56,10 +56,15 @@ def _font(size, bold=False):
 
 
 def hb(text):
-    """Reorder a Hebrew (possibly mixed) string for display."""
+    """Reorder a Hebrew (possibly mixed) string for display.
+
+    base_dir='R' is essential: the default auto-detect picks LTR for strings
+    that start with Latin (e.g. 'SEANOW דלילה 06:00'), which scrambles the
+    word order ('דלילה 06:00 SEANOW'). This card is always RTL.
+    """
     try:
         from bidi.algorithm import get_display
-        return get_display(str(text))
+        return get_display(str(text), base_dir='R')
     except Exception:
         return str(text)
 
