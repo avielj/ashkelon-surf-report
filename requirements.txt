@@ -1,2 +1,4 @@
 # Daily surf report dependencies
 requests>=2.31.0
+Pillow>=10.0.0
+python-bidi>=0.4.2
