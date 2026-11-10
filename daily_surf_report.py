@@ -7,11 +7,20 @@ Uses the same logic as the Scriptable widget and Home Assistant integration
 """
 
 import os
+import re
 import sys
 import json
+import urllib.request
 import requests
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional
+
+# Card rendering is optional: if Pillow/bidi are missing, the text report
+# below still works (the Action installs them via requirements.txt).
+try:
+    from surf_card import build_card
+except Exception:
+    build_card = None
 
 
 def get_surf_forecast(beach_id: str = "80") -> Optional[Dict]:
@@ -121,6 +130,7 @@ def parse_forecast_data(api_data: Dict) -> List[Dict]:
                     hebrew_desc = hour_forecast.get('surfHeightDesc', '')
                     period_s = hour_forecast.get('WavePeriod', 0)
                     wind_kts = hour_forecast.get('WindSpeedInKnots', 0)
+                    wind_dir = hour_forecast.get('WindDirection')
                     stars = get_star_rating(wave_height_m)
                     
                     sessions.append({
@@ -130,6 +140,7 @@ def parse_forecast_data(api_data: Dict) -> List[Dict]:
                         'hebrew_desc': hebrew_desc,
                         'period_s': round(period_s, 1),  # Round period to 1 decimal
                         'wind_kts': wind_kts,
+                        'wind_dir': wind_dir,
                         'stars': stars
                     })
             except:
@@ -256,6 +267,201 @@ def format_telegram_message(forecast_days: List[Dict]) -> str:
     return "\n".join(lines)
 
 
+# ---------------------------------------------------------------------------
+# Forecast card (surf_card.py) — the visual summary of the Ashkelon Wave
+# Forecast page, sent as a Telegram photo. Verdict rules (Aviel, Nov 7-8):
+# morning window only (06:00-08:00 workdays, 06:00-10:00 Fri-Sat); surfable
+# if surf >= 0.61m + period >= 6.5s, or >= 0.55m + period >= 8s; onshore wind
+# >= 24 km/h downgrades one level, >= 33 caps at YELLOW; a disputed wind
+# direction (4surfers vs met.no at 06:00) downgrades one level.
+# ---------------------------------------------------------------------------
+
+def wind_class(wdir):
+    """Delila-relative wind class: offshore E/SE (45-135), onshore W/NW (225-315), else side."""
+    if wdir is None:
+        return "?"
+    if 45 <= wdir <= 135:
+        return "offshore"
+    if 225 <= wdir <= 315:
+        return "onshore"
+    return "side"
+
+
+def _downgrade(score):
+    order = ["FLAT", "YELLOW", "GREEN"]
+    return order[max(0, order.index(score) - 1)]
+
+
+def score_morning(surf_m, period_s, wind_kmh, wind_cls, disputed):
+    """Morning-window verdict from the 4surfers best session + wind modifier."""
+    if (surf_m >= 0.61 and period_s >= 6.5) or (surf_m >= 0.55 and period_s >= 8.0):
+        score = "GREEN"
+    elif surf_m >= 0.6 and period_s >= 6.0:
+        score = "YELLOW"
+    else:
+        score = "FLAT"
+    if wind_cls == "onshore" and wind_kmh is not None and wind_kmh >= 33:
+        if score != "FLAT":
+            score = "YELLOW"
+    elif wind_cls == "onshore" and wind_kmh is not None and wind_kmh >= 24:
+        score = _downgrade(score)
+    if disputed:
+        score = _downgrade(score)
+    return score
+
+
+def fetch_metno_timeseries():
+    """Full met.no timeseries as {(date_iso, hour): (speed_ms, dir_deg)} or {}."""
+    try:
+        from zoneinfo import ZoneInfo
+        ist = ZoneInfo("Asia/Jerusalem")
+    except Exception:
+        return {}
+    try:
+        req = urllib.request.Request(
+            'https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=31.67&lon=34.57',
+            headers={'User-Agent': 'AshkelonSurfReport/1.0'})
+        data = json.load(urllib.request.urlopen(req, timeout=30))
+        out = {}
+        for x in data['properties']['timeseries']:
+            dt = datetime.fromisoformat(x['time'].replace('Z', '+00:00')).astimezone(ist)
+            det = x['data']['instant']['details']
+            out[(dt.date().isoformat(), dt.hour)] = (det.get('wind_speed'), det.get('wind_from_direction'))
+        return out
+    except Exception:
+        return {}
+
+
+def _nearest_metno(wind, date_iso, hour=6):
+    """met.no wind nearest to the given hour (past hours drop out of the forecast)."""
+    for d in (0, 1, 2, 3, -1, -2, -3):
+        if (date_iso, hour + d) in wind:
+            return wind[(date_iso, hour + d)]
+    return (None, None)
+
+
+def fetch_seanow_delila():
+    """SEANOW Delila spot page: recommended window + score. Returns dict or {}."""
+    try:
+        req = urllib.request.Request("https://seanow.co.il/surf/ashkelon-delilah/",
+                                     headers={"User-Agent": "Mozilla/5.0"})
+        html = urllib.request.urlopen(req, timeout=20).read().decode("utf-8", "ignore")
+        i = html.find("חלון מומלץ")
+        text = re.sub(r"<[^>]+>", " ", html[i:i + 500]) if i >= 0 else ""
+        text = re.sub(r"\s+", " ", text)
+        m = re.search(r"חלון מומלץ:\s*(.+?)\s*\(ציון\s*([\d.]+)\s*\)", text)
+        return {"recommended_window": m.group(1).strip() if m else None,
+                "recommended_score": float(m.group(2)) if m else None}
+    except Exception:
+        return {}
+
+
+def build_card_days(api_data):
+    """7 day dicts for surf_card.build_card, with the page's verdict rules."""
+    if 'dailyForecastList' not in api_data:
+        return []
+    metno = fetch_metno_timeseries()
+    seanow = fetch_seanow_delila()
+    seanow_date = None
+    if seanow.get('recommended_window'):
+        m = re.search(r'(\d{1,2})\.(\d{1,2})\.(\d{4})', seanow['recommended_window'])
+        if m:
+            seanow_date = f"{m.group(3)}-{int(m.group(2)):02d}-{int(m.group(1)):02d}"
+
+    days = []
+    for day_forecast in api_data['dailyForecastList'][:7]:
+        if 'forecastLocalTime' not in day_forecast:
+            continue
+        dt = datetime.fromisoformat(day_forecast['forecastLocalTime'].replace('T', ' ').replace('+03:00', ''))
+        date_iso = dt.strftime('%Y-%m-%d')
+        weekend = dt.weekday() >= 4  # Fri=4, Sat=5
+        window_hours = [6, 9] if weekend else [6]
+        best = None
+        s06 = None
+        for h in day_forecast.get('forecastHours', []):
+            try:
+                hdt = datetime.fromisoformat(h.get('forecastLocalHour', '').replace('T', ' ').replace('+03:00', ''))
+            except Exception:
+                continue
+            if hdt.hour not in window_hours:
+                continue
+            sf, st = h.get('SurfHeightFrom', 0), h.get('SurfHeightTo', 0)
+            surf = (sf + st) / 2 if sf and st else h.get('WaveHeight', 0)
+            sess = {'surf': surf, 'period': h.get('WavePeriod', 0),
+                    'wind_kts': h.get('WindSpeedInKnots', 0),
+                    'wind_dir': h.get('WindDirection'),
+                    'desc': h.get('surfHeightDesc', '')}
+            if hdt.hour == 6:
+                s06 = sess
+            if best is None or surf > best['surf']:
+                best = sess
+        if not s06 and not best:
+            continue
+        s06 = s06 or best
+        wind_kmh = round(s06['wind_kts'] * 1.852) if s06.get('wind_kts') else None
+        wind_cls = wind_class(s06.get('wind_dir'))
+        # Disputed direction: 4surfers vs met.no at 06:00 (Aviel, Nov 8)
+        disputed = False
+        _, m6_dir = _nearest_metno(metno, date_iso, 6)
+        m6_cls = wind_class(m6_dir)
+        if wind_cls in ('offshore', 'onshore', 'side') and m6_cls in ('offshore', 'onshore', 'side') and wind_cls != m6_cls:
+            disputed = True
+        score = score_morning(best['surf'], best['period'], wind_kmh, wind_cls, disputed)
+        days.append({
+            'dow': get_hebrew_day(dt.weekday()),
+            'dnum': dt.strftime('%d.%m'),
+            'date': date_iso,
+            'weekend': weekend,
+            'score': score,
+            'surf_m': round(best['surf'], 2),
+            'desc': best.get('desc', ''),
+            'period_s': round(best['period'], 1),
+            'wind_kmh': wind_kmh,
+            'wind_class': wind_cls,
+            'wind_disputed': disputed,
+            'seanow': seanow.get('recommended_score') if date_iso == seanow_date else None,
+        })
+    return days
+
+
+def format_card_caption(hero):
+    """Short HTML caption under the card photo."""
+    verdict = {'GREEN': '🟢 לך', 'YELLOW': '🟡 שווה בדיקה', 'FLAT': '⚪ שטוח'}[hero['score']]
+    win = '06:00–10:00' if hero.get('weekend') else '06:00–08:00'
+    wind_he = {'offshore': 'מהיבשה (אוף־שור)', 'onshore': 'מהים (און־שור)',
+               'side': 'מהצד'}.get(hero.get('wind_class', 'side'), '')
+    lines = [
+        f"🏄‍♂️ <b>תחזית גלים — אשקלון · {hero['dow']} {hero['dnum']}</b>",
+        f"{verdict} · חלון {win}",
+        f"גובה הגל בשבירה: {hero['surf_m']:.1f} מ׳ ({hero.get('desc', '')}) · משך {hero['period_s']:.1f} שניות",
+        f"רוח: {hero['wind_kmh']} קמ״ש {wind_he}",
+    ]
+    if hero.get('seanow') is not None:
+        lines.append(f"הציון של SEANOW דלילה לשעה 06:00 הוא {hero['seanow']:.1f}")
+    lines.append("📷 מצלמה חיה: https://www.swellstock.co.il/cams")
+    lines.append("📊 מקור: 4surfers.co.il")
+    return "\n".join(lines)
+
+
+def send_telegram_photo(bot_token, chat_id, photo_path, caption):
+    """Send the forecast card via Telegram Bot API sendPhoto. Returns True/False."""
+    try:
+        url = f"https://api.telegram.org/bot{bot_token}/sendPhoto"
+        with open(photo_path, 'rb') as f:
+            files = {'photo': (os.path.basename(photo_path), f, 'image/png')}
+            data = {'chat_id': chat_id, 'caption': caption, 'parse_mode': 'HTML'}
+            response = requests.post(url, data=data, files=files, timeout=30)
+        if response.status_code == 200:
+            print("✅ Telegram photo sent successfully!")
+            return True
+        print(f"❌ Telegram API error: {response.status_code}")
+        print(f"   Response: {response.text}")
+        return False
+    except Exception as e:
+        print(f"❌ Error sending Telegram photo: {e}")
+        return False
+
+
 def send_telegram_message(bot_token: str, chat_id: str, message: str) -> bool:
     """
     Send message via Telegram Bot API
@@ -327,6 +533,24 @@ def main():
     
     print(f"✅ Got {len(forecast_days)} days of forecast")
     
+    # --- Forecast card (photo) first, text message as fallback ---
+    if build_card is not None:
+        try:
+            card_days = build_card_days(api_data)
+            hero_idx = 1 if len(card_days) > 1 else 0  # hero = tomorrow
+            if card_days:
+                card_path = build_card(
+                    card_days, hero_idx=hero_idx, out_path="card.png",
+                    footer_stamp=datetime.now().strftime('%d.%m.%Y %H:%M'))
+                print(f"\n🖼️ Card rendered: {card_path}")
+                caption = format_card_caption(card_days[hero_idx])
+                if send_telegram_photo(bot_token, chat_id, card_path, caption):
+                    print("✅ Daily report completed successfully (photo)!")
+                    sys.exit(0)
+                print("⚠️ Photo send failed — falling back to the text message.")
+        except Exception as e:
+            print(f"⚠️ Card failed ({e}) — falling back to the text message.")
+
     # Format message
     message = format_telegram_message(forecast_days)
     print("\n📝 Message to send:")
