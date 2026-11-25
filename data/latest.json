@@ -1,6 +1,6 @@
 {
   "location": "Ashkelon (31.67, 34.57)",
-  "checked_at_ist": "2026-11-25T04:43+02:00",
+  "checked_at_ist": "2026-11-25T19:43+02:00",
   "sources": [
     "4surfers API (primary, surf height at break)",
     "Open-Meteo Marine",
@@ -11,11 +11,11 @@
     "seanow_ashkelon": {
       "best_window": null,
       "peak_tomorrow": null,
-      "now_m": "20-30"
+      "now_m": "60-90"
     },
     "seanow_delila": {
-      "recommended_window": "היום, יום רביעי 25.11.2026 , 15:00 - 16:00",
-      "recommended_score": 6.2
+      "recommended_window": "מחר, יום חמישי 26.11.2026 , 06:00 - 07:00",
+      "recommended_score": 6.8
     }
   },
   "camera": {
@@ -32,143 +32,143 @@
   "days": [
     {
       "date": "2026-11-25",
-      "score": "FLAT",
+      "score": "YELLOW",
       "morning_window": [
         6,
         7,
         8
       ],
-      "wind_kmh": 6,
-      "wind_dir_deg": 190,
+      "wind_kmh": 7,
+      "wind_dir_deg": 192,
       "wind_class": "side",
       "wind_source": "4surfers",
-      "wind_note": "רוח 6 קמ״ש מהצד (4surfers)",
+      "wind_note": "רוח 7 קמ״ש מהצד (4surfers)",
       "wind_disputed": false,
-      "morning_best_hour": 7,
+      "morning_best_hour": 8,
       "morning_surf_m": 0.34,
       "morning_wave_m": 0.48,
       "morning_period_s": 6.0,
-      "morning_wind_ms": 4.1,
-      "morning_wind_dir": 175.1,
+      "morning_wind_ms": null,
+      "morning_wind_dir": null,
       "fs4_morning": {
         "hour": 6,
-        "surf_m": 0.3,
-        "period_s": 6.8,
-        "wind_kts": 3,
-        "wind_dir": 190,
-        "desc": "קרסול",
-        "swell_m": 0.42
+        "surf_m": 0.6,
+        "period_s": 6.9,
+        "wind_kts": 4,
+        "wind_dir": 192,
+        "desc": "ברך",
+        "swell_m": 0.45
       },
       "fs4_score_source": true,
       "best_hour": 17,
-      "wave_m": 1.04,
-      "period_s": 6.7,
+      "wave_m": 0.86,
+      "period_s": 6.2,
       "wave_dir": 305,
-      "wind_ms": 4.3,
-      "wind_dir": 358.5,
+      "wind_ms": 4.6,
+      "wind_dir": 5.4,
       "wind_label": "sideshore",
       "hours": [
         {
           "hour": 6,
-          "wave_m": 0.46,
-          "period_s": 6.1,
-          "wave_dir": 299,
-          "wind_ms": 3.9,
-          "wind_dir": 166.4,
-          "surf_m": 0.32,
+          "wave_m": 0.42,
+          "period_s": 6.3,
+          "wave_dir": 298,
+          "wind_ms": null,
+          "wind_dir": null,
+          "surf_m": 0.29,
           "wind_bad": false
         },
         {
           "hour": 7,
-          "wave_m": 0.48,
-          "period_s": 6.0,
-          "wave_dir": 301,
-          "wind_ms": 4.1,
-          "wind_dir": 175.1,
-          "surf_m": 0.34,
+          "wave_m": 0.46,
+          "period_s": 6.15,
+          "wave_dir": 300,
+          "wind_ms": null,
+          "wind_dir": null,
+          "surf_m": 0.32,
           "wind_bad": false
         },
         {
           "hour": 8,
-          "wave_m": 0.52,
-          "period_s": 5.95,
-          "wave_dir": 303,
-          "wind_ms": 4.7,
-          "wind_dir": 187.4,
-          "surf_m": 0.26,
+          "wave_m": 0.48,
+          "period_s": 6.0,
+          "wave_dir": 301,
+          "wind_ms": null,
+          "wind_dir": null,
+          "surf_m": 0.34,
           "wind_bad": false
         },
         {
           "hour": 9,
-          "wave_m": 0.6,
-          "period_s": 5.95,
-          "wave_dir": 304,
-          "wind_ms": 4.8,
-          "wind_dir": 204.1
+          "wave_m": 0.52,
+          "period_s": 5.9,
+          "wave_dir": 303,
+          "wind_ms": null,
+          "wind_dir": null
         },
         {
           "hour": 10,
-          "wave_m": 0.7,
-          "period_s": 5.95,
-          "wave_dir": 306,
-          "wind_ms": 3.8,
-          "wind_dir": 218.7
+          "wave_m": 0.58,
+          "period_s": 5.75,
+          "wave_dir": 304,
+          "wind_ms": null,
+          "wind_dir": null
         },
         {
           "hour": 11,
-          "wave_m": 0.78,
-          "period_s": 6.0,
-          "wave_dir": 307,
-          "wind_ms": 3.0,
-          "wind_dir": 272.1
+          "wave_m": 0.62,
+          "period_s": 5.7,
+          "wave_dir": 306,
+          "wind_ms": null,
+          "wind_dir": null
         },
         {
           "hour": 12,
-          "wave_m": 0.84,
-          "period_s": 6.1,
-          "wave_dir": 307,
-          "wind_ms": 3.4,
-          "wind_dir": 310.1
+          "wave_m": 0.66,
+          "period_s": 5.75,
+          "wave_dir": 306,
+          "wind_ms": null,
+          "wind_dir": null
         },
         {
           "hour": 13,
-          "wave_m": 0.88,
-          "period_s": 6.25,
+          "wave_m": 0.72,
+          "period_s": 5.8,
           "wave_dir": 306,
-          "wind_ms": 3.8,
-          "wind_dir": 322.2
+          "wind_ms": null,
+          "wind_dir": null
         },
         {
           "hour": 14,
-          "wave_m": 0.94,
-          "period_s": 6.4,
+          "wave_m": 0.76,
+          "period_s": 5.9,
           "wave_dir": 306,
-          "wind_ms": 4.1,
-          "wind_dir": 331.9
+          "wind_ms": null,
+          "wind_dir": null
         },
         {
           "hour": 15,
-          "wave_m": 0.98,
-          "period_s": 6.5,
+          "wave_m": 0.8,
+          "period_s": 6.0,
           "wave_dir": 306,
-          "wind_ms": 4.3,
-          "wind_dir": 340.9
+          "wind_ms": null,
+          "wind_dir": null
         },
         {
           "hour": 16,
-          "wave_m": 1.0,
-          "period_s": 6.6,
+          "wave_m": 0.82,
+          "period_s": 6.1,
           "wave_dir": 305,
-          "wind_ms": 4.3,
-          "wind_dir": 351.3
+          "wind_ms": 4.6,
+          "wind_dir": 5.4
         },
         {
           "hour": 17,
-          "wave_m": 1.04,
-          "period_s": 6.7,
+          "wave_m": 0.86,
+          "period_s": 6.2,
           "wave_dir": 305,
-          "wind_ms": 4.3,
-          "wind_dir": 358.5
+          "wind_ms": 4.6,
+          "wind_dir": 5.4
         }
       ]
     },
@@ -180,137 +180,137 @@
         7,
         8
       ],
-      "wind_kmh": 9,
-      "wind_dir_deg": 57,
+      "wind_kmh": 11,
+      "wind_dir_deg": 51,
       "wind_class": "offshore",
       "wind_source": "4surfers",
-      "wind_note": "רוח 9 קמ״ש מהיבשה (4surfers) — גלאס, מחליקה את הגלים",
+      "wind_note": "רוח 11 קמ״ש מהיבשה (4surfers) — גלאס, מחליקה את הגלים",
       "wind_disputed": false,
       "morning_best_hour": 6,
-      "morning_surf_m": 0.63,
-      "morning_wave_m": 0.9,
-      "morning_period_s": 6.9,
-      "morning_wind_ms": 4.5,
-      "morning_wind_dir": 52.8,
+      "morning_surf_m": 0.64,
+      "morning_wave_m": 0.92,
+      "morning_period_s": 6.85,
+      "morning_wind_ms": 4.4,
+      "morning_wind_dir": 55.3,
       "fs4_morning": {
         "hour": 6,
         "surf_m": 1.1,
         "period_s": 7.4,
-        "wind_kts": 5,
-        "wind_dir": 57,
+        "wind_kts": 6,
+        "wind_dir": 51,
         "desc": "מותן",
-        "swell_m": 1.03
+        "swell_m": 1.05
       },
       "fs4_score_source": true,
       "best_hour": 17,
-      "wave_m": 0.92,
+      "wave_m": 0.98,
       "period_s": 5.55,
-      "wave_dir": 321,
-      "wind_ms": 8.2,
-      "wind_dir": 6.1,
+      "wave_dir": 322,
+      "wind_ms": 8.0,
+      "wind_dir": 0.1,
       "wind_label": "sideshore",
       "hours": [
         {
           "hour": 6,
-          "wave_m": 0.9,
-          "period_s": 6.9,
-          "wave_dir": 299,
-          "wind_ms": 4.5,
-          "wind_dir": 52.8,
-          "surf_m": 0.63,
+          "wave_m": 0.92,
+          "period_s": 6.85,
+          "wave_dir": 300,
+          "wind_ms": 4.4,
+          "wind_dir": 55.3,
+          "surf_m": 0.64,
           "wind_bad": false
         },
         {
           "hour": 7,
           "wave_m": 0.9,
           "period_s": 6.85,
-          "wave_dir": 300,
-          "wind_ms": 5.1,
-          "wind_dir": 50.7,
+          "wave_dir": 301,
+          "wind_ms": 4.8,
+          "wind_dir": 49.2,
           "surf_m": 0.63,
           "wind_bad": false
         },
         {
           "hour": 8,
-          "wave_m": 0.88,
-          "period_s": 6.8,
-          "wave_dir": 300,
-          "wind_ms": 5.5,
-          "wind_dir": 44.4,
-          "surf_m": 0.62,
+          "wave_m": 0.9,
+          "period_s": 6.85,
+          "wave_dir": 301,
+          "wind_ms": 5.3,
+          "wind_dir": 38.0,
+          "surf_m": 0.63,
           "wind_bad": false
         },
         {
           "hour": 9,
-          "wave_m": 0.88,
-          "period_s": 6.75,
-          "wave_dir": 301,
-          "wind_ms": 4.7,
-          "wind_dir": 22.7
+          "wave_m": 0.9,
+          "period_s": 6.8,
+          "wave_dir": 302,
+          "wind_ms": 5.1,
+          "wind_dir": 16.8
         },
         {
           "hour": 10,
-          "wave_m": 0.86,
-          "period_s": 6.7,
+          "wave_m": 0.88,
+          "period_s": 6.8,
           "wave_dir": 302,
-          "wind_ms": 4.0,
-          "wind_dir": 347.3
+          "wind_ms": 4.7,
+          "wind_dir": 357.8
         },
         {
           "hour": 11,
-          "wave_m": 0.86,
-          "period_s": 6.6,
+          "wave_m": 0.88,
+          "period_s": 6.7,
           "wave_dir": 303,
-          "wind_ms": 4.1,
-          "wind_dir": 337.0
+          "wind_ms": 4.8,
+          "wind_dir": 344.8
         },
         {
           "hour": 12,
-          "wave_m": 0.86,
-          "period_s": 6.5,
+          "wave_m": 0.88,
+          "period_s": 6.6,
           "wave_dir": 305,
-          "wind_ms": 4.4,
-          "wind_dir": 332.8
+          "wind_ms": 5.2,
+          "wind_dir": 337.1
         },
         {
           "hour": 13,
-          "wave_m": 0.86,
-          "period_s": 6.4,
+          "wave_m": 0.88,
+          "period_s": 6.45,
           "wave_dir": 307,
-          "wind_ms": 4.8,
-          "wind_dir": 331.1
+          "wind_ms": 5.9,
+          "wind_dir": 338.7
         },
         {
           "hour": 14,
-          "wave_m": 0.86,
+          "wave_m": 0.88,
           "period_s": 6.25,
           "wave_dir": 309,
-          "wind_ms": 5.5,
-          "wind_dir": 336.1
+          "wind_ms": 6.3,
+          "wind_dir": 342.4
         },
         {
           "hour": 15,
-          "wave_m": 0.88,
-          "period_s": 6.05,
+          "wave_m": 0.92,
+          "period_s": 6.0,
           "wave_dir": 313,
           "wind_ms": 6.7,
-          "wind_dir": 345.6
+          "wind_dir": 349.6
         },
         {
           "hour": 16,
-          "wave_m": 0.9,
+          "wave_m": 0.94,
           "period_s": 5.75,
-          "wave_dir": 317,
+          "wave_dir": 318,
           "wind_ms": 7.6,
-          "wind_dir": 1.4
+          "wind_dir": 359.7
         },
         {
           "hour": 17,
-          "wave_m": 0.92,
+          "wave_m": 0.98,
           "period_s": 5.55,
-          "wave_dir": 321,
-          "wind_ms": 8.2,
-          "wind_dir": 6.1
+          "wave_dir": 322,
+          "wind_ms": 8.0,
+          "wind_dir": 0.1
         }
       ]
     },
@@ -325,140 +325,140 @@
         10
       ],
       "wind_kmh": 7,
-      "wind_dir_deg": 196,
+      "wind_dir_deg": 187,
       "wind_class": "side",
       "wind_source": "4surfers",
       "wind_note": "רוח 7 קמ״ש מהצד (4surfers)",
       "wind_disputed": false,
       "morning_best_hour": 6,
-      "morning_surf_m": 0.38,
-      "morning_wave_m": 0.76,
-      "morning_period_s": 5.35,
-      "morning_wind_ms": 5.0,
-      "morning_wind_dir": 164.4,
+      "morning_surf_m": 0.39,
+      "morning_wave_m": 0.78,
+      "morning_period_s": 5.4,
+      "morning_wind_ms": 5.3,
+      "morning_wind_dir": 168.2,
       "fs4_morning": {
         "hour": 6,
         "surf_m": 0.7,
-        "period_s": 5.5,
+        "period_s": 5.2,
         "wind_kts": 4,
-        "wind_dir": 196,
+        "wind_dir": 187,
         "desc": "ברך",
-        "swell_m": 0.94
+        "swell_m": 0.91
       },
       "fs4_score_source": true,
       "best_hour": 6,
-      "wave_m": 0.76,
-      "period_s": 5.35,
+      "wave_m": 0.78,
+      "period_s": 5.4,
       "wave_dir": 332,
-      "wind_ms": 5.0,
-      "wind_dir": 164.4,
+      "wind_ms": 5.3,
+      "wind_dir": 168.2,
       "wind_label": "sideshore",
       "hours": [
         {
           "hour": 6,
-          "wave_m": 0.76,
-          "period_s": 5.35,
+          "wave_m": 0.78,
+          "period_s": 5.4,
           "wave_dir": 332,
-          "wind_ms": 5.0,
-          "wind_dir": 164.4,
-          "surf_m": 0.38,
+          "wind_ms": 5.3,
+          "wind_dir": 168.2,
+          "surf_m": 0.39,
           "wind_bad": false
         },
         {
           "hour": 7,
           "wave_m": 0.74,
-          "period_s": 5.25,
+          "period_s": 5.3,
           "wave_dir": 332,
-          "wind_ms": 4.9,
-          "wind_dir": 160.0,
+          "wind_ms": 5.2,
+          "wind_dir": 164.4,
           "surf_m": 0.37,
           "wind_bad": false
         },
         {
           "hour": 8,
           "wave_m": 0.72,
-          "period_s": 5.2,
+          "period_s": 5.25,
           "wave_dir": 331,
-          "wind_ms": 4.8,
-          "wind_dir": 160.0,
+          "wind_ms": 5.0,
+          "wind_dir": 161.3,
           "surf_m": 0.36,
           "wind_bad": false
         },
         {
           "hour": 9,
           "wave_m": 0.7,
-          "period_s": 5.2,
+          "period_s": 5.25,
           "wave_dir": 331,
-          "wind_ms": 4.5,
-          "wind_dir": 174.9,
+          "wind_ms": 4.8,
+          "wind_dir": 179.0,
           "surf_m": 0.35,
           "wind_bad": false
         },
         {
           "hour": 10,
-          "wave_m": 0.66,
+          "wave_m": 0.68,
           "period_s": 5.25,
           "wave_dir": 330,
-          "wind_ms": 4.2,
-          "wind_dir": 195.5,
-          "surf_m": 0.33,
+          "wind_ms": 4.5,
+          "wind_dir": 199.7,
+          "surf_m": 0.34,
           "wind_bad": false
         },
         {
           "hour": 11,
-          "wave_m": 0.64,
+          "wave_m": 0.66,
           "period_s": 5.25,
           "wave_dir": 330,
-          "wind_ms": 3.9,
-          "wind_dir": 228.3
+          "wind_ms": 4.5,
+          "wind_dir": 232.9
         },
         {
           "hour": 12,
-          "wave_m": 0.62,
+          "wave_m": 0.64,
           "period_s": 5.25,
           "wave_dir": 330,
-          "wind_ms": 3.9,
-          "wind_dir": 258.1
+          "wind_ms": 5.0,
+          "wind_dir": 258.2
         },
         {
           "hour": 13,
-          "wave_m": 0.6,
+          "wave_m": 0.62,
           "period_s": 5.2,
           "wave_dir": 330,
-          "wind_ms": 4.0,
-          "wind_dir": 269.8
+          "wind_ms": 4.6,
+          "wind_dir": 265.9
         },
         {
           "hour": 14,
-          "wave_m": 0.58,
-          "period_s": 5.15,
+          "wave_m": 0.6,
+          "period_s": 5.2,
           "wave_dir": 330,
-          "wind_ms": 3.8,
-          "wind_dir": 272.2
+          "wind_ms": 4.2,
+          "wind_dir": 266.4
         },
         {
           "hour": 15,
-          "wave_m": 0.56,
-          "period_s": 5.15,
+          "wave_m": 0.58,
+          "period_s": 5.2,
           "wave_dir": 330,
-          "wind_ms": 4.3,
-          "wind_dir": 269.4
+          "wind_ms": 3.7,
+          "wind_dir": 263.2
         },
         {
           "hour": 16,
-          "wave_m": 0.56,
-          "period_s": 5.1,
+          "wave_m": 0.58,
+          "period_s": 5.15,
           "wave_dir": 331,
-          "wind_ms": 3.5,
-          "wind_dir": 277.1
+          "wind_ms": 2.7,
+          "wind_dir": 268.8
         },
         {
           "hour": 17,
-          "wave_m": 0.54,
-          "period_s": 5.1,
+          "wave_m": 0.56,
+          "period_s": 5.15,
           "wave_dir": 331,
-          "wind_ms": 2.9,
-          "wind_dir": 277.4
+          "wind_ms": 2.7,
+          "wind_dir": 261.7
         }
       ]
     },
@@ -473,62 +473,62 @@
         10
       ],
       "wind_kmh": 4,
-      "wind_dir_deg": 126,
-      "wind_class": "offshore",
+      "wind_dir_deg": 172,
+      "wind_class": "side",
       "wind_source": "4surfers",
-      "wind_note": "אין רוח (4 קמ״ש) — גלאס — כיווני הרוח חלוקים בין המקורות (4surfers מהיבשה, met.no מהצד) — מוריד דרגה",
-      "wind_disputed": true,
+      "wind_note": "אין רוח (4 קמ״ש) — גלאס",
+      "wind_disputed": false,
       "morning_best_hour": 6,
-      "morning_surf_m": 0.1,
-      "morning_wave_m": 0.34,
+      "morning_surf_m": 0.11,
+      "morning_wave_m": 0.36,
       "morning_period_s": 4.75,
-      "morning_wind_ms": 2.6,
-      "morning_wind_dir": 187.8,
+      "morning_wind_ms": 3.8,
+      "morning_wind_dir": 163.0,
       "fs4_morning": {
         "hour": 6,
         "surf_m": 0.3,
         "period_s": 4.6,
         "wind_kts": 2,
-        "wind_dir": 126,
+        "wind_dir": 172,
         "desc": "קרסול",
-        "swell_m": 0.47
+        "swell_m": 0.45
       },
       "fs4_score_source": true,
       "best_hour": 6,
-      "wave_m": 0.34,
+      "wave_m": 0.36,
       "period_s": 4.75,
-      "wave_dir": 335,
-      "wind_ms": 2.6,
-      "wind_dir": 187.8,
+      "wave_dir": 336,
+      "wind_ms": 3.8,
+      "wind_dir": 163.0,
       "wind_label": "sideshore",
       "hours": [
         {
           "hour": 6,
-          "wave_m": 0.34,
+          "wave_m": 0.36,
           "period_s": 4.75,
-          "wave_dir": 335,
-          "wind_ms": 2.6,
-          "wind_dir": 187.8,
-          "surf_m": 0.1,
+          "wave_dir": 336,
+          "wind_ms": 3.8,
+          "wind_dir": 163.0,
+          "surf_m": 0.11,
           "wind_bad": false
         },
         {
           "hour": 7,
           "wave_m": 0.34,
-          "period_s": 4.7,
+          "period_s": 4.75,
           "wave_dir": 336,
-          "wind_ms": 2.6,
-          "wind_dir": 187.8,
+          "wind_ms": 4.1,
+          "wind_dir": 174.7,
           "surf_m": 0.1,
           "wind_bad": false
         },
         {
           "hour": 8,
-          "wave_m": 0.32,
+          "wave_m": 0.34,
           "period_s": 4.7,
-          "wave_dir": 336,
-          "wind_ms": 2.6,
-          "wind_dir": 187.8,
+          "wave_dir": 337,
+          "wind_ms": 4.2,
+          "wind_dir": 183.3,
           "surf_m": 0.1,
           "wind_bad": false
         },
@@ -537,19 +537,19 @@
           "wave_m": 0.32,
           "period_s": 4.65,
           "wave_dir": 337,
-          "wind_ms": 2.6,
-          "wind_dir": 187.8,
+          "wind_ms": 4.2,
+          "wind_dir": 183.3,
           "surf_m": 0.1,
           "wind_bad": false
         },
         {
           "hour": 10,
-          "wave_m": 0.3,
+          "wave_m": 0.32,
           "period_s": 4.65,
-          "wave_dir": 337,
-          "wind_ms": 2.6,
-          "wind_dir": 187.8,
-          "surf_m": 0.09,
+          "wave_dir": 338,
+          "wind_ms": 4.2,
+          "wind_dir": 183.3,
+          "surf_m": 0.1,
           "wind_bad": false
         },
         {
@@ -557,56 +557,56 @@
           "wave_m": 0.3,
           "period_s": 4.6,
           "wave_dir": 338,
-          "wind_ms": 3.2,
-          "wind_dir": 287.9
+          "wind_ms": 3.5,
+          "wind_dir": 284.1
         },
         {
           "hour": 12,
           "wave_m": 0.28,
           "period_s": 4.55,
           "wave_dir": 338,
-          "wind_ms": 3.2,
-          "wind_dir": 287.9
+          "wind_ms": 3.5,
+          "wind_dir": 284.1
         },
         {
           "hour": 13,
           "wave_m": 0.28,
           "period_s": 4.55,
-          "wave_dir": 338,
-          "wind_ms": 3.2,
-          "wind_dir": 287.9
+          "wave_dir": 339,
+          "wind_ms": 3.5,
+          "wind_dir": 284.1
         },
         {
           "hour": 14,
           "wave_m": 0.26,
           "period_s": 4.5,
-          "wave_dir": 338,
-          "wind_ms": 3.2,
-          "wind_dir": 287.9
+          "wave_dir": 339,
+          "wind_ms": 3.5,
+          "wind_dir": 284.1
         },
         {
           "hour": 15,
           "wave_m": 0.26,
           "period_s": 4.45,
-          "wave_dir": 338,
-          "wind_ms": 3.2,
-          "wind_dir": 287.9
+          "wave_dir": 339,
+          "wind_ms": 3.5,
+          "wind_dir": 284.1
         },
         {
           "hour": 16,
-          "wave_m": 0.24,
+          "wave_m": 0.26,
           "period_s": 4.45,
-          "wave_dir": 338,
-          "wind_ms": 3.2,
-          "wind_dir": 287.9
+          "wave_dir": 339,
+          "wind_ms": 3.5,
+          "wind_dir": 284.1
         },
         {
           "hour": 17,
-          "wave_m": 0.24,
+          "wave_m": 0.26,
           "period_s": 4.4,
-          "wave_dir": 338,
-          "wind_ms": 0.6,
-          "wind_dir": 137.5
+          "wave_dir": 339,
+          "wind_ms": 0.4,
+          "wind_dir": 328.5
         }
       ]
     },
@@ -618,137 +618,137 @@
         7,
         8
       ],
-      "wind_kmh": 15,
-      "wind_dir_deg": 141,
-      "wind_class": "side",
+      "wind_kmh": 7,
+      "wind_dir_deg": 235,
+      "wind_class": "onshore",
       "wind_source": "4surfers",
-      "wind_note": "רוח 15 קמ״ש מהצד (4surfers) — כיווני הרוח חלוקים בין המקורות (4surfers מהצד, met.no מהיבשה) — מוריד דרגה",
+      "wind_note": "רוח 7 קמ״ש מהים (4surfers) — צ׳ופי — כיווני הרוח חלוקים בין המקורות (4surfers מהים, met.no מהצד) — מוריד דרגה",
       "wind_disputed": true,
       "morning_best_hour": 6,
       "morning_surf_m": 0.05,
       "morning_wave_m": 0.18,
-      "morning_period_s": 4.4,
-      "morning_wind_ms": 4.7,
-      "morning_wind_dir": 99.4,
+      "morning_period_s": 4.5,
+      "morning_wind_ms": 1.9,
+      "morning_wind_dir": 136.8,
       "fs4_morning": {
         "hour": 6,
         "surf_m": 0.2,
-        "period_s": 4.4,
-        "wind_kts": 8,
-        "wind_dir": 141,
+        "period_s": 4.3,
+        "wind_kts": 4,
+        "wind_dir": 235,
         "desc": "קרסול",
-        "swell_m": 0.28
+        "swell_m": 0.23
       },
       "fs4_score_source": true,
-      "best_hour": 17,
-      "wave_m": 0.26,
-      "period_s": 2.95,
-      "wave_dir": 338,
-      "wind_ms": 2.8,
-      "wind_dir": 67.1,
-      "wind_label": "offshore (מזרחית, נקי)",
+      "best_hour": 16,
+      "wave_m": 0.22,
+      "period_s": 3.45,
+      "wave_dir": 331,
+      "wind_ms": 4.2,
+      "wind_dir": 322.3,
+      "wind_label": "sideshore",
       "hours": [
         {
           "hour": 6,
           "wave_m": 0.18,
-          "period_s": 4.4,
-          "wave_dir": 345,
-          "wind_ms": 4.7,
-          "wind_dir": 99.4,
+          "period_s": 4.5,
+          "wave_dir": 346,
+          "wind_ms": 1.9,
+          "wind_dir": 136.8,
           "surf_m": 0.05,
           "wind_bad": false
         },
         {
           "hour": 7,
           "wave_m": 0.18,
-          "period_s": 4.4,
-          "wave_dir": 346,
-          "wind_ms": 4.7,
-          "wind_dir": 99.4,
+          "period_s": 4.55,
+          "wave_dir": 347,
+          "wind_ms": 1.9,
+          "wind_dir": 136.8,
           "surf_m": 0.05,
           "wind_bad": false
         },
         {
           "hour": 8,
           "wave_m": 0.18,
-          "period_s": 4.35,
+          "period_s": 4.55,
           "wave_dir": 347,
-          "wind_ms": 4.7,
-          "wind_dir": 99.4,
+          "wind_ms": 1.9,
+          "wind_dir": 136.8,
           "surf_m": 0.05,
           "wind_bad": false
         },
         {
           "hour": 9,
           "wave_m": 0.18,
-          "period_s": 4.15,
-          "wave_dir": 1,
-          "wind_ms": 4.7,
-          "wind_dir": 99.4
+          "period_s": 4.55,
+          "wave_dir": 346,
+          "wind_ms": 1.9,
+          "wind_dir": 136.8
         },
         {
           "hour": 10,
-          "wave_m": 0.2,
-          "period_s": 3.85,
-          "wave_dir": 14,
-          "wind_ms": 4.7,
-          "wind_dir": 99.4
+          "wave_m": 0.18,
+          "period_s": 4.55,
+          "wave_dir": 345,
+          "wind_ms": 1.9,
+          "wind_dir": 136.8
         },
         {
           "hour": 11,
-          "wave_m": 0.2,
-          "period_s": 3.65,
-          "wave_dir": 28,
-          "wind_ms": 4.9,
-          "wind_dir": 325.0
+          "wave_m": 0.18,
+          "period_s": 4.45,
+          "wave_dir": 344,
+          "wind_ms": 4.2,
+          "wind_dir": 322.3
         },
         {
           "hour": 12,
-          "wave_m": 0.2,
-          "period_s": 3.7,
-          "wave_dir": 16,
-          "wind_ms": 4.9,
-          "wind_dir": 325.0
+          "wave_m": 0.18,
+          "period_s": 4.25,
+          "wave_dir": 340,
+          "wind_ms": 4.2,
+          "wind_dir": 322.3
         },
         {
           "hour": 13,
-          "wave_m": 0.18,
-          "period_s": 3.85,
-          "wave_dir": 5,
-          "wind_ms": 4.9,
-          "wind_dir": 325.0
+          "wave_m": 0.2,
+          "period_s": 3.95,
+          "wave_dir": 336,
+          "wind_ms": 4.2,
+          "wind_dir": 322.3
         },
         {
           "hour": 14,
-          "wave_m": 0.18,
-          "period_s": 3.85,
-          "wave_dir": 353,
-          "wind_ms": 4.9,
-          "wind_dir": 325.0
+          "wave_m": 0.2,
+          "period_s": 3.7,
+          "wave_dir": 332,
+          "wind_ms": 4.2,
+          "wind_dir": 322.3
         },
         {
           "hour": 15,
           "wave_m": 0.2,
-          "period_s": 3.6,
-          "wave_dir": 348,
-          "wind_ms": 4.9,
-          "wind_dir": 325.0
+          "period_s": 3.55,
+          "wave_dir": 331,
+          "wind_ms": 4.2,
+          "wind_dir": 322.3
         },
         {
           "hour": 16,
-          "wave_m": 0.24,
-          "period_s": 3.2,
-          "wave_dir": 343,
-          "wind_ms": 4.9,
-          "wind_dir": 325.0
+          "wave_m": 0.22,
+          "period_s": 3.45,
+          "wave_dir": 331,
+          "wind_ms": 4.2,
+          "wind_dir": 322.3
         },
         {
           "hour": 17,
-          "wave_m": 0.26,
-          "period_s": 2.95,
-          "wave_dir": 338,
-          "wind_ms": 2.8,
-          "wind_dir": 67.1
+          "wave_m": 0.22,
+          "period_s": 3.45,
+          "wave_dir": 330,
+          "wind_ms": 1.9,
+          "wind_dir": 44.0
         }
       ]
     },
@@ -760,137 +760,137 @@
         7,
         8
       ],
-      "wind_kmh": 4,
-      "wind_dir_deg": 118,
-      "wind_class": "offshore",
+      "wind_kmh": 6,
+      "wind_dir_deg": 140,
+      "wind_class": "side",
       "wind_source": "4surfers",
-      "wind_note": "אין רוח (4 קמ״ש) — גלאס — כיווני הרוח חלוקים בין המקורות (4surfers מהיבשה, met.no מהצד) — מוריד דרגה",
+      "wind_note": "רוח 6 קמ״ש מהצד (4surfers) — כיווני הרוח חלוקים בין המקורות (4surfers מהצד, met.no מהיבשה) — מוריד דרגה",
       "wind_disputed": true,
       "morning_best_hour": 6,
-      "morning_surf_m": 0.04,
-      "morning_wave_m": 0.14,
-      "morning_period_s": 4.6,
-      "morning_wind_ms": 2.7,
-      "morning_wind_dir": 152.4,
+      "morning_surf_m": 0.07,
+      "morning_wave_m": 0.22,
+      "morning_period_s": 4.3,
+      "morning_wind_ms": 2.2,
+      "morning_wind_dir": 126.3,
       "fs4_morning": {
         "hour": 6,
-        "surf_m": 0.2,
+        "surf_m": 0.3,
         "period_s": 5.2,
-        "wind_kts": 2,
-        "wind_dir": 118,
+        "wind_kts": 3,
+        "wind_dir": 140,
         "desc": "קרסול",
-        "swell_m": 0.21
+        "swell_m": 0.3
       },
       "fs4_score_source": true,
       "best_hour": 17,
-      "wave_m": 0.18,
-      "period_s": 3.05,
-      "wave_dir": 325,
-      "wind_ms": 1.2,
-      "wind_dir": 331.7,
+      "wave_m": 0.26,
+      "period_s": 3.0,
+      "wave_dir": 330,
+      "wind_ms": 3.0,
+      "wind_dir": 357.9,
       "wind_label": "sideshore",
       "hours": [
         {
           "hour": 6,
-          "wave_m": 0.14,
-          "period_s": 4.6,
-          "wave_dir": 334,
-          "wind_ms": 2.7,
-          "wind_dir": 152.4,
-          "surf_m": 0.04,
+          "wave_m": 0.22,
+          "period_s": 4.3,
+          "wave_dir": 322,
+          "wind_ms": 2.2,
+          "wind_dir": 126.3,
+          "surf_m": 0.07,
           "wind_bad": false
         },
         {
           "hour": 7,
-          "wave_m": 0.14,
-          "period_s": 4.65,
-          "wave_dir": 333,
-          "wind_ms": 2.7,
-          "wind_dir": 152.4,
-          "surf_m": 0.04,
+          "wave_m": 0.22,
+          "period_s": 4.3,
+          "wave_dir": 321,
+          "wind_ms": 2.2,
+          "wind_dir": 126.3,
+          "surf_m": 0.07,
           "wind_bad": false
         },
         {
           "hour": 8,
-          "wave_m": 0.14,
-          "period_s": 4.7,
-          "wave_dir": 331,
-          "wind_ms": 2.7,
-          "wind_dir": 152.4,
-          "surf_m": 0.04,
+          "wave_m": 0.22,
+          "period_s": 4.3,
+          "wave_dir": 321,
+          "wind_ms": 2.2,
+          "wind_dir": 126.3,
+          "surf_m": 0.07,
           "wind_bad": false
         },
         {
           "hour": 9,
-          "wave_m": 0.14,
-          "period_s": 4.7,
-          "wave_dir": 329,
-          "wind_ms": 2.7,
-          "wind_dir": 152.4
+          "wave_m": 0.22,
+          "period_s": 4.3,
+          "wave_dir": 320,
+          "wind_ms": 2.2,
+          "wind_dir": 126.3
         },
         {
           "hour": 10,
-          "wave_m": 0.14,
-          "period_s": 4.7,
-          "wave_dir": 327,
-          "wind_ms": 2.7,
-          "wind_dir": 152.4
+          "wave_m": 0.22,
+          "period_s": 4.25,
+          "wave_dir": 320,
+          "wind_ms": 2.2,
+          "wind_dir": 126.3
         },
         {
           "hour": 11,
-          "wave_m": 0.14,
-          "period_s": 4.7,
-          "wave_dir": 325,
-          "wind_ms": 3.6,
-          "wind_dir": 303.1
+          "wave_m": 0.22,
+          "period_s": 4.25,
+          "wave_dir": 319,
+          "wind_ms": 4.1,
+          "wind_dir": 343.7
         },
         {
           "hour": 12,
-          "wave_m": 0.14,
-          "period_s": 4.7,
-          "wave_dir": 323,
-          "wind_ms": 3.6,
-          "wind_dir": 303.1
+          "wave_m": 0.22,
+          "period_s": 4.25,
+          "wave_dir": 319,
+          "wind_ms": 4.1,
+          "wind_dir": 343.7
         },
         {
           "hour": 13,
-          "wave_m": 0.14,
-          "period_s": 4.7,
-          "wave_dir": 322,
-          "wind_ms": 3.6,
-          "wind_dir": 303.1
+          "wave_m": 0.2,
+          "period_s": 4.25,
+          "wave_dir": 319,
+          "wind_ms": 4.1,
+          "wind_dir": 343.7
         },
         {
           "hour": 14,
-          "wave_m": 0.14,
-          "period_s": 4.55,
-          "wave_dir": 320,
-          "wind_ms": 3.6,
-          "wind_dir": 303.1
+          "wave_m": 0.2,
+          "period_s": 4.15,
+          "wave_dir": 319,
+          "wind_ms": 4.1,
+          "wind_dir": 343.7
         },
         {
           "hour": 15,
-          "wave_m": 0.16,
-          "period_s": 4.1,
-          "wave_dir": 322,
-          "wind_ms": 3.6,
-          "wind_dir": 303.1
+          "wave_m": 0.22,
+          "period_s": 3.8,
+          "wave_dir": 323,
+          "wind_ms": 4.1,
+          "wind_dir": 343.7
         },
         {
           "hour": 16,
-          "wave_m": 0.16,
-          "period_s": 3.5,
-          "wave_dir": 323,
-          "wind_ms": 3.6,
-          "wind_dir": 303.1
+          "wave_m": 0.24,
+          "period_s": 3.35,
+          "wave_dir": 326,
+          "wind_ms": 4.1,
+          "wind_dir": 343.7
         },
         {
           "hour": 17,
-          "wave_m": 0.18,
-          "period_s": 3.05,
-          "wave_dir": 325,
-          "wind_ms": 1.2,
-          "wind_dir": 331.7
+          "wave_m": 0.26,
+          "period_s": 3.0,
+          "wave_dir": 330,
+          "wind_ms": 3.0,
+          "wind_dir": 357.9
         }
       ]
     },
@@ -902,137 +902,137 @@
         7,
         8
       ],
-      "wind_kmh": 6,
-      "wind_dir_deg": 9,
+      "wind_kmh": 17,
+      "wind_dir_deg": 215,
       "wind_class": "side",
       "wind_source": "4surfers",
-      "wind_note": "רוח 6 קמ״ש מהצד (4surfers)",
+      "wind_note": "רוח 17 קמ״ש מהצד (4surfers)",
       "wind_disputed": false,
-      "morning_best_hour": 8,
-      "morning_surf_m": 0.22,
-      "morning_wave_m": 0.72,
-      "morning_period_s": 3.95,
-      "morning_wind_ms": 6.1,
-      "morning_wind_dir": 174.4,
+      "morning_best_hour": 6,
+      "morning_surf_m": 0.1,
+      "morning_wave_m": 0.32,
+      "morning_period_s": 3.9,
+      "morning_wind_ms": 4.2,
+      "morning_wind_dir": 181.9,
       "fs4_morning": {
         "hour": 6,
         "surf_m": 0.2,
-        "period_s": 9.9,
-        "wind_kts": 3,
-        "wind_dir": 9,
+        "period_s": 3.7,
+        "wind_kts": 9,
+        "wind_dir": 215,
         "desc": "קרסול",
-        "swell_m": 0.2
+        "swell_m": 0.7
       },
       "fs4_score_source": true,
-      "best_hour": 14,
-      "wave_m": 1.46,
-      "period_s": 5.5,
-      "wave_dir": 260,
-      "wind_ms": 8.2,
-      "wind_dir": 235.6,
-      "wind_label": "onshore (מערבית, מבולגן)",
+      "best_hour": 17,
+      "wave_m": 0.76,
+      "period_s": 4.25,
+      "wave_dir": 255,
+      "wind_ms": 5.9,
+      "wind_dir": 203.0,
+      "wind_label": "sideshore",
       "hours": [
         {
           "hour": 6,
-          "wave_m": 0.52,
-          "period_s": 3.35,
-          "wave_dir": 216,
-          "wind_ms": 6.1,
-          "wind_dir": 174.4,
-          "surf_m": 0.16,
+          "wave_m": 0.32,
+          "period_s": 3.9,
+          "wave_dir": 320,
+          "wind_ms": 4.2,
+          "wind_dir": 181.9,
+          "surf_m": 0.1,
           "wind_bad": false
         },
         {
           "hour": 7,
-          "wave_m": 0.62,
-          "period_s": 3.65,
-          "wave_dir": 221,
-          "wind_ms": 6.1,
-          "wind_dir": 174.4,
-          "surf_m": 0.19,
+          "wave_m": 0.32,
+          "period_s": 4.05,
+          "wave_dir": 317,
+          "wind_ms": 4.2,
+          "wind_dir": 181.9,
+          "surf_m": 0.1,
           "wind_bad": false
         },
         {
           "hour": 8,
-          "wave_m": 0.72,
-          "period_s": 3.95,
-          "wave_dir": 226,
-          "wind_ms": 6.1,
-          "wind_dir": 174.4,
-          "surf_m": 0.22,
+          "wave_m": 0.32,
+          "period_s": 4.15,
+          "wave_dir": 313,
+          "wind_ms": 4.2,
+          "wind_dir": 181.9,
+          "surf_m": 0.1,
           "wind_bad": false
         },
         {
           "hour": 9,
-          "wave_m": 0.88,
-          "period_s": 4.3,
-          "wave_dir": 234,
-          "wind_ms": 6.1,
-          "wind_dir": 174.4
+          "wave_m": 0.36,
+          "period_s": 4.05,
+          "wave_dir": 296,
+          "wind_ms": 4.2,
+          "wind_dir": 181.9
         },
         {
           "hour": 10,
-          "wave_m": 1.04,
-          "period_s": 4.7,
-          "wave_dir": 242,
-          "wind_ms": 6.1,
-          "wind_dir": 174.4
+          "wave_m": 0.42,
+          "period_s": 3.9,
+          "wave_dir": 280,
+          "wind_ms": 4.2,
+          "wind_dir": 181.9
         },
         {
           "hour": 11,
-          "wave_m": 1.2,
-          "period_s": 5.0,
-          "wave_dir": 250,
-          "wind_ms": 8.2,
-          "wind_dir": 235.6
+          "wave_m": 0.46,
+          "period_s": 3.8,
+          "wave_dir": 263,
+          "wind_ms": 6.1,
+          "wind_dir": 236.2
         },
         {
           "hour": 12,
-          "wave_m": 1.28,
-          "period_s": 5.2,
-          "wave_dir": 253,
-          "wind_ms": 8.2,
-          "wind_dir": 235.6
+          "wave_m": 0.52,
+          "period_s": 3.8,
+          "wave_dir": 260,
+          "wind_ms": 6.1,
+          "wind_dir": 236.2
         },
         {
           "hour": 13,
-          "wave_m": 1.38,
-          "period_s": 5.35,
-          "wave_dir": 257,
-          "wind_ms": 8.2,
-          "wind_dir": 235.6
+          "wave_m": 0.58,
+          "period_s": 3.85,
+          "wave_dir": 258,
+          "wind_ms": 6.1,
+          "wind_dir": 236.2
         },
         {
           "hour": 14,
-          "wave_m": 1.46,
-          "period_s": 5.5,
-          "wave_dir": 260,
-          "wind_ms": 8.2,
-          "wind_dir": 235.6
+          "wave_m": 0.64,
+          "period_s": 3.9,
+          "wave_dir": 255,
+          "wind_ms": 6.1,
+          "wind_dir": 236.2
         },
         {
           "hour": 15,
-          "wave_m": 1.46,
-          "period_s": 5.6,
-          "wave_dir": 262,
-          "wind_ms": 8.2,
-          "wind_dir": 235.6
+          "wave_m": 0.68,
+          "period_s": 4.0,
+          "wave_dir": 255,
+          "wind_ms": 6.1,
+          "wind_dir": 236.2
         },
         {
           "hour": 16,
-          "wave_m": 1.46,
-          "period_s": 5.7,
-          "wave_dir": 264,
-          "wind_ms": 8.2,
-          "wind_dir": 235.6
+          "wave_m": 0.72,
+          "period_s": 4.1,
+          "wave_dir": 255,
+          "wind_ms": 6.1,
+          "wind_dir": 236.2
         },
         {
           "hour": 17,
-          "wave_m": 1.46,
-          "period_s": 5.75,
-          "wave_dir": 266,
-          "wind_ms": 5.7,
-          "wind_dir": 220.5
+          "wave_m": 0.76,
+          "period_s": 4.25,
+          "wave_dir": 255,
+          "wind_ms": 5.9,
+          "wind_dir": 203.0
         }
       ]
     }
